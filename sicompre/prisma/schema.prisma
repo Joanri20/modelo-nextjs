@@ -1,0 +1,178 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Todos los Enum
+
+enum Enum_EstadoProceso {
+  Abierto
+  Cerrado
+  EnProceso
+}
+
+enum Enum_TipoUsuario {
+  Administrador
+  Encargado
+}
+
+enum Enum_EstadoGeneral {
+  Activo
+  Deshabilitado
+}
+
+// Modelos
+
+model Rubro {
+  id          String     @id
+  descripcion String
+  producto    Producto[]
+}
+
+model Producto {
+  id                 String               @id
+  descripcion        String
+  rubro              Rubro                @relation(fields: [rubroId], references: [id])
+  rubroId            String
+  valorVigente       Float?
+  productoCotizacion ProductoCotizacion[]
+}
+
+model ProductoCotizacion {
+  id             String              @id @default(cuid())
+  producto       Producto            @relation(fields: [productoId], references: [id])
+  productoId     String
+  cantidad       Float
+  cotizacion     Cotizacion?         @relation(fields: [cotizacionId], references: [id])
+  cotizacionId   BigInt?
+  valorProveedor ProductoProveedor[]
+}
+
+model Cotizacion {
+  id                  BigInt               @id @default(autoincrement())
+  productos           ProductoCotizacion[]
+  fecha               DateTime
+  estado              Enum_EstadoProceso
+  valorTotal          Float?
+  seccion             Seccion              @relation(fields: [seccionId], references: [id])
+  usuario             Usuario              @relation(fields: [usuarioId], references: [id])
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  seccionId           BigInt
+  usuarioId           String
+  cicloContratacion   CicloContratacion?   @relation(fields: [cicloContratacionId], references: [id])
+  cicloContratacionId String?
+}
+
+model Proveedor {
+  id           String              @id @default(cuid())
+  nombre       String
+  nit          String
+  direccion    String
+  email        String
+  telefono     String
+  cotizaciones ProductoProveedor[]
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+}
+
+model ProductoProveedor {
+  producto             ProductoCotizacion @relation(fields: [productoCotizacionId], references: [id])
+  proveedor            Proveedor          @relation(fields: [proveedorId], references: [id])
+  valor                Float
+  productoCotizacionId String
+  proveedorId          String
+
+  @@id([productoCotizacionId, proveedorId])
+}
+
+model Entidad {
+  id                 BigInt              @id @default(autoincrement())
+  nombre             String
+  nit                String
+  direccion          String?
+  telefono           String?
+  municipio          String
+  departamento       String
+  pais               String
+  web                String?
+  email              String?
+  seccion            String
+  responsable        Usuario             @relation(fields: [usuarioId], references: [id])
+  resolucionPosesion String?
+  fechaPosesion      DateTime?
+  estado             Enum_EstadoGeneral
+  saldoDisponible    Float
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  usuarioId          String
+  secciones          Seccion[]
+  cicloContratacion  CicloContratacion[]
+}
+
+model Seccion {
+  id                 BigInt             @id @default(autoincrement())
+  nombre             String
+  nit                String
+  direccion          String?
+  telefono           String?
+  municipio          String
+  departamento       String
+  pais               String
+  web                String?
+  email              String?
+  seccion            String
+  responsable        Usuario            @relation(fields: [usuarioId], references: [id])
+  resolucionPosesion String?
+  fechaPosesion      DateTime?
+  estado             Enum_EstadoGeneral
+  entidadPadre       Entidad            @relation(fields: [entidadId], references: [id])
+  saldoDisponible    Float
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  usuarioId          String
+  entidadId          BigInt
+  Cotizacion         Cotizacion[]
+}
+
+model Usuario {
+  id                String              @id
+  primerNombre      String
+  segundoNombre     String?
+  primerApellido    String
+  segundoApellido   String?
+  tipoDocumento     String
+  documento         String
+  telefono          String?
+  celular           String?
+  email             String?
+  direccion         String?
+  estado            Enum_EstadoGeneral
+  tipo              Enum_TipoUsuario
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  entidad           Entidad[]
+  seccion           Seccion[]
+  cotizacion        Cotizacion[]
+  cicloContratacion CicloContratacion[]
+}
+
+model CicloContratacion {
+  id           String       @id @default(cuid())
+  fechaInicio  DateTime
+  fechaFinal   DateTime
+  cotizaciones Cotizacion[]
+  usuario      Usuario      @relation(fields: [usuarioId], references: [id])
+  entidad      Entidad      @relation(fields: [entidadId], references: [id])
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  usuarioId    String
+  entidadId    BigInt
+}
