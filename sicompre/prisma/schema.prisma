@@ -105,16 +105,15 @@ model Entidad {
   web                String?
   email              String?
   seccion            String
-  responsable        Usuario             @relation(fields: [usuarioId], references: [id])
   resolucionPosesion String?
   fechaPosesion      DateTime?
   estado             Enum_EstadoGeneral
   saldoDisponible    Float
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
-  usuarioId          String
   secciones          Seccion[]
   cicloContratacion  CicloContratacion[]
+  integrantes        Usuario[]
 }
 
 model Seccion {
@@ -129,7 +128,6 @@ model Seccion {
   web                String?
   email              String?
   seccion            String
-  responsable        Usuario            @relation(fields: [usuarioId], references: [id])
   resolucionPosesion String?
   fechaPosesion      DateTime?
   estado             Enum_EstadoGeneral
@@ -137,9 +135,10 @@ model Seccion {
   saldoDisponible    Float
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @updatedAt
-  usuarioId          String
   entidadId          BigInt
   Cotizacion         Cotizacion[]
+  Usuario            Usuario?           @relation(fields: [usuarioId], references: [id])
+  usuarioId          String?
 }
 
 model Usuario {
@@ -149,7 +148,7 @@ model Usuario {
   primerApellido    String
   segundoApellido   String?
   tipoDocumento     String
-  documento         String
+  documento         String              @unique
   telefono          String?
   celular           String?
   email             String?
