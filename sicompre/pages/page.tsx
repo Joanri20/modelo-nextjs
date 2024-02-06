@@ -1,27 +1,15 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import { NextPage } from "next";
 import { PrismaClient } from "@prisma/client";
-
-const inter = Inter({ subsets: ["latin"] });
+import Image from "next/image";
 
 const prisma = new PrismaClient();
 
-export async function getServerSideProps() {
+export default async function Home() {
   const rubros = await prisma.rubro.findMany({
     select: {
       id: true,
       descripcion: true,
     },
   });
-  return {
-    props: {
-      rubros,
-    },
-  };
-}
-
-const Home: NextPage = ({ rubros }) => {
   return (
     <main>
       <div>
@@ -47,6 +35,4 @@ const Home: NextPage = ({ rubros }) => {
       </div>
     </main>
   );
-};
-
-export default Home;
+}
