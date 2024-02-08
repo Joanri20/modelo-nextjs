@@ -1,13 +1,5 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "SICOMPRE",
-  description: "Aplicación para gestión de compras",
-};
+import { montserrat } from './ui/fonts';
+import './ui/global.css';
 
 export default function RootLayout({
   children,
@@ -16,7 +8,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${montserrat.className}antialiased`}>
+        <h1>Layout Principal</h1>
+        {children}
+      </body>
     </html>
   );
 }

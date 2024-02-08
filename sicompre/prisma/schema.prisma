@@ -104,7 +104,6 @@ model Entidad {
   pais               String
   web                String?
   email              String?
-  seccion            String
   resolucionPosesion String?
   fechaPosesion      DateTime?
   estado             Enum_EstadoGeneral
@@ -127,7 +126,6 @@ model Seccion {
   pais               String
   web                String?
   email              String?
-  seccion            String
   resolucionPosesion String?
   fechaPosesion      DateTime?
   estado             Enum_EstadoGeneral
@@ -150,8 +148,8 @@ model Usuario {
   tipoDocumento     String
   documento         String              @unique
   telefono          String?
-  celular           String?
-  email             String?
+  celular           String
+  email             String
   direccion         String?
   estado            Enum_EstadoGeneral
   tipo              Enum_TipoUsuario
@@ -161,6 +159,7 @@ model Usuario {
   seccion           Seccion[]
   cotizacion        Cotizacion[]
   cicloContratacion CicloContratacion[]
+  password          String
 }
 
 model CicloContratacion {
