@@ -330,15 +330,15 @@ async function main() {
   const client = await new PrismaClient();
 
   await seedRubro(client);
-  await seedProducto(client);
-  await seedProveedor(client);
-  await seedUsuario(client);
-  await seedEntidad(client);
-  await seedSeccion(client);
-  await seedCicloContratacion(client);
-  await seedCotizacion(client);
-  await seedProductoCotizacion(client);
-  await seedProductoProveedor(client);
+  // await seedProducto(client);
+  // await seedProveedor(client);
+  // await seedUsuario(client);
+  // await seedEntidad(client);
+  // await seedSeccion(client);
+  // await seedCicloContratacion(client);
+  // await seedCotizacion(client);
+  // await seedProductoCotizacion(client);
+  // await seedProductoProveedor(client);
 
   await client.$disconnect;
 }

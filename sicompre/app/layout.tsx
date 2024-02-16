@@ -1,5 +1,6 @@
 import { montserrat } from './ui/fonts';
 import './ui/global.css';
+import { Toaster } from 'react-hot-toast';
 
 export default function RootLayout({
   children,
@@ -9,8 +10,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.className}antialiased`}>
-        <h1>Layout Principal</h1>
         {children}
+        <Toaster position="top-right" />
       </body>
     </html>
   );

@@ -1,13 +1,11 @@
-import { fetchProducto, fetchProductoPages, fetchUsuario } from '../lib/data';
-import { Card } from '@ui/dashboard/cards';
-import RevenueChart from '@ui/dashboard/revenue-chart';
+import { fetchProductoPages } from '@lib/data';
 import TableProducts from '@ui/products/table-products';
 import { lusitana } from '@ui/fonts';
 import { Suspense } from 'react';
-import { RevenueChartSkeleton } from '../ui/skeletons';
-import Search from '../ui/search';
+import { RevenueChartSkeleton } from '@ui/skeletons';
+import Search from '@ui/search';
+import Pagination from '@ui/products/pagination';
 import { CreateProduct } from '@ui/products/buttons';
-import Pagination from '../ui/invoices/pagination';
 
 export default async function Page({
   searchParams,

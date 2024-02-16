@@ -6,7 +6,6 @@
 export type Rubro = {
   id: string;
   descripcion: string;
-  producto: Producto[];
 };
 
 export type Producto = {
@@ -14,8 +13,8 @@ export type Producto = {
   descripcion: string;
   rubro: Rubro;
   rubroId: string;
-  valorVigente: number;
-  productoCotizacion: ProductoCotizacion[];
+  valorVigente: number | null;
+  productoCotizacion?: ProductoCotizacion[];
 };
 
 export type ProductoCotizacion = {

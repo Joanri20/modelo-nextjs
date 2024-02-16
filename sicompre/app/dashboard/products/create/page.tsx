@@ -1,10 +1,9 @@
-import Form from '@/app/ui/invoices/create-form';
-import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
-import { fetchRubro } from '@/app/lib/data';
+import Form from '@ui/products/create-form';
+import Breadcrumbs from '@ui/products/breadcrumbs';
+import { fetchRubro } from '@lib/data';
 
 export default async function Page() {
   const rubros = await fetchRubro();
-  console.log(rubros);
   return (
     <main>
       <Breadcrumbs

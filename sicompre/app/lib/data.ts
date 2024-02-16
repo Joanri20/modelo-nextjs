@@ -1,4 +1,4 @@
-import { prisma } from './db.js';
+import prisma from '@lib/db';
 
 export async function fetchUsuario() {
   const data = await prisma.usuario.findMany({
@@ -52,10 +52,7 @@ export async function fetchSeccion() {
 
 export async function fetchRubro() {
   const data = await prisma.rubro.findMany({
-    select: {
-      id: true,
-      descripcion: true,
-    },
+    distinct: ['descripcion'],
   });
   return data;
 }
@@ -77,7 +74,7 @@ export async function fetchProveedor() {
 }
 
 export async function fetchProductoProveedor() {
-  const data = await prisma.productoproveedor.findMany({
+  const data = await prisma.productoProveedor.findMany({
     select: {
       valor: true,
       productoCotizacionId: true,
@@ -88,12 +85,24 @@ export async function fetchProductoProveedor() {
 }
 
 export async function fetchProductoCotizacion() {
-  const data = await prisma.productocotizacion.findMany({
+  const data = await prisma.productoCotizacion.findMany({
     select: {
       id: true,
       productoId: true,
       cantidad: true,
       cotizacionId: true,
+    },
+  });
+  return data;
+}
+
+export async function fetchProductoById(id: string) {
+  const data = await prisma.producto.findUnique({
+    where: {
+      id: id,
+    },
+    include: {
+      rubro: true,
     },
   });
   return data;
@@ -112,7 +121,10 @@ export async function fetchProducto(query: string, currentPage: number) {
       },
     },
     orderBy: {
-      descripcion: 'asc',
+      createdAt: 'desc',
+    },
+    include: {
+      rubro: true,
     },
   });
   return data;
@@ -131,7 +143,7 @@ export async function fetchProductoPages(query: string) {
     },
   });
   const totalPages = Math.ceil(data / ITEMS_PER_PAGE);
-  return data;
+  return totalPages;
 }
 
 export async function fetchEntidad() {
@@ -176,18 +188,6 @@ export async function fetchCotizacion() {
 }
 
 export async function fetchCicloContratacion() {
-  const data = await prisma.ciclocontratacion.findMany({
-    select: {
-      id: true,
-      fecha: true,
-      estado: true,
-      valorTotal: true,
-      createdAt: true,
-      updatedAt: true,
-      seccionId: true,
-      usuarioId: true,
-      cicloContratacionId: true,
-    },
-  });
+  const data = await prisma.cicloContratacion.findMany();
   return data;
 }

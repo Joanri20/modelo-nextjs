@@ -18,8 +18,11 @@
         "name": "next"
       }
     ],
+    "baseUrl": "app",
     "paths": {
-      "@/*": ["./*"]
+      "@dashboard/*":["dashboard/*"],
+      "@lib/*":["lib/*"],
+      "@ui/*":["ui/*"],      
     }
   },
   "include": [
