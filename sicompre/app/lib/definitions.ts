@@ -3,39 +3,41 @@
 // For simplicity of teaching, we're manually defining these types.
 // However, these types are generated automatically if you're using an ORM such as Prisma.
 
-export type Rubro = {
-  id: string;
+export type GrupoBien = {
+  id: bigint;
   descripcion: string;
+  createdAt?: Date;
+  updatedAt?: Date | null;
 };
 
-export type Producto = {
+export type Bien = {
   id: string;
   descripcion: string;
-  rubro: Rubro;
-  rubroId: string;
+  grupoBien?: GrupoBien;
+  grupoBienId: bigint;
   valorVigente: number | null;
-  productoCotizacion?: ProductoCotizacion[];
+  bienCotizacion?: BienCotizacion[];
 };
 
-export type ProductoCotizacion = {
+export type BienCotizacion = {
   id: string;
-  producto: Producto;
-  productoId: string;
+  bien: Bien;
+  bienId: string;
   cantidad: number;
   cotizacion: Cotizacion;
   cotizacionId: number;
-  valorProveedor: ProductoProveedor[];
+  valorProveedor: BienProveedor[];
 };
 
 export type Cotizacion = {
   id: number;
-  productos: ProductoCotizacion[];
+  bienes: BienCotizacion[];
   fecha: string;
   estado: 'Abierto' | 'Cerrado' | 'EnProceso';
   valorTotal: number;
   usuario: Usuario;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   seccionId: BigInt;
   usuarioId: string;
   cicloContratacionId: string;
@@ -48,14 +50,13 @@ export type Proveedor = {
   direccion: string;
   email: string;
   telefono: string;
-  cotizaciones: ProductoProveedor[];
-  createdAt: string;
-  updatedAt: string;
-};
+  createdAt: Date;
+  updatedAt: Date;
+} | null;
 
-export type ProductoProveedor = {
+export type BienProveedor = {
   valor: number;
-  productoCotizacionId: string;
+  bienCotizacionId: string;
   proveedorId: string;
 };
 
@@ -106,23 +107,19 @@ export type Seccion = {
 export type Usuario = {
   id: string;
   primerNombre: string;
-  segundoNombre: string;
+  segundoNombre: string | null;
   primerApellido: string;
-  segundoApellido: string;
+  segundoApellido: string | null;
   tipoDocumento: string;
   documento: string;
-  telefono: string;
+  telefono: string | null;
   celular: string;
   email: string;
-  direccion: string;
+  direccion: string | null;
   estado: 'Activo' | 'Deshabilitado';
   tipo: 'Encargado' | 'Administrador';
-  createdAt: string;
-  updatedAt: string;
-  entidad: Entidad[];
-  seccion: Seccion[];
-  cotizacion: Cotizacion[];
-  cicloContratacion: CicloContratacion[];
+  createdAt: Date;
+  updatedAt: Date;
   password: string;
 };
 

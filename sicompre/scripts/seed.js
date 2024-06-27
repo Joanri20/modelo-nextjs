@@ -1,68 +1,68 @@
 const { PrismaClient } = require('@prisma/client');
 //Esto se ejecuta una vez con npm run seed
 const {
-  rubros,
-  productos,
+  gruposBienes,
+  bienes,
   proveedores,
   usuarios,
-  productoProveedores,
+  bienProveedores,
   cotizaciones,
   cicloContrataciones,
   secciones,
   entidades,
-  productoCotizaciones,
+  bienCotizaciones,
 } = require('../app/lib/placeholder-data.js');
 
 const bcrypt = require('bcrypt');
 
-async function seedRubro(prisma) {
+async function seedGrupoBien(prisma) {
   try {
-    // Insert data into the "Rubro" table
-    const insertedRubros = await Promise.all(
-      rubros.map(async (rubro) => {
-        return prisma.rubro.create({
+    // Insert data into the "GrupoBien" table
+    const insertedGruposBienes = await Promise.all(
+      gruposBienes.map(async (grupoBien) => {
+        return prisma.grupoBien.create({
           data: {
-            id: rubro.id,
-            descripcion: rubro.descripcion,
+            id: grupoBien.id,
+            descripcion: grupoBien.descripcion,
           },
         });
       }),
     );
 
-    console.log(`Seeded ${insertedRubros.length} rubros`);
+    console.log(`Seeded ${insertedGruposBienes.length} gruposBienes`);
 
     return {
-      rubros: insertedRubros,
+      gruposBienes: insertedGruposBienes,
     };
   } catch (error) {
-    console.error('Error seeding Rubros:', error);
+    console.error('Error seeding GruposBienes:', error);
     throw error;
   }
 }
 
-async function seedProducto(prisma) {
+async function seedBien(prisma) {
   try {
-    // Insert data into the "Producto" table
-    const insertedProductos = await Promise.all(
-      productos.map(async (producto) => {
-        return prisma.producto.create({
+    // Insert data into the "Bien" table
+    const insertedBienes = await Promise.all(
+      bienes.map(async (bien) => {
+        return prisma.bien.create({
           data: {
-            id: producto.id,
-            descripcion: producto.descripcion,
-            rubroId: producto.rubroId,
-            valorVigente: producto.valorVigente,
+            id: bien.id,
+            descripcion: bien.descripcion,
+            grupoBienId: bien.grupoBienId,
+            valorVigente: bien.valorVigente,
           },
         });
       }),
     );
 
-    console.log(`Seeded ${insertedProductos.length} productos`);
+    console.log(`Seeded ${insertedBienes.length} bienes`);
 
     return {
-      productos: insertedProductos,
+      bienes: insertedBienes,
     };
   } catch (error) {
-    console.error('Error seeding producto:', error);
+    console.error('Error seeding bien:', error);
     throw error;
   }
 }
@@ -269,59 +269,55 @@ async function seedCotizacion(prisma) {
     throw error;
   }
 }
-async function seedProductoProveedor(prisma) {
+async function seedBienProveedor(prisma) {
   try {
-    // Insert data into the "ProductoProveedor" table
-    const insertedProductoProveedores = await Promise.all(
-      productoProveedores.map(async (productoProveedor) => {
-        return prisma.productoProveedor.create({
+    // Insert data into the "BienProveedor" table
+    const insertedBienProveedores = await Promise.all(
+      bienProveedores.map(async (bienProveedor) => {
+        return prisma.bienProveedor.create({
           data: {
-            productoCotizacionId: productoProveedor.productoCotizacionId,
-            proveedorId: productoProveedor.proveedorId,
-            valor: productoProveedor.valor,
+            bienCotizacionId: bienProveedor.bienCotizacionId,
+            proveedorId: bienProveedor.proveedorId,
+            valor: bienProveedor.valor,
           },
         });
       }),
     );
 
-    console.log(
-      `Seeded ${insertedProductoProveedores.length} productoProveedores`,
-    );
+    console.log(`Seeded ${insertedBienProveedores.length} bienProveedores`);
 
     return {
-      productoProveedores: insertedProductoProveedores,
+      bienProveedores: insertedBienProveedores,
     };
   } catch (error) {
-    console.error('Error seeding producto proveedor:', error);
+    console.error('Error seeding bien proveedor:', error);
     throw error;
   }
 }
 
-async function seedProductoCotizacion(prisma) {
+async function seedBienCotizacion(prisma) {
   try {
-    // Insert data into the "ProductoCotizacion" table
-    const insertedProductoCotizaciones = await Promise.all(
-      productoCotizaciones.map(async (productoCotizacion) => {
-        return prisma.productoCotizacion.create({
+    // Insert data into the "BienCotizacion" table
+    const insertedBienCotizaciones = await Promise.all(
+      bienCotizaciones.map(async (bienCotizacion) => {
+        return prisma.bienCotizacion.create({
           data: {
-            id: productoCotizacion.id,
-            productoId: productoCotizacion.productoId,
-            cantidad: productoCotizacion.cantidad,
-            cotizacionId: productoCotizacion.cotizacionId,
+            id: bienCotizacion.id,
+            bienId: bienCotizacion.bienId,
+            cantidad: bienCotizacion.cantidad,
+            cotizacionId: bienCotizacion.cotizacionId,
           },
         });
       }),
     );
 
-    console.log(
-      `Seeded ${insertedProductoCotizaciones.length} productoCotizaciones`,
-    );
+    console.log(`Seeded ${insertedBienCotizaciones.length} bienCotizaciones`);
 
     return {
-      productoCotizaciones: insertedProductoCotizaciones,
+      bienCotizaciones: insertedBienCotizaciones,
     };
   } catch (error) {
-    console.error('Error seeding producto por cotizacion:', error);
+    console.error('Error seeding bien por cotizacion:', error);
     throw error;
   }
 }
@@ -329,16 +325,16 @@ async function seedProductoCotizacion(prisma) {
 async function main() {
   const client = await new PrismaClient();
 
-  await seedRubro(client);
-  // await seedProducto(client);
-  // await seedProveedor(client);
-  // await seedUsuario(client);
-  // await seedEntidad(client);
-  // await seedSeccion(client);
-  // await seedCicloContratacion(client);
-  // await seedCotizacion(client);
-  // await seedProductoCotizacion(client);
-  // await seedProductoProveedor(client);
+  await seedGrupoBien(client);
+  await seedBien(client);
+  await seedProveedor(client);
+  await seedUsuario(client);
+  await seedEntidad(client);
+  await seedSeccion(client);
+  await seedCicloContratacion(client);
+  await seedCotizacion(client);
+  await seedBienCotizacion(client);
+  await seedBienProveedor(client);
 
   await client.$disconnect;
 }

@@ -1,120 +1,44 @@
 // This file contains placeholder data that you'll be replacing with real data in the Data Fetching chapter:
 // https://nextjs.org/learn/dashboard-app/fetching-data
 // Placeholder data
-const rubros = [
-  { id: '10', descripcion: 'Material Vivo Animal y Vegetal' },
-  { id: '11', descripcion: 'Materias Primas' },
-  { id: '12', descripcion: 'Materias Primas' },
-  { id: '13', descripcion: 'Materias Primas' },
-  { id: '14', descripcion: 'Materias Primas' },
-  { id: '15', descripcion: 'Materias Primas' },
+const gruposBienes = [
+  { id: '1', descripcion: 'Material Vivo Animal y Vegetal' },
+  { id: '2', descripcion: 'Materias Primas' },
   {
-    id: '20',
+    id: '3',
     descripcion: 'Maquinaria, Herramientas, Equipo Industrial y Vehículos',
   },
-  {
-    id: '21',
-    descripcion: 'Maquinaria, Herramientas, Equipo Industrial y Vehículos',
-  },
-  {
-    id: '22',
-    descripcion: 'Maquinaria, Herramientas, Equipo Industrial y Vehículos',
-  },
-  {
-    id: '23',
-    descripcion: 'Maquinaria, Herramientas, Equipo Industrial y Vehículos',
-  },
-  {
-    id: '24',
-    descripcion: 'Maquinaria, Herramientas, Equipo Industrial y Vehículos',
-  },
-  {
-    id: '25',
-    descripcion: 'Maquinaria, Herramientas, Equipo Industrial y Vehículos',
-  },
-  {
-    id: '26',
-    descripcion: 'Maquinaria, Herramientas, Equipo Industrial y Vehículos',
-  },
-  {
-    id: '27',
-    descripcion: 'Maquinaria, Herramientas, Equipo Industrial y Vehículos',
-  },
-  { id: '30', descripcion: 'Componentes y Suministros' },
-  { id: '31', descripcion: 'Componentes y Suministros' },
-  { id: '32', descripcion: 'Componentes y Suministros' },
-  { id: '39', descripcion: 'Componentes y Suministros' },
-  { id: '40', descripcion: 'Componentes y Suministros' },
-  { id: '41', descripcion: 'Componentes y Suministros' },
-  { id: '42', descripcion: 'Productos de Uso Final' },
-  { id: '43', descripcion: 'Productos de Uso Final' },
-  { id: '44', descripcion: 'Productos de Uso Final' },
-  { id: '45', descripcion: 'Productos de Uso Final' },
-  { id: '46', descripcion: 'Productos de Uso Final' },
-  { id: '47', descripcion: 'Productos de Uso Final' },
-  { id: '48', descripcion: 'Productos de Uso Final' },
-  { id: '49', descripcion: 'Productos de Uso Final' },
-  { id: '50', descripcion: 'Productos de Uso Final' },
-  { id: '51', descripcion: 'Productos de Uso Final' },
-  { id: '52', descripcion: 'Productos de Uso Final' },
-  { id: '53', descripcion: 'Productos de Uso Final' },
-  { id: '54', descripcion: 'Productos de Uso Final' },
-  { id: '55', descripcion: 'Productos de Uso Final' },
-  { id: '56', descripcion: 'Productos de Uso Final' },
-  { id: '60', descripcion: 'Productos de Uso Final' },
-  { id: '70', descripcion: 'Servicios' },
-  { id: '71', descripcion: 'Servicios' },
-  { id: '72', descripcion: 'Servicios' },
-  { id: '73', descripcion: 'Servicios' },
-  { id: '76', descripcion: 'Servicios' },
-  { id: '77', descripcion: 'Servicios' },
-  { id: '78', descripcion: 'Servicios' },
-  { id: '80', descripcion: 'Servicios' },
-  { id: '81', descripcion: 'Servicios' },
-  { id: '82', descripcion: 'Servicios' },
-  { id: '83', descripcion: 'Servicios' },
-  { id: '84', descripcion: 'Servicios' },
-  { id: '85', descripcion: 'Servicios' },
-  { id: '86', descripcion: 'Servicios' },
-  { id: '90', descripcion: 'Servicios' },
-  { id: '91', descripcion: 'Servicios' },
-  { id: '92', descripcion: 'Servicios' },
-  { id: '93', descripcion: 'Servicios' },
-  { id: '94', descripcion: 'Servicios' },
-  { id: '95', descripcion: 'Terrenos, Edificios, Estructuras y vías' },
+  { id: '4', descripcion: 'Componentes y Suministros' },
+  { id: '5', descripcion: 'Bienes de Uso Final' },
+  { id: '6', descripcion: 'Servicios' },
+  { id: '7', descripcion: 'Terrenos, Edificios, Estructuras y vías' },
 ];
 
-const productos = [
+const bienes = [
+  { id: 'bien1', descripcion: 'Gatos', grupoBienId: '1' },
   {
-    id: 'producto1',
-    descripcion: 'Producto 1',
-    rubroId: 'rubro1',
-    valorVigente: 100.0,
+    id: 'bien2',
+    descripcion: 'Yeso',
+    grupoBienId: '2',
   },
   {
-    id: 'producto2',
-    descripcion: 'Producto 2',
-    rubroId: 'rubro2',
-    valorVigente: 200.0,
+    id: 'bien3',
+    descripcion: 'Servicios de consolidación de pozos',
+    grupoBienId: '6',
+    valorVigente: 3000000.0,
   },
   {
-    id: 'producto3',
-    descripcion: 'Producto 3',
-    rubroId: 'rubro3',
-    valorVigente: 300.0,
-  },
-  {
-    id: 'producto4',
-    descripcion: 'Producto 4',
-    rubroId: 'rubro4',
-    valorVigente: 400.0,
+    id: 'bien4',
+    descripcion: 'Edificio de prision',
+    grupoBienId: '7',
+    valorVigente: 8500000000.0,
   },
 ];
 
-const productoCotizaciones = [
-  { id: 'prodCot1', productoId: 'producto1', cantidad: 10, cotizacionId: 1 },
-  { id: 'prodCot2', productoId: 'producto2', cantidad: 20, cotizacionId: 2 },
-  { id: 'prodCot3', productoId: 'producto3', cantidad: 30, cotizacionId: 3 },
+const bienCotizaciones = [
+  { id: 'prodCot1', bienId: 'bien1', cantidad: 10, cotizacionId: 1 },
+  { id: 'prodCot2', bienId: 'bien2', cantidad: 20, cotizacionId: 2 },
+  { id: 'prodCot3', bienId: 'bien3', cantidad: 30, cotizacionId: 3 },
 ];
 
 const proveedores = [
@@ -152,24 +76,24 @@ const proveedores = [
   },
 ];
 
-const productoProveedores = [
+const bienProveedores = [
   {
-    productoCotizacionId: 'prodCot1',
+    bienCotizacionId: 'prodCot1',
     proveedorId: 'proveedor1',
     valor: 100.0,
   },
   {
-    productoCotizacionId: 'prodCot1',
+    bienCotizacionId: 'prodCot1',
     proveedorId: 'proveedor2',
     valor: 200.0,
   },
   {
-    productoCotizacionId: 'prodCot2',
+    bienCotizacionId: 'prodCot2',
     proveedorId: 'proveedor3',
     valor: 300.0,
   },
   {
-    productoCotizacionId: 'prodCot3',
+    bienCotizacionId: 'prodCot3',
     proveedorId: 'proveedor4',
     valor: 400.0,
   },
@@ -390,14 +314,14 @@ const cotizaciones = [
 ];
 
 module.exports = {
-  rubros,
-  productos,
+  gruposBienes,
+  bienes,
   proveedores,
-  productoProveedores,
+  bienProveedores,
   entidades,
   secciones,
   usuarios,
   cicloContrataciones,
   cotizaciones,
-  productoCotizaciones,
+  bienCotizaciones,
 };

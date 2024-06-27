@@ -19,7 +19,16 @@ const links = [
     icon: DocumentDuplicateIcon,
   },
   { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },*/
-  { name: 'Productos', href: '/dashboard/products', icon: ShoppingBagIcon },
+  {
+    name: 'Bienes y Servicios',
+    href: '/dashboard/assets',
+    icon: ShoppingBagIcon,
+  },
+  {
+    name: 'Proveedores',
+    href: '/dashboard/providers',
+    icon: ShoppingBagIcon,
+  },
 ];
 
 export default function NavLinks() {

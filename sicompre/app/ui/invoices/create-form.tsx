@@ -1,30 +1,30 @@
-import { Rubro } from '@/app/lib/definitions';
+import { GrupoBien } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { UserCircleIcon, PencilIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import { createProduct } from '@/app/lib/actions';
+import { createAsset } from '@/app/lib/actions';
 
-export default function Form({ rubros }: { rubros: Rubro[] }) {
+export default function Form({ gruposBienes }: { gruposBienes: GrupoBien[] }) {
   return (
-    <form action={createProduct}>
+    <form action={createAsset}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         <div className="mb-4 w-5/12">
-          <label htmlFor="rubro" className="mb-2 block text-sm font-medium">
-            Selecciona el grupo del Rubro
+          <label htmlFor="grupoBien" className="mb-2 block text-sm font-medium">
+            Selecciona el grupo del GrupoBien
           </label>
           <div className="relative">
             <select
-              id="rubro"
-              name="rubroId"
+              id="grupoBien"
+              name="grupoBienId"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               defaultValue=""
             >
               <option value="" disabled>
                 Selecciona un grupo
               </option>
-              {rubros.map((rubros) => (
-                <option key={rubros.id} value={rubros.id}>
-                  {rubros.descripcion}
+              {gruposBienes.map((gruposBienes) => (
+                <option key={gruposBienes.id} value={gruposBienes.id}>
+                  {gruposBienes.descripcion}
                 </option>
               ))}
             </select>
@@ -35,7 +35,7 @@ export default function Form({ rubros }: { rubros: Rubro[] }) {
         <div className="mb-4 flex gap-5">
           <div className="w-3/6">
             <label htmlFor="codigo" className="mb-2 block text-sm font-medium">
-              Indica el código del producto
+              Indica el código del bien
             </label>
             <div className="relative mt-2 rounded-md">
               <div className="relative">
@@ -54,7 +54,7 @@ export default function Form({ rubros }: { rubros: Rubro[] }) {
               htmlFor="descripcion"
               className="mb-2 block text-sm font-medium"
             >
-              Indica descripción del producto
+              Indica descripción del bien
             </label>
             <div className="relative mt-2 rounded-md">
               <div className="w-full">
@@ -76,7 +76,7 @@ export default function Form({ rubros }: { rubros: Rubro[] }) {
           >
             Cancelar
           </Link>
-          <Button type="submit">Crear Producto</Button>
+          <Button type="submit">Crear Bien</Button>
         </div>
       </div>
     </form>

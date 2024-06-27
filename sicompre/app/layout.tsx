@@ -1,6 +1,16 @@
 import { montserrat } from './ui/fonts';
 import './ui/global.css';
 import { Toaster } from 'react-hot-toast';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: {
+    template: '%s | Sicompre Dashboard',
+    default: 'Sicompre Dashboard',
+  },
+  description: 'Software de administración y gestión de compras',
+  metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
+};
 
 export default function RootLayout({
   children,

@@ -50,45 +50,98 @@ export async function fetchSeccion() {
   return data;
 }
 
-export async function fetchRubro() {
-  const data = await prisma.rubro.findMany({
+export async function fetchGrupoBien() {
+  const data = await prisma.grupoBien.findMany({
     distinct: ['descripcion'],
   });
   return data;
 }
 
-export async function fetchProveedor() {
+export async function fetchProveedorById(id: string | undefined) {
   const data = await prisma.proveedor.findMany({
-    select: {
-      id: true,
-      nombre: true,
-      nit: true,
-      direccion: true,
-      email: true,
-      telefono: true,
-      createdAt: true,
-      updatedAt: true,
+    where: {
+      id: id,
+    },
+  });
+
+  return data;
+}
+
+export async function fetchProveedor(query: string, currentPage: number) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  const data = await prisma.proveedor.findMany({
+    skip: offset,
+    take: ITEMS_PER_PAGE,
+    where: {
+      OR: [
+        {
+          nombre: {
+            contains: query,
+            mode: 'insensitive',
+          },
+        },
+        {
+          email: {
+            contains: query,
+            mode: 'insensitive',
+          },
+        },
+        { nit: query },
+      ],
+    },
+    orderBy: {
+      nombre: 'asc',
+    },
+    include: {
+      cotizaciones: true,
     },
   });
   return data;
 }
 
-export async function fetchProductoProveedor() {
-  const data = await prisma.productoProveedor.findMany({
+export async function fetchProveedorPages(query: string) {
+  const data = await prisma.proveedor.count({
+    where: {
+      OR: [
+        {
+          nombre: {
+            contains: query,
+            mode: 'insensitive',
+          },
+        },
+        {
+          email: {
+            contains: query,
+            mode: 'insensitive',
+          },
+        },
+        { nit: query },
+      ],
+    },
+    orderBy: {
+      nombre: 'asc',
+    },
+  });
+  const totalPages = Math.ceil(data / ITEMS_PER_PAGE);
+  return totalPages;
+}
+
+export async function fetchBienProveedor() {
+  const data = await prisma.bienProveedor.findMany({
     select: {
       valor: true,
-      productoCotizacionId: true,
+      bienCotizacionId: true,
       proveedorId: true,
     },
   });
   return data;
 }
 
-export async function fetchProductoCotizacion() {
-  const data = await prisma.productoCotizacion.findMany({
+export async function fetchBienCotizacion() {
+  const data = await prisma.bienCotizacion.findMany({
     select: {
       id: true,
-      productoId: true,
+      bienId: true,
       cantidad: true,
       cotizacionId: true,
     },
@@ -96,22 +149,22 @@ export async function fetchProductoCotizacion() {
   return data;
 }
 
-export async function fetchProductoById(id: string) {
-  const data = await prisma.producto.findUnique({
+export async function fetchBienById(id: string) {
+  const data = await prisma.bien.findUnique({
     where: {
       id: id,
     },
     include: {
-      rubro: true,
+      grupoBien: true,
     },
   });
   return data;
 }
 
 const ITEMS_PER_PAGE = 6;
-export async function fetchProducto(query: string, currentPage: number) {
+export async function fetchBien(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  const data = await prisma.producto.findMany({
+  const data = await prisma.bien.findMany({
     skip: offset,
     take: ITEMS_PER_PAGE,
     where: {
@@ -124,14 +177,14 @@ export async function fetchProducto(query: string, currentPage: number) {
       createdAt: 'desc',
     },
     include: {
-      rubro: true,
+      grupoBien: true,
     },
   });
   return data;
 }
 
-export async function fetchProductoPages(query: string) {
-  const data = await prisma.producto.count({
+export async function fetchBienPages(query: string) {
+  const data = await prisma.bien.count({
     where: {
       descripcion: {
         contains: query,

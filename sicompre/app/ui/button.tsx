@@ -16,7 +16,7 @@ export function Button({ children, className, ...rest }: ButtonProps) {
         className,
       )}
     >
-      {pending ? 'Agregando...' : children}
+      {pending ? 'Guardando...' : children}
     </button>
   );
 }
