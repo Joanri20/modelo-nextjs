@@ -6,6 +6,7 @@ import { Bien, GrupoBien } from '@lib/definitions';
 import { updateAsset } from '@lib/actions/actionsAssets';
 import { UserCircleIcon } from '@heroicons/react/20/solid';
 import { CurrencyDollarIcon, PencilIcon } from '@heroicons/react/24/outline';
+import { MessageUpdate } from '@ui/common/toast-message';
 
 interface UpdateAssetsDialogProps {
   open: boolean;
@@ -32,9 +33,10 @@ export default function UpdateAssetDialog({
 
   const handleSubmit = async (formData: FormData) => {
     try {
-      const result = await updateAsset(id, formData);
-      if (result) {
-        setError(result);
+      const result = await updateAsset(id!, formData);
+      const err = MessageUpdate({ result });
+      if (err) {
+        setError(err);
       } else {
         setOpen(false);
       }

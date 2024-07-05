@@ -1,13 +1,10 @@
 'use server';
 
-import { any, z } from 'zod';
+import { z } from 'zod';
 import prisma from '../db';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { getPrismaErrorCodeDescription } from '../error-prisma';
-import { signIn } from '../../../auth';
-import { AuthError } from 'next-auth';
+import { getErrorMesssage } from './actionsCommon';
 
 const RUTAS_VALIDAR = '/dashboard/providers';
 const CreateProviderSchema = z.object({
@@ -22,32 +19,6 @@ const CreateProviderSchema = z.object({
 const CreateAssetFormSchema = CreateProviderSchema.omit({
   id: true,
 });
-
-export const getErrorMesssage = (error: unknown): string => {
-  let message: string;
-  let campoError: string = 'Ocurrio un error con el campo: ';
-
-  if (error instanceof PrismaClientKnownRequestError) {
-    const errorPrisma = getPrismaErrorCodeDescription(error.code);
-    message = errorPrisma;
-  } else if (error instanceof z.ZodError) {
-    campoError += error.errors[0].path[0] as string;
-    message = campoError;
-  } else if (error instanceof Error) {
-    campoError += error.message;
-    message = campoError;
-  } else if (error && typeof error === 'object' && 'message' in error) {
-    campoError += String(error.message);
-    message = campoError;
-  } else if (typeof error === 'string') {
-    campoError += error;
-    message = campoError;
-  } else {
-    message = 'Se obtuvo un error desconocido';
-  }
-
-  return message;
-};
 
 export const analizarSchema = (
   nombre: FormDataEntryValue | null,
@@ -67,11 +38,6 @@ export const analizarSchema = (
 };
 
 export const createProvider = async (formData: FormData) => {
-  /*const { nombre, nit, direccion, email, telefono } = analizarSchema(
-    formData.get('nombre'),
-    formData.get('nit'),
-    formData.get('direccion'), formData.get('email'), formData.get('telefono'));
-  */
   try {
     const { nombre, nit, direccion, email, telefono } =
       CreateAssetFormSchema.parse({
@@ -102,7 +68,7 @@ export const createProvider = async (formData: FormData) => {
 };
 
 export async function updateProvider(
-  id: string | undefined,
+  id: bigint | undefined,
   formData: FormData,
 ) {
   try {
@@ -135,7 +101,7 @@ export async function updateProvider(
   redirect(RUTAS_VALIDAR);
 }
 
-export async function deleteProvider(id: string | undefined) {
+export async function deleteProvider(id: bigint | undefined) {
   try {
     await prisma.proveedor.delete({
       where: {
@@ -150,7 +116,7 @@ export async function deleteProvider(id: string | undefined) {
   redirect(RUTAS_VALIDAR);
 }
 
-export async function fetchProveedorById(id: string | undefined) {
+export async function fetchProveedorById(id: bigint | undefined) {
   let data = null;
   try {
     data = await prisma.proveedor.findMany({

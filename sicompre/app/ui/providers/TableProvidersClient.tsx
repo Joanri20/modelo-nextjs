@@ -37,7 +37,7 @@ export default function TableProvidersClient({
         <tbody>
           {providers.map((provider: Proveedor) => (
             <tr
-              key={provider?.id}
+              key={provider?.id?.toString()}
               className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
             >
               <td className="px-6 py-4">{provider?.nombre}</td>
@@ -46,8 +46,8 @@ export default function TableProvidersClient({
               <td className="px-6 py-4">{provider?.email}</td>
               <td className="px-6 py-4">{provider?.telefono}</td>
               <td className="flex w-full gap-3 px-6 py-4">
-                <UpdateProviderT id={provider?.id} />
-                <DeleteProvider id={provider?.id} />
+                <UpdateProviderT id={provider?.id.toString()} />
+                <DeleteProvider id={provider?.id.toString()} />
               </td>
             </tr>
           ))}

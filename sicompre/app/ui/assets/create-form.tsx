@@ -10,7 +10,7 @@ import { Button } from '@ui/button';
 import { createAsset } from '@lib/actions/actionsAssets';
 import CreateGrupoBienDialog from './create-grupoBien-dialog';
 import { useState } from 'react';
-import MessageCreate from './toast-message';
+import MessageCreate from '@ui/common/toast-message';
 
 export default function Form({ gruposBienes }: { gruposBienes: GrupoBien[] }) {
   const [error, setError] = useState('');
@@ -46,7 +46,10 @@ export default function Form({ gruposBienes }: { gruposBienes: GrupoBien[] }) {
                   Selecciona un grupo
                 </option>
                 {gruposBienes.map((gruposBienes) => (
-                  <option key={gruposBienes.id} value={gruposBienes.id}>
+                  <option
+                    key={Number(gruposBienes.id)}
+                    value={Number(gruposBienes.id)}
+                  >
                     {gruposBienes.descripcion}
                   </option>
                 ))}

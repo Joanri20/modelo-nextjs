@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { Button } from '@ui/button';
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
 import { createGrupoBien } from '@lib/actions/actionsAssets';
-import MessageCreate from './toast-message';
+import MessageCreate from '@ui/common/toast-message';
 
 export default function CreateGrupoBienDialog() {
   const [open, setOpen] = useState(false);
@@ -65,7 +65,7 @@ const CreateGrupoBien = ({ setOpen }: CreateGrupoBienProps) => {
               type="text"
               id="descripcion"
               name="descripcion"
-              placeholder="Ingrese descripción del GrupoBien"
+              placeholder="Ingrese descripción del Grupo"
               className="w-full rounded border-gray-300 p-2 font-normal outline-none focus:border-blue-500"
             />
           </label>

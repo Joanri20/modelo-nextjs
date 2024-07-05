@@ -5,8 +5,12 @@ import {
   HomeIcon,
   DocumentDuplicateIcon,
   ShoppingBagIcon,
+  UserPlusIcon,
+  BuildingOfficeIcon,
+  BuildingOffice2Icon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { TbTruckDelivery } from 'react-icons/tb';
 import { usePathname } from 'next/navigation';
 
 // Map of links to display in the side navigation.
@@ -27,7 +31,22 @@ const links = [
   {
     name: 'Proveedores',
     href: '/dashboard/providers',
-    icon: ShoppingBagIcon,
+    icon: TbTruckDelivery,
+  },
+  {
+    name: 'Usuarios',
+    href: '/dashboard/users',
+    icon: UserPlusIcon,
+  },
+  {
+    name: 'Entidades',
+    href: '/dashboard/entities',
+    icon: BuildingOfficeIcon,
+  },
+  {
+    name: 'Secciones',
+    href: '/dashboard/sections',
+    icon: BuildingOffice2Icon,
   },
 ];
 
@@ -45,7 +64,7 @@ export default function NavLinks() {
             ${pathname === link.href ? 'bg-sky-100 text-blue-600' : ''}
             `}
           >
-            <LinkIcon className="w-6" />
+            <LinkIcon className="flex h-[48px] w-6" />
             <p className="hidden md:block">{link.name}</p>
           </Link>
         );

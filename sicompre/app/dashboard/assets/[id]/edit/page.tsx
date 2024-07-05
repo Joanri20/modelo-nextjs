@@ -1,5 +1,5 @@
 import Form from 'ui/assets/edit-form';
-import Breadcrumbs from 'ui/assets/breadcrumbs';
+import Breadcrumbs from '@ui/common/breadcrumbs';
 import { fetchBienById, fetchGrupoBien } from 'lib/data';
 import { Metadata } from 'next';
 

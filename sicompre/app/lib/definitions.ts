@@ -11,26 +11,26 @@ export type GrupoBien = {
 };
 
 export type Bien = {
-  id: string;
+  id: bigint;
   descripcion: string;
   grupoBien?: GrupoBien;
   grupoBienId: bigint;
   valorVigente: number | null;
   bienCotizacion?: BienCotizacion[];
-};
+} | null;
 
 export type BienCotizacion = {
-  id: string;
+  id: bigint;
   bien: Bien;
-  bienId: string;
+  bienId: bigint;
   cantidad: number;
   cotizacion: Cotizacion;
-  cotizacionId: number;
+  cotizacionId: bigint;
   valorProveedor: BienProveedor[];
 };
 
 export type Cotizacion = {
-  id: number;
+  id: bigint;
   bienes: BienCotizacion[];
   fecha: string;
   estado: 'Abierto' | 'Cerrado' | 'EnProceso';
@@ -40,11 +40,11 @@ export type Cotizacion = {
   updatedAt: Date;
   seccionId: BigInt;
   usuarioId: string;
-  cicloContratacionId: string;
+  cicloContratacionId: bigint;
 };
 
 export type Proveedor = {
-  id: string;
+  id: bigint;
   nombre: string;
   nit: string;
   direccion: string;
@@ -56,52 +56,48 @@ export type Proveedor = {
 
 export type BienProveedor = {
   valor: number;
-  bienCotizacionId: string;
-  proveedorId: string;
+  bienCotizacionId: bigint;
+  proveedorId: bigint;
 };
 
 export type Entidad = {
-  id: BigInt;
+  id: bigint;
   nombre: string;
   nit: string;
-  direccion: string;
-  telefono: string;
+  direccion: string | null;
+  telefono: string | null;
   municipio: string;
   departamento: string;
   pais: string;
-  web: string;
-  email: string;
-  resolucionPosesion: string;
-  fechaPosesion: string;
+  web: string | null;
+  email: string | null;
+  resolucionPosesion: string | null;
+  fechaPosesion: Date | null;
   estado: 'Activo' | 'Deshabilitado';
-  saldoDisponible: string;
-  createdAt: string;
-  updatedAt: string;
-  secciones: Seccion[];
-  cicloContratacion: CicloContratacion[];
-  integrantes: Usuario[];
+  saldoDisponible: number;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type Seccion = {
-  id: BigInt;
+  id: bigint;
   nombre: string;
   nit: string;
-  direccion: string;
-  telefono: string;
+  direccion: string | null;
+  telefono: string | null;
   municipio: string;
   departamento: string;
   pais: string;
-  web: string;
-  email: string;
-  resolucionPosesion: string;
-  fechaPosesion: string;
+  web: string | null;
+  email: string | null;
+  resolucionPosesion: string | null;
+  fechaPosesion: Date | null;
   estado: 'Activo' | 'Deshabilitado';
   saldoDisponible: number;
-  createdAt: string;
-  updatedAt: string;
-  entidadId: BigInt;
-  Cotizacion: Cotizacion[];
-  usuarioId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  entidadId: bigint;
+  usuarioId: string | null;
 };
 
 export type Usuario = {
@@ -124,7 +120,7 @@ export type Usuario = {
 };
 
 export type CicloContratacion = {
-  id: string;
+  id: bigint;
   fechaInicio: string;
   fechaFinal: string;
   cotizaciones: Cotizacion[];

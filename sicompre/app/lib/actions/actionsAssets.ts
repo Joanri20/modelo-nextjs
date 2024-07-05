@@ -1,14 +1,13 @@
 'use server';
 
-import { any, z } from 'zod';
+import { z } from 'zod';
 import prisma from '../db';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { getPrismaErrorCodeDescription } from '../error-prisma';
 import { signIn } from '../../../auth';
 import { AuthError } from 'next-auth';
 import { GrupoBien } from '@lib/definitions';
+import { getErrorMesssage } from './actionsCommon';
 
 const CreateAssetSchema = z.object({
   id: z.string(),
@@ -22,32 +21,6 @@ const CreateAssetFormSchema = CreateAssetSchema.omit({
   id: true,
   date: true,
 });
-
-export const getErrorMesssage = (error: unknown): string => {
-  let message: string;
-  let campoError: string = 'Ocurrio un error con el campo: ';
-
-  if (error instanceof PrismaClientKnownRequestError) {
-    const errorPrisma = getPrismaErrorCodeDescription(error.code);
-    message = errorPrisma;
-  } else if (error instanceof z.ZodError) {
-    campoError += error.errors[0].path[0] as string;
-    message = campoError;
-  } else if (error instanceof Error) {
-    campoError += error.message;
-    message = campoError;
-  } else if (error && typeof error === 'object' && 'message' in error) {
-    campoError += String(error.message);
-    message = campoError;
-  } else if (typeof error === 'string') {
-    campoError += error;
-    message = campoError;
-  } else {
-    message = 'Se obtuvo un error desconocido';
-  }
-
-  return message;
-};
 
 export const createAsset = async (formData: FormData) => {
   try {
@@ -76,7 +49,7 @@ export const createAsset = async (formData: FormData) => {
   redirect('/dashboard/assets');
 };
 
-export async function updateAsset(id: string, formData: FormData) {
+export async function updateAsset(id: bigint, formData: FormData) {
   try {
     const { descripcion, grupoBienId, valorVigente } =
       CreateAssetFormSchema.parse({
@@ -110,7 +83,7 @@ const CreateGrupoBienFormSchema = CreateAssetSchema.omit({
   valorVigente: true,
 });
 
-export async function deleteAsset(id: string) {
+export async function deleteAsset(id: bigint) {
   try {
     await prisma.bien.delete({
       where: {
@@ -164,7 +137,7 @@ export async function authenticate(
   }
 }
 
-export async function fetchAssestById(id: string | undefined) {
+export async function fetchAssestById(id: bigint | undefined) {
   let data = null;
   try {
     data = await prisma.bien.findMany({

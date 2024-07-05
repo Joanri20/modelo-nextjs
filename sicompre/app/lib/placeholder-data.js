@@ -2,48 +2,48 @@
 // https://nextjs.org/learn/dashboard-app/fetching-data
 // Placeholder data
 const gruposBienes = [
-  { id: '1', descripcion: 'Material Vivo Animal y Vegetal' },
-  { id: '2', descripcion: 'Materias Primas' },
+  { id: 1, descripcion: 'Material Vivo Animal y Vegetal' },
+  { id: 2, descripcion: 'Materias Primas' },
   {
-    id: '3',
+    id: 3,
     descripcion: 'Maquinaria, Herramientas, Equipo Industrial y Vehículos',
   },
-  { id: '4', descripcion: 'Componentes y Suministros' },
-  { id: '5', descripcion: 'Bienes de Uso Final' },
-  { id: '6', descripcion: 'Servicios' },
-  { id: '7', descripcion: 'Terrenos, Edificios, Estructuras y vías' },
+  { id: 4, descripcion: 'Componentes y Suministros' },
+  { id: 5, descripcion: 'Bienes de Uso Final' },
+  { id: 6, descripcion: 'Servicios' },
+  { id: 7, descripcion: 'Terrenos, Edificios, Estructuras y vías' },
 ];
 
 const bienes = [
-  { id: 'bien1', descripcion: 'Gatos', grupoBienId: '1' },
+  { id: 1, descripcion: 'Gatos', grupoBienId: 1 },
   {
-    id: 'bien2',
+    id: 2,
     descripcion: 'Yeso',
-    grupoBienId: '2',
+    grupoBienId: 2,
   },
   {
-    id: 'bien3',
+    id: 3,
     descripcion: 'Servicios de consolidación de pozos',
-    grupoBienId: '6',
+    grupoBienId: 6,
     valorVigente: 3000000.0,
   },
   {
-    id: 'bien4',
+    id: 4,
     descripcion: 'Edificio de prision',
-    grupoBienId: '7',
+    grupoBienId: 7,
     valorVigente: 8500000000.0,
   },
 ];
 
 const bienCotizaciones = [
-  { id: 'prodCot1', bienId: 'bien1', cantidad: 10, cotizacionId: 1 },
-  { id: 'prodCot2', bienId: 'bien2', cantidad: 20, cotizacionId: 2 },
-  { id: 'prodCot3', bienId: 'bien3', cantidad: 30, cotizacionId: 3 },
+  { id: 1, bienId: 1, cantidad: 10, cotizacionId: 1 },
+  { id: 2, bienId: 2, cantidad: 20, cotizacionId: 2 },
+  { id: 3, bienId: 3, cantidad: 30, cotizacionId: 3 },
 ];
 
 const proveedores = [
   {
-    id: 'proveedor1',
+    id: 1,
     nombre: 'Proveedor 1',
     nit: '123',
     direccion: 'Calle 1',
@@ -51,7 +51,7 @@ const proveedores = [
     telefono: '1234567890',
   },
   {
-    id: 'proveedor2',
+    id: 2,
     nombre: 'Proveedor 2',
     nit: '456',
     direccion: 'Calle 2',
@@ -59,7 +59,7 @@ const proveedores = [
     telefono: '0987654321',
   },
   {
-    id: 'proveedor3',
+    id: 3,
     nombre: 'Proveedor 3',
     nit: '789',
     direccion: 'Calle 3',
@@ -67,7 +67,7 @@ const proveedores = [
     telefono: '1122334455',
   },
   {
-    id: 'proveedor4',
+    id: 4,
     nombre: 'Proveedor 4',
     nit: '012',
     direccion: 'Calle 4',
@@ -78,23 +78,23 @@ const proveedores = [
 
 const bienProveedores = [
   {
-    bienCotizacionId: 'prodCot1',
-    proveedorId: 'proveedor1',
+    bienCotizacionId: 1,
+    proveedorId: 1,
     valor: 100.0,
   },
   {
-    bienCotizacionId: 'prodCot1',
-    proveedorId: 'proveedor2',
+    bienCotizacionId: 1,
+    proveedorId: 2,
     valor: 200.0,
   },
   {
-    bienCotizacionId: 'prodCot2',
-    proveedorId: 'proveedor3',
+    bienCotizacionId: 2,
+    proveedorId: 3,
     valor: 300.0,
   },
   {
-    bienCotizacionId: 'prodCot3',
-    proveedorId: 'proveedor4',
+    bienCotizacionId: 3,
+    proveedorId: 4,
     valor: 400.0,
   },
 ];
@@ -261,21 +261,21 @@ const usuarios = [
 
 const cicloContrataciones = [
   {
-    id: 'ciclo1',
+    id: 1,
     fechaInicio: new Date(),
     fechaFinal: new Date(),
     usuarioId: 'usuario1',
     entidadId: 1,
   },
   {
-    id: 'ciclo2',
+    id: 2,
     fechaInicio: new Date(),
     fechaFinal: new Date(),
     usuarioId: 'usuario2',
     entidadId: 2,
   },
   {
-    id: 'ciclo3',
+    id: 3,
     fechaInicio: new Date(),
     fechaFinal: new Date(),
     usuarioId: 'usuario3',
@@ -291,7 +291,7 @@ const cotizaciones = [
     valorTotal: 1000.0,
     seccionId: 1,
     usuarioId: 'usuario1',
-    cicloContratacionId: 'ciclo1',
+    cicloContratacionId: 1,
   },
   {
     id: 2,
@@ -300,7 +300,7 @@ const cotizaciones = [
     valorTotal: 2000.0,
     seccionId: 2,
     usuarioId: 'usuario2',
-    cicloContratacionId: 'ciclo2',
+    cicloContratacionId: 2,
   },
   {
     id: 3,
@@ -309,7 +309,7 @@ const cotizaciones = [
     valorTotal: 3000.0,
     seccionId: 3,
     usuarioId: 'usuario3',
-    cicloContratacionId: 'ciclo3',
+    cicloContratacionId: 3,
   },
 ];
 

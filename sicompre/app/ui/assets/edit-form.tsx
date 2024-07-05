@@ -20,7 +20,7 @@ export default function EditAssetForm({
   asset: Bien;
   gruposBienes: GrupoBien[];
 }) {
-  const updateInvoiceWithId = updateAsset.bind(null, asset.id);
+  const updateInvoiceWithId = updateAsset.bind(null, asset?.id!);
   return (
     <form
       action={async (formData: FormData) => {
@@ -39,7 +39,7 @@ export default function EditAssetForm({
               name="grupoBienId"
               required
               className="input-app"
-              defaultValue={asset.grupoBien?.descripcion}
+              defaultValue={asset?.grupoBien?.descripcion}
             >
               <option value="" disabled>
                 Selecciona un grupo
@@ -70,7 +70,7 @@ export default function EditAssetForm({
                 <input
                   id="descripcion"
                   name="descripcion"
-                  defaultValue={asset.descripcion}
+                  defaultValue={asset?.descripcion}
                   placeholder="Ingrese nombre o descripción"
                   required
                   className="input-app"
@@ -91,7 +91,7 @@ export default function EditAssetForm({
                 <input
                   id="valorVigente"
                   name="valorVigente"
-                  defaultValue={asset.valorVigente ? asset.valorVigente : 0}
+                  defaultValue={asset?.valorVigente ? asset.valorVigente : 0}
                   placeholder="Ingresa un valor sin signos"
                   required
                   className="input-app"

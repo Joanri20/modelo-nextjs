@@ -1,28 +1,27 @@
-import Form from '@ui/assets/create-form';
+import Form from '@ui/entities/create-form';
 import Breadcrumbs from '@ui/common/breadcrumbs';
 import { fetchGrupoBien } from '@lib/data';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Creación de Bienes y Servicios',
+  title: 'Creación de Entidades',
 };
 
 export default async function Page() {
-  const gruposBienes = await fetchGrupoBien();
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Bienes y Servicios', href: '/dashboard/assets' },
+          { label: 'Entidades', href: '/dashboard/entities' },
           {
-            label: 'Crear Bienes y Servicios',
-            href: '/dashboard/assets/create',
+            label: 'Crear Entidad',
+            href: '/dashboard/entities/create',
             active: true,
           },
         ]}
       />
 
-      <Form gruposBienes={gruposBienes} />
+      <Form />
     </main>
   );
 }

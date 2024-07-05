@@ -32,6 +32,6 @@
     ".next/types/**/*.ts",
     "app/lib/placeholder-data.js",
     "scripts/seed.js"
-  ],
+, "app/lib/conversEnums.js"  ],
   "exclude": ["node_modules"]
 }

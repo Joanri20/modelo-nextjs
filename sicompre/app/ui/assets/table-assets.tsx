@@ -26,15 +26,15 @@ export default async function TableAssets({ assets }: { assets: Bien[] }) {
           {assets.map((asset: Bien) => {
             return (
               <tr
-                key={asset.id}
+                key={Number(asset?.id)}
                 className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
               >
-                <td className="px-6 py-4">{asset.descripcion}</td>
-                <td className="px-6 py-4">{asset.grupoBien?.descripcion}</td>
-                <td className="px-6 py-4">$ {asset.valorVigente}</td>
+                <td className="px-6 py-4">{asset?.descripcion}</td>
+                <td className="px-6 py-4">{asset?.grupoBien?.descripcion}</td>
+                <td className="px-6 py-4">$ {asset?.valorVigente}</td>
                 <td className="flex w-full gap-3 px-6 py-4">
-                  <UpdateAssetT id={asset.id} />
-                  <DeleteAsset id={asset.id} />
+                  <UpdateAssetT id={asset?.id!} />
+                  <DeleteAsset id={asset?.id!} />
                 </td>
               </tr>
             );

@@ -5,12 +5,10 @@ import {
   fetchProveedorById,
 } from '@lib/actions/actionsProviders';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { useFormStatus } from 'react-dom';
-import { MessageDelete } from './toast-message';
-import Form from './create-form';
+import { useState } from 'react';
 import { Proveedor } from '@lib/definitions';
 import UpdateProveedorDialog from './update-form-dialog';
+import { MessageDelete } from '@ui/common/toast-message';
 
 export function CreateProvider() {
   const [buttonText, setButtonText] = useState('Crear Proveedor');
@@ -38,7 +36,7 @@ export function UpdateProvider({ id }: { id: string }) {
   );
 }
 
-export function UpdateProviderT({ id }: { id: string | undefined }) {
+export function UpdateProviderT({ id }: { id: bigint | undefined }) {
   const providerWithId = fetchProveedorById.bind(null, id);
   const [proveedorData, setProveedorData] = useState<Proveedor | null>(null);
   const [open, setOpen] = useState(false);
@@ -93,7 +91,7 @@ export function UpdateProviderT({ id }: { id: string | undefined }) {
   );
 }
 
-export function DeleteProvider({ id }: { id: string | undefined }) {
+export function DeleteProvider({ id }: { id: bigint | undefined }) {
   const deleteProviderWithId = deleteProvider.bind(null, id);
 
   return (
