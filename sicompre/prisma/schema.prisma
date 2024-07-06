@@ -12,6 +12,13 @@ datasource db {
 
 // Todos los Enum
 
+enum Enum_TipoDocumento {
+  CC
+  CE
+  TI
+  PASAPORTE
+}
+
 enum Enum_EstadoProceso {
   Abierto
   Cerrado
@@ -28,69 +35,132 @@ enum Enum_EstadoGeneral {
   Deshabilitado
 }
 
+enum Enum_EstadoCotizacion {
+  Abierto
+  Cerrado
+}
+
 // Modelos
 
-model Rubro {
-  id          String     @id
+model GrupoBien {
+  id          BigInt    @id @default(autoincrement())
   descripcion String
-  producto    Producto[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  Bien        Bien[]
 }
 
-model Producto {
-  id                 String               @id
-  descripcion        String
-  rubro              Rubro                @relation(fields: [rubroId], references: [id])
-  rubroId            String
-  valorVigente       Float?
-  productoCotizacion ProductoCotizacion[]
+model Bien {
+  id           BigInt         @id @default(autoincrement())
+  descripcion  String
+  grupoBien    GrupoBien      @relation(fields: [grupoBienId], references: [id])
+  grupoBienId  BigInt
+  valorVigente Float?         @default(0)
+  bienCantidad BienCantidad[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime?      @updatedAt
 }
 
-model ProductoCotizacion {
-  id             String              @id @default(cuid())
-  producto       Producto            @relation(fields: [productoId], references: [id])
-  productoId     String
-  cantidad       Float
-  cotizacion     Cotizacion?         @relation(fields: [cotizacionId], references: [id])
-  cotizacionId   BigInt?
-  valorProveedor ProductoProveedor[]
+model BienCantidad {
+  id              BigInt          @id @default(autoincrement())
+  bien            Bien            @relation(fields: [bienId], references: [id])
+  bienId          BigInt
+  cantidad        Float           @default(1)
+  planDeCompras   PlanDeCompras?  @relation(fields: [planDeComprasId], references: [id])
+  planDeComprasId BigInt?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime?       @updatedAt
+  BienProveedor   BienProveedor[]
+  Cotizacion      Cotizacion?     @relation(fields: [cotizacionId], references: [id])
+  cotizacionId    BigInt?
 }
 
-model Cotizacion {
-  id                  BigInt               @id @default(autoincrement())
-  productos           ProductoCotizacion[]
-  fecha               DateTime
-  estado              Enum_EstadoProceso
-  valorTotal          Float?
-  seccion             Seccion              @relation(fields: [seccionId], references: [id])
-  usuario             Usuario              @relation(fields: [usuarioId], references: [id])
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
-  seccionId           BigInt
+model PlanDeCompras {
+  id                  BigInt             @id @default(autoincrement())
+  bienes              BienCantidad[]
+  fecha               DateTime           @default(now())
+  estado              Enum_EstadoProceso @default(Abierto)
+  dependencia         Dependencia        @relation(fields: [dependenciaId], references: [id])
+  usuario             Usuario            @relation(fields: [usuarioId], references: [id])
+  valorTotal          Float?             @default(0)
+  dependenciaId       BigInt
   usuarioId           String
-  cicloContratacion   CicloContratacion?   @relation(fields: [cicloContratacionId], references: [id])
-  cicloContratacionId String?
+  cicloContratacion   CicloContratacion? @relation(fields: [cicloContratacionId], references: [id])
+  cicloContratacionId BigInt?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+}
+
+model BienProveedor {
+  bien           BienCantidad @relation(fields: [bienCantidadId], references: [id])
+  proveedor      Proveedor    @relation(fields: [proveedorId], references: [id])
+  valor          Float        @default(0)
+  cotizacion     Cotizacion   @relation(fields: [cotizacionId], references: [id])
+  bienCantidadId BigInt
+  proveedorId    BigInt
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime?    @updatedAt
+  cotizacionId   BigInt
+
+  @@id([cotizacionId, proveedorId])
 }
 
 model Proveedor {
-  id           String              @id @default(cuid())
-  nombre       String
-  nit          String
-  direccion    String
-  email        String
-  telefono     String
-  cotizaciones ProductoProveedor[]
-  createdAt    DateTime            @default(now())
-  updatedAt    DateTime            @updatedAt
+  id            BigInt                @id @default(autoincrement())
+  nombre        String
+  nit           String
+  direccion     String
+  email         String
+  telefono      String
+  cotizaciones  CotizacionProveedor[]
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+  BienProveedor BienProveedor[]
 }
 
-model ProductoProveedor {
-  producto             ProductoCotizacion @relation(fields: [productoCotizacionId], references: [id])
-  proveedor            Proveedor          @relation(fields: [proveedorId], references: [id])
-  valor                Float
-  productoCotizacionId String
-  proveedorId          String
+model CotizacionProveedor {
+  proveedor    Proveedor  @relation(fields: [proveedorId], references: [id])
+  cotizacion   Cotizacion @relation(fields: [cotizacionId], references: [id])
+  valorTotal   Float      @default(0)
+  proveedorId  BigInt
+  cotizacionId BigInt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime?  @updatedAt
 
-  @@id([productoCotizacionId, proveedorId])
+  @@id([cotizacionId, proveedorId])
+}
+
+model Cotizacion {
+  id                  BigInt                @id @default(autoincrement())
+  fechaInicio         DateTime              @default(now())
+  fechaFinal          DateTime              @default(now())
+  usuario             Usuario               @relation(fields: [usuarioId], references: [id])
+  entidad             Entidad               @relation(fields: [entidadId], references: [id])
+  estado              Enum_EstadoCotizacion
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  usuarioId           String
+  entidadId           BigInt
+  BienProveedor       BienProveedor[]
+  CotizacionProveedor CotizacionProveedor[]
+  BienCantidad        BienCantidad[]
+  CicloContratacion   CicloContratacion[]
+}
+
+model CicloContratacion {
+  id            BigInt             @id @default(autoincrement())
+  fechaInicio   DateTime           @default(now())
+  fechaFinal    DateTime           @default(now())
+  planDeCompras PlanDeCompras[]
+  usuario       Usuario            @relation(fields: [usuarioId], references: [id])
+  estado        Enum_EstadoProceso
+  entidad       Entidad            @relation(fields: [entidadId], references: [id])
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  usuarioId     String
+  entidadId     BigInt
+  Cotizacion    Cotizacion?        @relation(fields: [cotizacionId], references: [id])
+  cotizacionId  BigInt?
 }
 
 model Entidad {
@@ -104,19 +174,19 @@ model Entidad {
   pais               String
   web                String?
   email              String?
-  seccion            String
   resolucionPosesion String?
   fechaPosesion      DateTime?
-  estado             Enum_EstadoGeneral
-  saldoDisponible    Float
+  estado             Enum_EstadoGeneral  @default(Activo)
+  saldoDisponible    Float               @default(0)
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
-  secciones          Seccion[]
+  dependencias       Dependencia[]
   cicloContratacion  CicloContratacion[]
   integrantes        Usuario[]
+  Cotizacion         Cotizacion[]
 }
 
-model Seccion {
+model Dependencia {
   id                 BigInt             @id @default(autoincrement())
   nombre             String
   nit                String
@@ -127,18 +197,19 @@ model Seccion {
   pais               String
   web                String?
   email              String?
-  seccion            String
   resolucionPosesion String?
   fechaPosesion      DateTime?
-  estado             Enum_EstadoGeneral
+  estado             Enum_EstadoGeneral @default(Activo)
   entidadPadre       Entidad            @relation(fields: [entidadId], references: [id])
   saldoDisponible    Float
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @updatedAt
   entidadId          BigInt
-  Cotizacion         Cotizacion[]
+  Cotizacion         PlanDeCompras[]
   Usuario            Usuario?           @relation(fields: [usuarioId], references: [id])
   usuarioId          String?
+
+  @@map("Dependecia")
 }
 
 model Usuario {
@@ -147,31 +218,22 @@ model Usuario {
   segundoNombre     String?
   primerApellido    String
   segundoApellido   String?
-  tipoDocumento     String
-  documento         String              @unique
+  tipoDocumento     Enum_TipoDocumento  @default(CC)
+  documento         String
   telefono          String?
-  celular           String?
-  email             String?
+  celular           String
+  email             String              @unique
   direccion         String?
-  estado            Enum_EstadoGeneral
-  tipo              Enum_TipoUsuario
+  estado            Enum_EstadoGeneral  @default(Activo)
+  tipo              Enum_TipoUsuario    @default(Encargado)
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
   entidad           Entidad[]
-  seccion           Seccion[]
-  cotizacion        Cotizacion[]
+  dependencia       Dependencia[]
+  cotizacion        PlanDeCompras[]
   cicloContratacion CicloContratacion[]
-}
+  password          String              @default("1234")
+  Cotizacion        Cotizacion[]
 
-model CicloContratacion {
-  id           String       @id @default(cuid())
-  fechaInicio  DateTime
-  fechaFinal   DateTime
-  cotizaciones Cotizacion[]
-  usuario      Usuario      @relation(fields: [usuarioId], references: [id])
-  entidad      Entidad      @relation(fields: [entidadId], references: [id])
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  usuarioId    String
-  entidadId    BigInt
+  @@unique([tipoDocumento, documento])
 }

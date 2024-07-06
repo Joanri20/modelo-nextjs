@@ -18,10 +18,20 @@
         "name": "next"
       }
     ],
+    "baseUrl": "app",
     "paths": {
-      "@/*": ["./*"]
+      "@dashboard/*":["dashboard/*"],
+      "@lib/*":["lib/*"],
+      "@ui/*":["ui/*"],      
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/lib/placeholder-data.js",
+    "scripts/seed.js"
+, "app/lib/conversEnums.js"  ],
   "exclude": ["node_modules"]
 }

@@ -1,12 +1,15 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import { montserrat } from './ui/fonts';
+import './ui/global.css';
+import { Toaster } from 'react-hot-toast';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "SICOMPRE",
-  description: "Aplicación para gestión de compras",
+  title: {
+    template: '%s | Sicompre Dashboard',
+    default: 'Sicompre Dashboard',
+  },
+  description: 'Software de administración y gestión de compras',
+  metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
 };
 
 export default function RootLayout({
@@ -16,7 +19,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${montserrat.className}antialiased`}>
+        {children}
+        <Toaster position="top-right" />
+      </body>
     </html>
   );
 }
