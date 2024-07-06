@@ -2,7 +2,6 @@
 
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
-import { Bien, GrupoBien } from '@lib/definitions';
 import { updateAsset } from '@lib/actions/actionsAssets';
 import { UserCircleIcon } from '@heroicons/react/20/solid';
 import { CurrencyDollarIcon, PencilIcon } from '@heroicons/react/24/outline';
@@ -28,8 +27,8 @@ export default function UpdateAssetDialog({
     grupoBien,
     grupoBienId,
     valorVigente,
-    bienCotizacion,
-  } = bien || {};
+    bienCantidad,
+  } = bien;
 
   const handleSubmit = async (formData: FormData) => {
     try {

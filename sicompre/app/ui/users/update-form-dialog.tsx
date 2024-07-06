@@ -2,8 +2,6 @@
 
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
-import { Usuario } from '@lib/definitions';
-import { UserCircleIcon } from '@heroicons/react/20/solid';
 import { CurrencyDollarIcon, PencilIcon } from '@heroicons/react/24/outline';
 import { updateUser } from '@lib/actions/actionsUsers';
 import { MessageUpdate } from '@ui/common/toast-message';

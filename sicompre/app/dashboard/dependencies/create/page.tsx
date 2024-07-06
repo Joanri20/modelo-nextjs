@@ -1,10 +1,9 @@
-import Form from '@ui/sections/create-form';
+import Form from '@ui/dependencies/create-form';
 import Breadcrumbs from '@ui/common/breadcrumbs';
-import { fetchGrupoBien } from '@lib/data';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Creación de Secciones',
+  title: 'Creación de Dependencias',
 };
 
 export default async function Page() {
@@ -12,10 +11,10 @@ export default async function Page() {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Secciones', href: '/dashboard/sections' },
+          { label: 'Dependencias', href: '/dashboard/dependencies' },
           {
             label: 'Crear Sección',
-            href: '/dashboard/sections/create',
+            href: '/dashboard/dependencies/create',
             active: true,
           },
         ]}

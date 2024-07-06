@@ -2,7 +2,6 @@
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Usuario } from '@lib/definitions';
 import { deleteUser, fetchUserById } from '@lib/actions/actionsUsers';
 import UpdateUserDialog from './update-form-dialog';
 import { MessageDelete } from '@ui/common/toast-message';
@@ -23,15 +22,15 @@ export function CreateUsers() {
 
 export function UpdateUser({ id }: { id: string | undefined }) {
   const userWithId = fetchUserById.bind(null, id);
-  const [data, setData] = useState<Usuario | null>(null);
+  const [data, setData] = useState<Usuario | string | null>(null);
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async () => {
     if (id) {
       try {
         const result = await userWithId();
-        if (Array.isArray(result) && result.length > 0) {
-          setData(result[0]);
+        if (result != null) {
+          setData(result);
         } else {
           console.warn('Unexpected data format from providerWithId()');
           setData(null); // Or set to a default value
@@ -47,8 +46,8 @@ export function UpdateUser({ id }: { id: string | undefined }) {
     <form
       action={async (formData: FormData) => {
         const result = await userWithId();
-        if (Array.isArray(result) && result.length > 0) {
-          setData(result[0]);
+        if (result != null) {
+          setData(result);
         } else {
           console.warn('Unexpected data format');
           setData(null);
@@ -56,7 +55,11 @@ export function UpdateUser({ id }: { id: string | undefined }) {
       }}
     >
       {data && open && (
-        <UpdateUserDialog open={open} setOpen={setOpen} usuario={data} />
+        <UpdateUserDialog
+          open={open}
+          setOpen={setOpen}
+          usuario={data as Usuario}
+        />
       )}
       <button
         onClick={handleSubmit}

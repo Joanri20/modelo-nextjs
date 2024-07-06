@@ -1,6 +1,5 @@
 'use client';
-import { Bien } from '@lib/definitions';
-import { DeleteAsset, UpdateAsset, UpdateAssetT } from '@ui/assets/buttons';
+import { DeleteAsset, UpdateAssetT } from '@ui/assets/buttons';
 
 export default async function TableAssets({ assets }: { assets: Bien[] }) {
   return (

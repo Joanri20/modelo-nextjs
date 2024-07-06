@@ -100,12 +100,12 @@ export const createEntity = async (formData: FormData) => {
 export async function fetchEntityById(id: bigint | undefined) {
   let data = null;
   try {
-    data = await prisma.entidad.findMany({
+    data = await prisma.entidad.findUnique({
       where: {
         id: id,
       },
       include: {
-        secciones: true,
+        dependencias: true,
         cicloContratacion: true,
         integrantes: true,
       },
@@ -114,7 +114,7 @@ export async function fetchEntityById(id: bigint | undefined) {
     return getErrorMesssage(e);
   }
 
-  return data;
+  return data as unknown as Entidad;
 }
 
 export async function updateEntity(id: bigint, formData: FormData) {

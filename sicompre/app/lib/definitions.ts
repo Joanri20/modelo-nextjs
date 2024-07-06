@@ -3,129 +3,211 @@
 // For simplicity of teaching, we're manually defining these types.
 // However, these types are generated automatically if you're using an ORM such as Prisma.
 
-export type GrupoBien = {
+enum Enum_TipoDocumento {
+  CC = 'CC',
+  CE = 'CE',
+  TI = 'TI',
+  PASAPORTE = 'PASAPORTE',
+}
+
+enum Enum_EstadoProceso {
+  Abierto = 'Abierto',
+  Cerrado = 'Cerrado',
+  EnProceso = 'EnProceso',
+}
+
+enum Enum_TipoUsuario {
+  Administrador = 'Administrador',
+  Encargado = 'Encargado',
+}
+
+enum Enum_EstadoGeneral {
+  Activo = 'Activo',
+  Deshabilitado = 'Deshabilitado',
+}
+
+enum Enum_EstadoCotizacion {
+  Abierto = 'Abierto',
+  Cerrado = 'Cerrado',
+}
+
+type GrupoBien = {
   id: bigint;
   descripcion: string;
-  createdAt?: Date;
+  createdAt: Date | null;
   updatedAt?: Date | null;
 };
 
-export type Bien = {
+type Bien = {
   id: bigint;
   descripcion: string;
-  grupoBien?: GrupoBien;
+  grupoBien: GrupoBien;
   grupoBienId: bigint;
-  valorVigente: number | null;
-  bienCotizacion?: BienCotizacion[];
-} | null;
+  valorVigente?: number | null;
+  bienCantidad: BienCantidad[];
+  createdAt: Date;
+  updatedAt?: Date;
+};
 
-export type BienCotizacion = {
+type BienCantidad = {
   id: bigint;
   bien: Bien;
   bienId: bigint;
   cantidad: number;
-  cotizacion: Cotizacion;
-  cotizacionId: bigint;
-  valorProveedor: BienProveedor[];
+  planDeCompras?: PlanDeCompras | null;
+  planDeComprasId?: bigint | null;
+  createdAt: Date;
+  updatedAt?: Date | null;
+  BienProveedor: BienProveedor[];
 };
 
-export type Cotizacion = {
+type PlanDeCompras = {
   id: bigint;
-  bienes: BienCotizacion[];
-  fecha: string;
-  estado: 'Abierto' | 'Cerrado' | 'EnProceso';
-  valorTotal: number;
+  bienes: BienCantidad[];
+  fecha: Date;
+  estado: Enum_EstadoProceso;
+  dependencia: Dependencia;
   usuario: Usuario;
+  valorTotal?: number;
+  dependenciaId: bigint;
+  usuarioId: string;
+  cicloContratacion?: CicloContratacion;
+  cicloContratacionId?: bigint;
   createdAt: Date;
   updatedAt: Date;
-  seccionId: BigInt;
-  usuarioId: string;
-  cicloContratacionId: bigint;
 };
 
-export type Proveedor = {
+type BienProveedor = {
+  bien: BienCantidad;
+  proveedor: Proveedor;
+  valor: number;
+  cotizacion: Cotizacion;
+  bienCantidadId: bigint;
+  proveedorId: bigint;
+  createdAt: Date;
+  updatedAt?: Date;
+  cotizacionId: bigint;
+};
+
+type Proveedor = {
   id: bigint;
   nombre: string;
   nit: string;
   direccion: string;
   email: string;
   telefono: string;
+  cotizaciones: CotizacionProveedor[];
   createdAt: Date;
   updatedAt: Date;
-} | null;
-
-export type BienProveedor = {
-  valor: number;
-  bienCotizacionId: bigint;
-  proveedorId: bigint;
+  BienProveedor: BienProveedor[];
 };
 
-export type Entidad = {
+type CotizacionProveedor = {
+  proveedor: Proveedor;
+  cotizacion: Cotizacion;
+  valorTotal: number;
+  proveedorId: bigint;
+  cotizacionId: bigint;
+  createdAt: Date;
+  updatedAt?: Date;
+};
+
+type Cotizacion = {
+  id: bigint;
+  fechaInicio: Date;
+  fechaFinal: Date;
+  usuario: Usuario;
+  entidad: Entidad;
+  estado: Enum_EstadoCotizacion;
+  createdAt: Date;
+  updatedAt: Date;
+  usuarioId: string;
+  entidadId: bigint;
+  BienProveedor: BienProveedor[];
+  CotizacionProveedor: CotizacionProveedor[];
+};
+
+type CicloContratacion = {
+  id: bigint;
+  fechaInicio: Date;
+  fechaFinal: Date;
+  planDeCompras: PlanDeCompras[];
+  usuario: Usuario;
+  estado: Enum_EstadoProceso;
+  entidad: Entidad;
+  createdAt: Date;
+  updatedAt: Date;
+  usuarioId: string;
+  entidadId: bigint;
+};
+
+type Entidad = {
   id: bigint;
   nombre: string;
   nit: string;
-  direccion: string | null;
-  telefono: string | null;
+  direccion?: string;
+  telefono?: string;
   municipio: string;
   departamento: string;
   pais: string;
-  web: string | null;
-  email: string | null;
-  resolucionPosesion: string | null;
-  fechaPosesion: Date | null;
-  estado: 'Activo' | 'Deshabilitado';
+  web?: string;
+  email?: string;
+  resolucionPosesion?: string;
+  fechaPosesion?: Date;
+  estado: Enum_EstadoGeneral;
   saldoDisponible: number;
   createdAt: Date;
   updatedAt: Date;
+  dependencias: Dependencia[];
+  cicloContratacion: CicloContratacion[];
+  integrantes: Usuario[];
+  Cotizacion: Cotizacion[];
 };
 
-export type Seccion = {
+type Dependencia = {
   id: bigint;
   nombre: string;
   nit: string;
-  direccion: string | null;
-  telefono: string | null;
+  direccion?: string;
+  telefono?: string;
   municipio: string;
   departamento: string;
   pais: string;
-  web: string | null;
-  email: string | null;
-  resolucionPosesion: string | null;
-  fechaPosesion: Date | null;
-  estado: 'Activo' | 'Deshabilitado';
+  web?: string;
+  email?: string;
+  resolucionPosesion?: string;
+  fechaPosesion?: Date;
+  estado: Enum_EstadoGeneral;
+  entidadPadre: Entidad;
   saldoDisponible: number;
   createdAt: Date;
   updatedAt: Date;
   entidadId: bigint;
-  usuarioId: string | null;
+  Cotizacion: PlanDeCompras[];
+  Usuario: Usuario;
+  usuarioId: string;
 };
 
-export type Usuario = {
+type Usuario = {
   id: string;
   primerNombre: string;
-  segundoNombre: string | null;
+  segundoNombre?: string;
   primerApellido: string;
-  segundoApellido: string | null;
-  tipoDocumento: string;
+  segundoApellido?: string;
+  tipoDocumento: Enum_TipoDocumento;
   documento: string;
-  telefono: string | null;
+  telefono?: string;
   celular: string;
   email: string;
-  direccion: string | null;
-  estado: 'Activo' | 'Deshabilitado';
-  tipo: 'Encargado' | 'Administrador';
+  direccion?: string;
+  estado: Enum_EstadoGeneral;
+  tipo: Enum_TipoUsuario;
   createdAt: Date;
   updatedAt: Date;
+  entidad: Entidad[];
+  dependencia: Dependencia[];
+  cotizacion: PlanDeCompras[];
+  cicloContratacion: CicloContratacion[];
   password: string;
-};
-
-export type CicloContratacion = {
-  id: bigint;
-  fechaInicio: string;
-  fechaFinal: string;
-  cotizaciones: Cotizacion[];
-  createdAt: string;
-  updatedAt: string;
-  usuarioId: string;
-  entidadId: BigInt;
+  Cotizacion: Cotizacion[];
 };

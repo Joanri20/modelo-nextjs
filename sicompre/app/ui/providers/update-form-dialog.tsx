@@ -3,7 +3,6 @@
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
 import { updateProvider } from '@lib/actions/actionsProviders';
-import { Proveedor } from '@lib/definitions';
 import { MessageUpdate } from '@ui/common/toast-message';
 
 interface UpdateProveedorDialogProps {

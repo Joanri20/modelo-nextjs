@@ -44,8 +44,8 @@ const links = [
     icon: BuildingOfficeIcon,
   },
   {
-    name: 'Secciones',
-    href: '/dashboard/sections',
+    name: 'Dependencias',
+    href: '/dashboard/dependencies',
     icon: BuildingOffice2Icon,
   },
 ];

@@ -1,4 +1,4 @@
-import { fetchBien, fetchBienPages } from '@lib/data';
+import { fetchBien, fetchBienPages } from '@lib/data/data-asset';
 import TableAssets from '@ui/assets/table-assets';
 import { lusitana } from '@ui/fonts';
 import { Suspense } from 'react';

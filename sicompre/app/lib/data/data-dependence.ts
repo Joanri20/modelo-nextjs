@@ -1,8 +1,8 @@
 import prisma from '@lib/db';
 const ITEMS_PER_PAGE = 6;
-export async function fetchSeccion(query: string, currentPage: number) {
+export async function fetchDependencia(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  const data = await prisma.seccion.findMany({
+  const data = await prisma.dependencia.findMany({
     skip: offset,
     take: ITEMS_PER_PAGE,
     where: {
@@ -31,11 +31,11 @@ export async function fetchSeccion(query: string, currentPage: number) {
       nombre: 'asc',
     },
   });
-  return data;
+  return data as unknown as Dependencia[];
 }
 
-export async function fetchSeccionPages(query: string) {
-  const data = await prisma.seccion.count({
+export async function fetchDependenciaPages(query: string) {
+  const data = await prisma.dependencia.count({
     where: {
       nombre: {
         contains: query,

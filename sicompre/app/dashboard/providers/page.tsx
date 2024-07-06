@@ -1,5 +1,4 @@
-import { fetchBienPages, fetchProveedor, fetchProveedorPages } from '@lib/data';
-import TableProviders from 'ui/providers/table-providers';
+import { fetchProveedor, fetchProveedorPages } from '@lib/data';
 import { lusitana } from '@ui/fonts';
 import { Suspense } from 'react';
 import { RevenueChartSkeleton } from '@ui/skeletons';

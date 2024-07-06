@@ -1,5 +1,4 @@
 import prisma from '@lib/db';
-import { Bien } from './definitions';
 
 export async function fetchUsuario(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -71,7 +70,7 @@ export async function fetchUsuarioPages(query: string) {
 }
 
 export async function fetchSeccion() {
-  const data = await prisma.seccion.findMany({
+  const data = await prisma.dependecia.findMany({
     select: {
       id: true,
       nombre: true,
@@ -142,7 +141,7 @@ export async function fetchProveedor(query: string, currentPage: number) {
       cotizaciones: true,
     },
   });
-  return data;
+  return data as unknown as Proveedor[];
 }
 
 export async function fetchProveedorPages(query: string) {
@@ -176,7 +175,7 @@ export async function fetchBienProveedor() {
   const data = await prisma.bienProveedor.findMany({
     select: {
       valor: true,
-      bienCotizacionId: true,
+      bienCantidadId: true,
       proveedorId: true,
     },
   });
@@ -184,7 +183,7 @@ export async function fetchBienProveedor() {
 }
 
 export async function fetchBienCotizacion() {
-  const data = await prisma.bienCotizacion.findMany({
+  const data = await prisma.bienCantidad.findMany({
     select: {
       id: true,
       bienId: true,

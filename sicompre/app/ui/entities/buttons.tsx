@@ -2,8 +2,6 @@
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Entidad, Usuario } from '@lib/definitions';
-import { deleteUser, fetchUserById } from '@lib/actions/actionsUsers';
 import { MessageDelete } from '@ui/common/toast-message';
 import { deleteEntity, fetchEntityById } from '@lib/actions/actionsEntities';
 import UpdateEntityDialog from './update-form-dialog';
@@ -24,15 +22,15 @@ export function CreateEntities() {
 
 export function UpdateEntity({ id }: { id: bigint | undefined }) {
   const entityWithId = fetchEntityById.bind(null, id);
-  const [data, setData] = useState<Entidad | null>(null);
+  const [data, setData] = useState<Entidad | string | null>(null);
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async () => {
     if (id) {
       try {
         const result = await entityWithId();
-        if (Array.isArray(result) && result.length > 0) {
-          setData(result[0]);
+        if (result != null) {
+          setData(result);
         } else {
           console.warn('Unexpected data format from providerWithId()');
           setData(null); // Or set to a default value
@@ -48,8 +46,8 @@ export function UpdateEntity({ id }: { id: bigint | undefined }) {
     <form
       action={async (formData: FormData) => {
         const result = await entityWithId();
-        if (Array.isArray(result) && result.length > 0) {
-          setData(result[0]);
+        if (result != null) {
+          setData(result);
         } else {
           console.warn('Unexpected data format');
           setData(null);
@@ -57,7 +55,11 @@ export function UpdateEntity({ id }: { id: bigint | undefined }) {
       }}
     >
       {data && open && (
-        <UpdateEntityDialog open={open} setOpen={setOpen} entidad={data} />
+        <UpdateEntityDialog
+          open={open}
+          setOpen={setOpen}
+          entidad={data as Entidad}
+        />
       )}
       <button
         onClick={handleSubmit}

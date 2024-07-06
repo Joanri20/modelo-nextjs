@@ -119,7 +119,7 @@ export async function deleteProvider(id: bigint | undefined) {
 export async function fetchProveedorById(id: bigint | undefined) {
   let data = null;
   try {
-    data = await prisma.proveedor.findMany({
+    data = await prisma.proveedor.findFirst({
       where: {
         id: id,
       },
@@ -128,5 +128,5 @@ export async function fetchProveedorById(id: bigint | undefined) {
     return getErrorMesssage(e);
   }
 
-  return data;
+  return data as Proveedor;
 }

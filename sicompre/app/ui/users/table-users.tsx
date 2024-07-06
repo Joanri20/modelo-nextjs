@@ -1,5 +1,4 @@
 'use client';
-import { Bien, Usuario } from '@lib/definitions';
 import { DeleteAsset, UpdateAsset, UpdateAssetT } from '@ui/assets/buttons';
 import { DeleteUser, UpdateUser } from './buttons';
 

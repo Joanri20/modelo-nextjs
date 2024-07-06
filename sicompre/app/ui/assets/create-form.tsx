@@ -1,5 +1,4 @@
 'use client';
-import { GrupoBien } from '@lib/definitions';
 import Link from 'next/link';
 import {
   UserCircleIcon,

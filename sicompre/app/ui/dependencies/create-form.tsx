@@ -1,5 +1,4 @@
 'use client';
-import { GrupoBien } from '@lib/definitions';
 import Link from 'next/link';
 import {
   UserCircleIcon,
@@ -7,7 +6,6 @@ import {
   CurrencyDollarIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@ui/button';
-import { createSection } from '@lib/actions/actionsSections';
 import { useState } from 'react';
 import MessageCreate from '@ui/common/toast-message';
 import {
@@ -16,6 +14,7 @@ import {
   Enum_TipoUsuario,
 } from '@prisma/client';
 import { convertEnumToArray } from '@lib/conversEnums';
+import { createDependence } from '@lib/actions/actionsDependencies';
 
 export default function Form() {
   const [error, setError] = useState('');
@@ -23,7 +22,7 @@ export default function Form() {
   return (
     <form
       action={async (formData: FormData) => {
-        const result = await createSection(formData);
+        const result = await createDependence(formData);
         const err = MessageCreate({ result });
         if (err) {
           setError(err);
@@ -34,7 +33,7 @@ export default function Form() {
         <div className="mb-4 flex gap-5">
           <div className="mb-4 w-full md:w-5/12">
             <label htmlFor="nombre" className="mb-2 block text-sm font-medium">
-              Nombre seccion/organización*
+              Nombre dependencia/organización*
             </label>
             <div className="relative">
               <input
@@ -211,7 +210,7 @@ export default function Form() {
         <div className="mt-4 flex flex-wrap gap-5">
           <div className="mb-4">
             <label htmlFor="estado" className="mb-2 block text-sm font-medium">
-              Estado de Seccion *
+              Estado de Dependencia *
             </label>
             <div className="relative">
               <select id="estado" name="estado" required className="input-app">
@@ -260,7 +259,7 @@ export default function Form() {
           </div>
           <div className="w-full md:w-1/2">
             <label htmlFor="estado" className="mb-2 block text-sm font-medium">
-              Estado de Seccion *
+              Estado de Dependencia *
             </label>
             <div className="relative">
               <select
@@ -284,7 +283,7 @@ export default function Form() {
         </div>
         <div className="mt-6 flex justify-end gap-4">
           <Link
-            href="/dashboard/sections"
+            href="/dashboard/dependencies"
             className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
           >
             Cancelar

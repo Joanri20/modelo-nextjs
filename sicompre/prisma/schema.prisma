@@ -45,20 +45,20 @@ enum Enum_EstadoCotizacion {
 model GrupoBien {
   id          BigInt    @id @default(autoincrement())
   descripcion String
-  bien        Bien[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
+  Bien        Bien[]
 }
 
 model Bien {
-  id             BigInt         @id @default(autoincrement())
-  descripcion    String
-  grupoBien      GrupoBien      @relation(fields: [grupoBienId], references: [id])
-  grupoBienId    BigInt
-  valorVigente   Float?         @default(0)
-  bienCotizacion BienCantidad[]
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime?      @updatedAt
+  id           BigInt         @id @default(autoincrement())
+  descripcion  String
+  grupoBien    GrupoBien      @relation(fields: [grupoBienId], references: [id])
+  grupoBienId  BigInt
+  valorVigente Float?         @default(0)
+  bienCantidad BienCantidad[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime?      @updatedAt
 }
 
 model BienCantidad {
@@ -80,10 +80,10 @@ model PlanDeCompras {
   bienes              BienCantidad[]
   fecha               DateTime           @default(now())
   estado              Enum_EstadoProceso @default(Abierto)
-  seccion             Dependecia         @relation(fields: [seccionId], references: [id])
+  dependencia         Dependencia        @relation(fields: [dependenciaId], references: [id])
   usuario             Usuario            @relation(fields: [usuarioId], references: [id])
   valorTotal          Float?             @default(0)
-  seccionId           BigInt
+  dependenciaId       BigInt
   usuarioId           String
   cicloContratacion   CicloContratacion? @relation(fields: [cicloContratacionId], references: [id])
   cicloContratacionId BigInt?
@@ -180,13 +180,13 @@ model Entidad {
   saldoDisponible    Float               @default(0)
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
-  secciones          Dependecia[]
+  dependencias       Dependencia[]
   cicloContratacion  CicloContratacion[]
   integrantes        Usuario[]
   Cotizacion         Cotizacion[]
 }
 
-model Dependecia {
+model Dependencia {
   id                 BigInt             @id @default(autoincrement())
   nombre             String
   nit                String
@@ -208,6 +208,8 @@ model Dependecia {
   Cotizacion         PlanDeCompras[]
   Usuario            Usuario?           @relation(fields: [usuarioId], references: [id])
   usuarioId          String?
+
+  @@map("Dependecia")
 }
 
 model Usuario {
@@ -227,7 +229,7 @@ model Usuario {
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
   entidad           Entidad[]
-  seccion           Dependecia[]
+  dependencia       Dependencia[]
   cotizacion        PlanDeCompras[]
   cicloContratacion CicloContratacion[]
   password          String              @default("1234")

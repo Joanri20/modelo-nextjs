@@ -8,7 +8,6 @@ import {
 import Link from 'next/link';
 import { useState } from 'react';
 import { useFormStatus } from 'react-dom';
-import { Bien, GrupoBien } from '@lib/definitions';
 import UpdateAssetDialog from './update-form-dialog';
 import { MessageDelete } from '@ui/common/toast-message';
 
@@ -40,7 +39,7 @@ export function UpdateAsset({ id }: { id: string }) {
 export function UpdateAssetT({ id }: { id: bigint | undefined }) {
   const assestWithId = fetchAssestById.bind(null, id);
   const groupBien = fetchGrupoBien;
-  const [data, setData] = useState<Bien | null>(null);
+  const [data, setData] = useState<string | Bien>();
   const [datagroup, setDataGroup] = useState<GrupoBien[] | null>(null);
   const [open, setOpen] = useState(false);
 
@@ -49,12 +48,11 @@ export function UpdateAssetT({ id }: { id: bigint | undefined }) {
       try {
         const result = await assestWithId();
         const grupo = await groupBien();
-        if (Array.isArray(result) && result.length > 0) {
-          setData(result[0]); // Set the first element (assuming single provider)
+        if (result != null) {
+          setData(result); // Set the first element (assuming single provider)
         } else {
           // Handle the case where result is not an array or empty
           console.warn('Unexpected data format from providerWithId()');
-          setData(null); // Or set to a default value
         }
         setDataGroup(grupo);
         setOpen(true);
@@ -68,12 +66,11 @@ export function UpdateAssetT({ id }: { id: bigint | undefined }) {
     <form
       action={async (formData: FormData) => {
         const result = await assestWithId();
-        if (Array.isArray(result) && result.length > 0) {
-          setData(result[0]); // Set the first element (assuming single provider)
+        if (result != null) {
+          setData(result); // Set the first element (assuming single provider)
         } else {
           // Handle the case where result is not an array or empty
           console.warn('Unexpected data format from providerWithId()');
-          setData(null); // Or set to a default value
         }
       }}
     >
@@ -81,7 +78,7 @@ export function UpdateAssetT({ id }: { id: bigint | undefined }) {
         <UpdateAssetDialog
           open={open}
           setOpen={setOpen}
-          bien={data}
+          bien={data as Bien}
           groupBien={datagroup ?? []}
         />
       )}

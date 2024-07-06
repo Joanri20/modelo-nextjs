@@ -1,11 +1,5 @@
 'use client';
-import { GrupoBien } from '@lib/definitions';
 import Link from 'next/link';
-import {
-  UserCircleIcon,
-  PencilIcon,
-  CurrencyDollarIcon,
-} from '@heroicons/react/24/outline';
 import { Button } from '@ui/button';
 import { createAsset } from '@lib/actions/actionsAssets';
 import { useState } from 'react';

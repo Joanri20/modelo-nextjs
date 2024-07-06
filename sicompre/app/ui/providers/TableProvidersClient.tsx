@@ -1,7 +1,6 @@
 // components/TableProvidersClient.tsx
 'use client';
 
-import { Proveedor } from '@lib/definitions';
 import { DeleteProvider, UpdateProviderT } from '@ui/providers/buttons';
 
 export default function TableProvidersClient({
@@ -46,8 +45,8 @@ export default function TableProvidersClient({
               <td className="px-6 py-4">{provider?.email}</td>
               <td className="px-6 py-4">{provider?.telefono}</td>
               <td className="flex w-full gap-3 px-6 py-4">
-                <UpdateProviderT id={provider?.id.toString()} />
-                <DeleteProvider id={provider?.id.toString()} />
+                <UpdateProviderT id={provider?.id} />
+                <DeleteProvider id={provider?.id} />
               </td>
             </tr>
           ))}

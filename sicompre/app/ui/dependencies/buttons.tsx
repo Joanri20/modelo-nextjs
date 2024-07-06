@@ -2,17 +2,19 @@
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Seccion, Usuario } from '@lib/definitions';
 import { deleteUser, fetchUserById } from '@lib/actions/actionsUsers';
 import { MessageDelete } from '@ui/common/toast-message';
-import { deleteSection, fetchSectionById } from '@lib/actions/actionsSections';
-import UpdateSectionDialog from './update-form-dialog';
+import UpdateDependenceDialog from './update-form-dialog';
+import {
+  deleteDependence,
+  fetchDependenceById,
+} from '@lib/actions/actionsDependencies';
 
-export function CreateSections() {
+export function CreateDependencies() {
   const [buttonText, setButtonText] = useState('Crear');
   return (
     <Link
-      href="/dashboard/sections/create"
+      href="/dashboard/dependencies/create"
       className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
       onClick={() => setButtonText('Cargando...')}
     >
@@ -22,17 +24,17 @@ export function CreateSections() {
   );
 }
 
-export function UpdateSection({ id }: { id: bigint | undefined }) {
-  const entityWithId = fetchSectionById.bind(null, id);
-  const [data, setData] = useState<Seccion | null>(null);
+export function UpdateDependence({ id }: { id: bigint | undefined }) {
+  const entityWithId = fetchDependenceById.bind(null, id);
+  const [data, setData] = useState<Dependencia | string | null>(null);
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async () => {
     if (id) {
       try {
         const result = await entityWithId();
-        if (Array.isArray(result) && result.length > 0) {
-          setData(result[0]);
+        if (result != null) {
+          setData(result);
         } else {
           console.warn('Unexpected data format from providerWithId()');
           setData(null); // Or set to a default value
@@ -48,8 +50,8 @@ export function UpdateSection({ id }: { id: bigint | undefined }) {
     <form
       action={async (formData: FormData) => {
         const result = await entityWithId();
-        if (Array.isArray(result) && result.length > 0) {
-          setData(result[0]);
+        if (result != null) {
+          setData(result);
         } else {
           console.warn('Unexpected data format');
           setData(null);
@@ -57,7 +59,11 @@ export function UpdateSection({ id }: { id: bigint | undefined }) {
       }}
     >
       {data && open && (
-        <UpdateSectionDialog open={open} setOpen={setOpen} seccion={data} />
+        <UpdateDependenceDialog
+          open={open}
+          setOpen={setOpen}
+          dependencia={data as Dependencia}
+        />
       )}
       <button
         onClick={handleSubmit}
@@ -70,13 +76,13 @@ export function UpdateSection({ id }: { id: bigint | undefined }) {
   );
 }
 
-export function DeleteSection({ id }: { id: bigint }) {
-  const deleteSectionWithId = deleteSection.bind(null, id);
+export function DeleteDependence({ id }: { id: bigint }) {
+  const deleteDependenceWithId = deleteDependence.bind(null, id);
 
   return (
     <form
       action={async (formData: FormData) => {
-        const result = await deleteSectionWithId();
+        const result = await deleteDependenceWithId();
         MessageDelete({ result });
       }}
     >

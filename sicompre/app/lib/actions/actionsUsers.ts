@@ -34,7 +34,7 @@ const CreateUserFormSchema = CreateUserSchema.omit({
 export async function fetchUserById(id: string | undefined) {
   let data = null;
   try {
-    data = await prisma.usuario.findMany({
+    data = await prisma.usuario.findUnique({
       where: {
         id: id,
       },
@@ -43,7 +43,7 @@ export async function fetchUserById(id: string | undefined) {
     return getErrorMesssage(e);
   }
 
-  return data;
+  return data as Usuario;
 }
 
 export async function updateUser(id: string, formData: FormData) {

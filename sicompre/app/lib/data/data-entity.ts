@@ -31,7 +31,7 @@ export async function fetchEntidad(query: string, currentPage: number) {
       nombre: 'asc',
     },
   });
-  return data;
+  return data as unknown as Entidad[];
 }
 
 export async function fetchEntidadPages(query: string) {

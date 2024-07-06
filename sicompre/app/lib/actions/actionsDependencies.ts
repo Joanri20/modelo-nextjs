@@ -11,7 +11,7 @@ import {
 } from '@prisma/client';
 import { getErrorMesssage } from './actionsCommon';
 
-const CreateSectionSchema = z.object({
+const CreateDependenceSchema = z.object({
   id: z.string(),
   nombre: z.string(),
   nit: z.string(),
@@ -31,13 +31,13 @@ const CreateSectionSchema = z.object({
   updatedAt: z.string().optional(),
 });
 
-const CreateSectionFormSchema = CreateSectionSchema.omit({
+const CreateDependenceFormSchema = CreateDependenceSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
 });
 
-export async function createSection(formData: FormData) {
+export async function createDependence(formData: FormData) {
   try {
     const {
       nombre,
@@ -54,7 +54,7 @@ export async function createSection(formData: FormData) {
       estado,
       saldoDisponible,
       entidadId,
-    } = CreateSectionFormSchema.parse({
+    } = CreateDependenceFormSchema.parse({
       nombre: formData.get('nombre'),
       nit: formData.get('nit'),
       direccion: formData.get('direccion'),
@@ -73,7 +73,7 @@ export async function createSection(formData: FormData) {
 
     const saldoDisponibleNumber = parseFloat(saldoDisponible);
 
-    const newSection = await prisma.seccion.create({
+    const newDependence = await prisma.dependencia.create({
       data: {
         nombre: nombre,
         nit: nit,
@@ -99,10 +99,10 @@ export async function createSection(formData: FormData) {
   redirect('/dashboard/sections');
 }
 
-export async function fetchSectionById(id: bigint | undefined) {
+export async function fetchDependenceById(id: bigint | undefined) {
   let data = null;
   try {
-    data = await prisma.seccion.findMany({
+    data = await prisma.dependencia.findUnique({
       where: {
         id: id,
       },
@@ -111,10 +111,10 @@ export async function fetchSectionById(id: bigint | undefined) {
     return getErrorMesssage(e);
   }
 
-  return data;
+  return data as Dependencia;
 }
 
-export async function updateSection(id: bigint, formData: FormData) {
+export async function updateDependence(id: bigint, formData: FormData) {
   try {
     const {
       nombre,
@@ -131,7 +131,7 @@ export async function updateSection(id: bigint, formData: FormData) {
       estado,
       saldoDisponible,
       entidadId,
-    } = CreateSectionFormSchema.parse({
+    } = CreateDependenceFormSchema.parse({
       nombre: formData.get('nombre'),
       nit: formData.get('nit'),
       direccion: formData.get('direccion'),
@@ -150,7 +150,7 @@ export async function updateSection(id: bigint, formData: FormData) {
 
     const saldoDisponibleNumber = parseFloat(saldoDisponible);
 
-    const newSection = await prisma.seccion.update({
+    const newDependence = await prisma.dependencia.update({
       where: {
         id: id,
       },
@@ -179,9 +179,9 @@ export async function updateSection(id: bigint, formData: FormData) {
   redirect('/dashboard/sections');
 }
 
-export async function deleteSection(id: bigint | undefined) {
+export async function deleteDependence(id: bigint | undefined) {
   try {
-    await prisma.seccion.delete({
+    await prisma.dependencia.delete({
       where: {
         id: id,
       },

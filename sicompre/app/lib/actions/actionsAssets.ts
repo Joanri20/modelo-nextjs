@@ -6,7 +6,6 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { signIn } from '../../../auth';
 import { AuthError } from 'next-auth';
-import { GrupoBien } from '@lib/definitions';
 import { getErrorMesssage } from './actionsCommon';
 
 const CreateAssetSchema = z.object({
@@ -140,7 +139,7 @@ export async function authenticate(
 export async function fetchAssestById(id: bigint | undefined) {
   let data = null;
   try {
-    data = await prisma.bien.findMany({
+    data = await prisma.bien.findUnique({
       where: {
         id: id,
       },
@@ -151,8 +150,9 @@ export async function fetchAssestById(id: bigint | undefined) {
   } catch (e) {
     return getErrorMesssage(e);
   }
+  console.log('cosulta: ', data);
 
-  return data;
+  return data as Bien;
 }
 
 export async function fetchGrupoBien(): Promise<GrupoBien[]> {

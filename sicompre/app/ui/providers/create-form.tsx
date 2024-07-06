@@ -1,5 +1,4 @@
 'use client';
-import { GrupoBien, Proveedor } from '@lib/definitions';
 import Link from 'next/link';
 import {
   UserCircleIcon,
@@ -10,8 +9,8 @@ import { Button } from '@ui/button';
 import { createProvider } from '@lib/actions/actionsProviders';
 import CreateGrupoBienDialog from './update-form-dialog';
 import { useState } from 'react';
-import MessageCreate from './toast-message';
 import { fetchProveedor, fetchProveedorById } from '@lib/data';
+import MessageCreate from '@ui/common/toast-message';
 
 export default function Form() {
   const [error, setError] = useState('');

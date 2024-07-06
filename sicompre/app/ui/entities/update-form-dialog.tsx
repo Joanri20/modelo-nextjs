@@ -2,10 +2,6 @@
 
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
-import { Bien, Entidad, GrupoBien } from '@lib/definitions';
-import { updateAsset } from '@lib/actions/actionsAssets';
-import { UserCircleIcon } from '@heroicons/react/20/solid';
-import { CurrencyDollarIcon, PencilIcon } from '@heroicons/react/24/outline';
 import { MessageUpdate } from '@ui/common/toast-message';
 import { convertEnumToArray } from '@lib/conversEnums';
 import { Enum_EstadoGeneral } from '@prisma/client';

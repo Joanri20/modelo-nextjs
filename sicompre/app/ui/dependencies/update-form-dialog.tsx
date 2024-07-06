@@ -2,31 +2,27 @@
 
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
-import { Bien, Seccion, GrupoBien } from '@lib/definitions';
-import { updateAsset } from '@lib/actions/actionsAssets';
-import { UserCircleIcon } from '@heroicons/react/20/solid';
-import { CurrencyDollarIcon, PencilIcon } from '@heroicons/react/24/outline';
 import { MessageUpdate } from '@ui/common/toast-message';
 import { convertEnumToArray } from '@lib/conversEnums';
 import { Enum_EstadoGeneral } from '@prisma/client';
-import { updateSection } from '@lib/actions/actionsSections';
+import { updateDependence } from '@lib/actions/actionsDependencies';
 
-interface UpdateSectionsDialogProps {
+interface UpdateDependenciesDialogProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  seccion: Seccion;
+  dependencia: Dependencia;
 }
 
-export default function UpdateSectionDialog({
+export default function UpdateDependenceDialog({
   open,
   setOpen,
-  seccion,
-}: UpdateSectionsDialogProps) {
+  dependencia,
+}: UpdateDependenciesDialogProps) {
   const [error, setError] = useState('');
 
   const handleSubmit = async (formData: FormData) => {
     try {
-      const result = await updateSection(seccion.id, formData);
+      const result = await updateDependence(dependencia.id, formData);
       const err = MessageUpdate({ result });
       if (err) {
         setError(err);
@@ -58,7 +54,7 @@ export default function UpdateSectionDialog({
                   htmlFor="nombre"
                   className="mb-2 block text-sm font-medium"
                 >
-                  Nombre seccion/organización*
+                  Nombre dependencia/organización*
                 </label>
                 <div className="relative">
                   <input
@@ -67,7 +63,7 @@ export default function UpdateSectionDialog({
                     required
                     placeholder="Ingrese el nombre"
                     className="input-app"
-                    defaultValue={seccion.nombre}
+                    defaultValue={dependencia.nombre}
                   />
                 </div>
               </div>
@@ -82,7 +78,7 @@ export default function UpdateSectionDialog({
                     required
                     placeholder="Ingrese el NIT"
                     className="input-app"
-                    defaultValue={seccion.nit}
+                    defaultValue={dependencia.nit}
                   />
                 </div>
               </div>
@@ -100,7 +96,7 @@ export default function UpdateSectionDialog({
                     required
                     placeholder="Ingrese el teléfono"
                     className="input-app"
-                    defaultValue={seccion.telefono ?? ''}
+                    defaultValue={dependencia.telefono ?? ''}
                   />
                 </div>
               </div>
@@ -120,7 +116,7 @@ export default function UpdateSectionDialog({
                     required
                     placeholder="Ingrese la dirección"
                     className="input-app"
-                    defaultValue={seccion.direccion ?? ''}
+                    defaultValue={dependencia.direccion ?? ''}
                   />
                 </div>
               </div>
@@ -138,7 +134,7 @@ export default function UpdateSectionDialog({
                     required
                     placeholder="Ingrese el municipio"
                     className="input-app"
-                    defaultValue={seccion.municipio}
+                    defaultValue={dependencia.municipio}
                   />
                 </div>
               </div>
@@ -158,7 +154,7 @@ export default function UpdateSectionDialog({
                     required
                     placeholder="Ingrese el departamento"
                     className="input-app"
-                    defaultValue={seccion.departamento}
+                    defaultValue={dependencia.departamento}
                   />
                 </div>
               </div>
@@ -176,7 +172,7 @@ export default function UpdateSectionDialog({
                     required
                     placeholder="Ingrese el país"
                     className="input-app"
-                    defaultValue={seccion.pais}
+                    defaultValue={dependencia.pais}
                   />
                 </div>
               </div>
@@ -193,7 +189,7 @@ export default function UpdateSectionDialog({
                     name="web"
                     placeholder="Ingrese el sitio web"
                     className="input-app"
-                    defaultValue={seccion.web ?? ''}
+                    defaultValue={dependencia.web ?? ''}
                   />
                 </div>
               </div>
@@ -211,7 +207,7 @@ export default function UpdateSectionDialog({
                     required
                     placeholder="Ingrese el email"
                     className="input-app"
-                    defaultValue={seccion.email ?? ''}
+                    defaultValue={dependencia.email ?? ''}
                   />
                 </div>
               </div>
@@ -230,7 +226,7 @@ export default function UpdateSectionDialog({
                     name="resolucionPosesion"
                     placeholder="Ingrese la resolución de posesión"
                     className="input-app"
-                    defaultValue={seccion.resolucionPosesion ?? ''}
+                    defaultValue={dependencia.resolucionPosesion ?? ''}
                   />
                 </div>
               </div>
@@ -248,8 +244,8 @@ export default function UpdateSectionDialog({
                     placeholder="Ingrese la fecha de posesión"
                     className="input-app"
                     defaultValue={
-                      seccion.fechaPosesion
-                        ? seccion.fechaPosesion.toISOString()
+                      dependencia.fechaPosesion
+                        ? dependencia.fechaPosesion.toISOString()
                         : 'No disponible'
                     }
                   />
@@ -270,7 +266,7 @@ export default function UpdateSectionDialog({
                     name="saldoDisponible"
                     placeholder="Ingrese el saldo disponible"
                     className="input-app"
-                    defaultValue={seccion.saldoDisponible}
+                    defaultValue={dependencia.saldoDisponible}
                   />
                 </div>
               </div>
@@ -287,7 +283,7 @@ export default function UpdateSectionDialog({
                     name="entidadId"
                     placeholder="Ingrese el ID de la entidad padre"
                     className="input-app"
-                    defaultValue={seccion.entidadId.toString()}
+                    defaultValue={dependencia.entidadId.toString()}
                   />
                 </div>
               </div>
@@ -296,7 +292,7 @@ export default function UpdateSectionDialog({
                   htmlFor="estado"
                   className="mb-2 block text-sm font-medium"
                 >
-                  Estado de Seccion *
+                  Estado de Dependencia *
                 </label>
                 <div className="relative">
                   <select
@@ -304,7 +300,7 @@ export default function UpdateSectionDialog({
                     name="estado"
                     required
                     className="input-app"
-                    defaultValue={seccion.estado}
+                    defaultValue={dependencia.estado}
                   >
                     <option value="" disabled>
                       Selecciona un estado

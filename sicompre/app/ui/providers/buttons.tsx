@@ -6,7 +6,6 @@ import {
 } from '@lib/actions/actionsProviders';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Proveedor } from '@lib/definitions';
 import UpdateProveedorDialog from './update-form-dialog';
 import { MessageDelete } from '@ui/common/toast-message';
 
@@ -38,15 +37,17 @@ export function UpdateProvider({ id }: { id: string }) {
 
 export function UpdateProviderT({ id }: { id: bigint | undefined }) {
   const providerWithId = fetchProveedorById.bind(null, id);
-  const [proveedorData, setProveedorData] = useState<Proveedor | null>(null);
+  const [proveedorData, setProveedorData] = useState<Proveedor | string | null>(
+    null,
+  );
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async () => {
     if (id) {
       try {
         const result = await providerWithId();
-        if (Array.isArray(result) && result.length > 0) {
-          setProveedorData(result[0]); // Set the first element (assuming single provider)
+        if (result != null) {
+          setProveedorData(result); // Set the first element (assuming single provider)
         } else {
           // Handle the case where result is not an array or empty
           console.warn('Unexpected data format from providerWithId()');
@@ -63,21 +64,19 @@ export function UpdateProviderT({ id }: { id: bigint | undefined }) {
     <form
       action={async (formData: FormData) => {
         const result = await providerWithId();
-        if (Array.isArray(result) && result.length > 0) {
-          setProveedorData(result[0]); // Set the first element (assuming single provider)
+        if (result != null) {
+          setProveedorData(result); // Set the first element (assuming single provider)
         } else {
-          // Handle the case where result is not an array or empty
           console.warn('Unexpected data format from providerWithId()');
           setProveedorData(null); // Or set to a default value
         }
-        console.log(result);
       }}
     >
       {proveedorData && open && (
         <UpdateProveedorDialog
           open={open}
           setOpen={setOpen}
-          proveedor={proveedorData}
+          proveedor={proveedorData as Proveedor}
         />
       )}
       <button
