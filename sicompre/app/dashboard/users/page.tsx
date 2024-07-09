@@ -1,11 +1,9 @@
-import { fetchBien, fetchUsuario, fetchUsuarioPages } from '@lib/data';
-import TableAssets from '@ui/assets/table-assets';
+import { fetchUsuario, fetchUsuarioPages } from '@lib/data';
 import { lusitana } from '@ui/fonts';
 import { Suspense } from 'react';
 import { RevenueChartSkeleton } from '@ui/skeletons';
 import Search from '@ui/search';
 import Pagination from '@ui/assets/pagination';
-import { CreateAsset } from '@ui/assets/buttons';
 import { Metadata } from 'next';
 import { CreateUsers } from '@ui/users/buttons';
 import TableUsers from '@ui/users/table-users';

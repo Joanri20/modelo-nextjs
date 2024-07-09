@@ -50,7 +50,7 @@ export async function fetchUsuario(query: string, currentPage: number) {
       primerNombre: 'asc',
     },
   });
-  return data;
+  return data as Usuario[];
 }
 
 export async function fetchUsuarioPages(query: string) {
@@ -67,32 +67,6 @@ export async function fetchUsuarioPages(query: string) {
   });
   const totalPages = Math.ceil(data / ITEMS_PER_PAGE);
   return totalPages;
-}
-
-export async function fetchSeccion() {
-  const data = await prisma.dependecia.findMany({
-    select: {
-      id: true,
-      nombre: true,
-      nit: true,
-      direccion: true,
-      telefono: true,
-      municipio: true,
-      departamento: true,
-      pais: true,
-      web: true,
-      email: true,
-      resolucionPosesion: true,
-      fechaPosesion: true,
-      estado: true,
-      saldoDisponible: true,
-      createdAt: true,
-      updatedAt: true,
-      entidadId: true,
-      usuarioId: true,
-    },
-  });
-  return data;
 }
 
 export async function fetchGrupoBien() {
@@ -207,32 +181,6 @@ export async function fetchBienById(id: bigint) {
 }
 
 const ITEMS_PER_PAGE = 6;
-export async function fetchBien(
-  query: string,
-  currentPage: number,
-): Promise<Bien[]> {
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  const data = await prisma.bien.findMany({
-    skip: offset,
-    take: ITEMS_PER_PAGE,
-    where: {
-      descripcion: {
-        contains: query,
-        mode: 'insensitive',
-      },
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    include: {
-      grupoBien: true,
-    },
-  });
-  return data.map((asset) => ({
-    ...asset,
-    id: BigInt(asset.id),
-  }));
-}
 
 export async function fetchBienPages(query: string) {
   const data = await prisma.bien.count({
@@ -278,14 +226,10 @@ export async function fetchCotizacion() {
   const data = await prisma.cotizacion.findMany({
     select: {
       id: true,
-      fecha: true,
       estado: true,
-      valorTotal: true,
       createdAt: true,
       updatedAt: true,
-      seccionId: true,
       usuarioId: true,
-      cicloContratacionId: true,
     },
   });
   return data;

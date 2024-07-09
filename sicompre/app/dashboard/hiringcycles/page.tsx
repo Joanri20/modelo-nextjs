@@ -1,17 +1,18 @@
-import { Card } from '@ui/dashboard/cards';
-import RevenueChart from '@ui/dashboard/revenue-chart';
-import TableAssets from '@ui/assets/table-assets';
 import { lusitana } from '@ui/fonts';
 import { Suspense } from 'react';
-import { RevenueChartSkeleton } from '../ui/skeletons';
-import Search from '../ui/search';
-import { CreateAsset } from '@ui/assets/buttons';
-import Pagination from '../ui/invoices/pagination';
+import { RevenueChartSkeleton } from '@ui/skeletons';
+import Search from '@ui/search';
+import Pagination from '@ui/assets/pagination';
 import { Metadata } from 'next';
-import { fetchBien, fetchBienPages } from '@lib/data/data-asset';
+import {
+  fetchCicloDeContratatacion,
+  fetchCicloDeContratatacionPages,
+} from '@lib/data/data-hiringcycles';
+import { CreateHiringCycles } from '@ui/hiringcycles/buttons';
+import TableHiringCycles from '@ui/hiringcycles/table-hiringcycles';
 
 export const metadata: Metadata = {
-  title: 'Tablero Principal',
+  title: 'CiclosDeContratatacion',
 };
 
 export default async function Page({
@@ -25,20 +26,21 @@ export default async function Page({
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
 
-  const totalPages = await fetchBienPages(query);
-  const assets = await fetchBien(query, currentPage);
+  const totalPages = await fetchCicloDeContratatacionPages(query);
+  const HiringCycles = await fetchCicloDeContratatacion(query, currentPage);
+
   return (
     <main>
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Bienes y Servicios
+        Ciclos De Contratatacion
       </h1>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Buscar bien o servicio" />
-        <CreateAsset />
+        <Search placeholder="Buscar Ciclo de contratacion" />
+        <CreateHiringCycles />
       </div>
-      <div>
+      <div className="p-6">
         <Suspense key={query + currentPage} fallback={<RevenueChartSkeleton />}>
-          <TableAssets assets={assets} />
+          <TableHiringCycles hiringcycles={HiringCycles} />
         </Suspense>
         <div className="mt-5 flex w-full justify-center">
           <Pagination totalPages={totalPages} />
