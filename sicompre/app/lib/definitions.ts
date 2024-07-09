@@ -139,6 +139,8 @@ type CicloContratacion = {
   updatedAt: Date;
   usuarioId: string;
   entidadId: bigint;
+  cotizacion?: Cotizacion;
+  cotizacionId?: bigint;
 };
 
 type Entidad = {
