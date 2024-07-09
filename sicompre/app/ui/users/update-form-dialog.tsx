@@ -68,6 +68,22 @@ export default function UpdateUserDialog({
                 />
                 <PencilIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
               </div>
+              <label
+                htmlFor="password"
+                className="mb-2 block text-sm font-medium"
+              >
+                Password *
+              </label>
+              <div className="relative">
+                <input
+                  id="password"
+                  name="password"
+                  defaultValue={usuario.password}
+                  required
+                  className="input-app"
+                />
+                <PencilIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              </div>
             </div>
             <div className="mb-4 flex gap-5">
               <div className="w-full">

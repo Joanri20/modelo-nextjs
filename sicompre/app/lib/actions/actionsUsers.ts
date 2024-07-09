@@ -10,6 +10,7 @@ import {
   Enum_TipoUsuario,
 } from '@prisma/client';
 import { getErrorMesssage } from './actionsCommon';
+import bcrypt from 'bcrypt';
 
 const CreateUserSchema = z.object({
   id: z.string(),
@@ -25,11 +26,80 @@ const CreateUserSchema = z.object({
   direccion: z.string(),
   estado: z.string(),
   tipo: z.string(),
+  password: z.string(),
 });
 
 const CreateUserFormSchema = CreateUserSchema.omit({
   id: true,
 });
+
+export const createUser = async (formData: FormData) => {
+  try {
+    const {
+      id,
+      primerNombre,
+      segundoNombre,
+      primerApellido,
+      segundoApellido,
+      tipoDocumento,
+      documento,
+      telefono,
+      celular,
+      email,
+      direccion,
+      estado,
+      tipo,
+      password,
+    } = CreateUserSchema.parse({
+      id: formData.get('id'),
+      primerNombre: formData.get('primerNombre'),
+      segundoNombre: formData.get('segundoNombre'),
+      primerApellido: formData.get('primerApellido'),
+      segundoApellido: formData.get('segundoApellido'),
+      tipoDocumento: formData.get('tipoDocumento'),
+      documento: formData.get('documento'),
+      telefono: formData.get('telefono'),
+      celular: formData.get('celular'),
+      email: formData.get('email'),
+      direccion: formData.get('direccion'),
+      estado: formData.get('estado'),
+      tipo: formData.get('tipo'),
+      password: formData.get('password'),
+    });
+
+    // Convertir los valores de formData a enums
+    const tipoDocumentoEnum = tipoDocumento as Enum_TipoDocumento;
+    const estadoEnum = estado as Enum_EstadoGeneral;
+    const tipoEnum = tipo as Enum_TipoUsuario;
+
+    // Encriptar la contraseña
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await prisma.usuario.create({
+      data: {
+        id,
+        primerNombre,
+        segundoNombre,
+        primerApellido,
+        segundoApellido,
+        tipoDocumento: tipoDocumentoEnum,
+        documento,
+        telefono,
+        celular,
+        email,
+        direccion,
+        estado: estadoEnum,
+        tipo: tipoEnum,
+        password: hashedPassword,
+      },
+    });
+
+    revalidatePath('/dashboard/users');
+    redirect('/dashboard/users');
+  } catch (e) {
+    return getErrorMesssage(e);
+  }
+};
 
 export async function fetchUserById(id: string | undefined) {
   let data = null;
@@ -61,6 +131,7 @@ export async function updateUser(id: string, formData: FormData) {
       direccion,
       estado,
       tipo,
+      password,
     } = CreateUserFormSchema.parse({
       primerNombre: formData.get('primerNombre'),
       segundoNombre: formData.get('segundoNombre'),
@@ -74,12 +145,15 @@ export async function updateUser(id: string, formData: FormData) {
       direccion: formData.get('direccion'),
       estado: formData.get('estado'),
       tipo: formData.get('tipo'),
+      password: formData.get('password'),
     });
 
     // Convertir los valores de formData a enums
     const tipoDocumentoEnum = tipoDocumento as Enum_TipoDocumento;
     const estadoEnum = estado as Enum_EstadoGeneral;
     const tipoEnum = tipo as Enum_TipoUsuario;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await prisma.usuario.update({
       where: {
@@ -98,6 +172,7 @@ export async function updateUser(id: string, formData: FormData) {
         direccion: direccion,
         estado: estadoEnum,
         tipo: tipoEnum,
+        password: hashedPassword,
       },
     });
   } catch (e) {

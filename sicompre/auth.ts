@@ -2,7 +2,6 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
 import { z } from 'zod';
-import type { Usuario } from 'lib/definitions';
 import bcrypt from 'bcrypt';
 import prisma from '@lib/db';
 
@@ -13,7 +12,7 @@ async function getUser(email: string): Promise<Usuario | null | undefined> {
         email: email,
       },
     });
-    return user;
+    return user as Usuario;
   } catch (error) {
     console.error('Failed to fetch user:', error);
     throw new Error('Failed to fetch user.');

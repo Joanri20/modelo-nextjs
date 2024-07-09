@@ -117,25 +117,6 @@ export async function createGrupoBien(formData: FormData) {
   redirect('/dashboard/assets/create');
 }
 
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData,
-) {
-  try {
-    await signIn('credentials', formData);
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
-        default:
-          return 'Something went wrong.';
-      }
-    }
-    throw error;
-  }
-}
-
 export async function fetchAssestById(id: bigint | undefined) {
   let data = null;
   try {

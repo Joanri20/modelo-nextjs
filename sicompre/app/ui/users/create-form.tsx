@@ -1,5 +1,4 @@
 'use client';
-import { GrupoBien } from '@lib/definitions';
 import Link from 'next/link';
 import {
   UserCircleIcon,
@@ -16,6 +15,7 @@ import {
   Enum_TipoUsuario,
 } from '@prisma/client';
 import { convertEnumToArray } from '@lib/conversEnums';
+import { createUser } from '@lib/actions/actionsUsers';
 
 export default function Form() {
   const [error, setError] = useState('');
@@ -23,7 +23,7 @@ export default function Form() {
   return (
     <form
       action={async (formData: FormData) => {
-        const result = await createAsset(formData);
+        const result = await createUser(formData);
         const err = MessageCreate({ result });
         if (err) {
           setError(err);

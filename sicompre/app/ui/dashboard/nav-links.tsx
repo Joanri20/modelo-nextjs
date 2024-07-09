@@ -8,10 +8,15 @@ import {
   UserPlusIcon,
   BuildingOfficeIcon,
   BuildingOffice2Icon,
+  ShoppingCartIcon,
+  BriefcaseIcon,
+  ClipboardDocumentListIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { TbTruckDelivery } from 'react-icons/tb';
 import { usePathname } from 'next/navigation';
+import { Suspense } from 'react';
+import { RevenueChartSkeleton } from '@ui/skeletons';
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
@@ -47,6 +52,21 @@ const links = [
     name: 'Dependencias',
     href: '/dashboard/dependencies',
     icon: BuildingOffice2Icon,
+  },
+  {
+    name: 'Plan De Compras',
+    href: '/dashboard/purchaseplans',
+    icon: ShoppingCartIcon,
+  },
+  {
+    name: 'Ciclos de contratación',
+    href: '/dashboard/hiringcycles',
+    icon: BriefcaseIcon,
+  },
+  {
+    name: 'Cotizaciones',
+    href: '/dashboard/quotations',
+    icon: ClipboardDocumentListIcon,
   },
 ];
 
