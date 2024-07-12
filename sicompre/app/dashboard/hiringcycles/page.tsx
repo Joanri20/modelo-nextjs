@@ -5,14 +5,14 @@ import Search from '@ui/search';
 import Pagination from '@ui/assets/pagination';
 import { Metadata } from 'next';
 import {
-  fetchCicloDeContratatacion,
-  fetchCicloDeContratatacionPages,
+  fetchHiringCycle,
+  fetchHiringCyclePages,
 } from '@lib/data/data-hiringcycles';
 import { CreateHiringCycles } from '@ui/hiringcycles/buttons';
 import TableHiringCycles from '@ui/hiringcycles/table-hiringcycles';
 
 export const metadata: Metadata = {
-  title: 'CiclosDeContratatacion',
+  title: 'Ciclos De Contratatacion',
 };
 
 export default async function Page({
@@ -26,8 +26,8 @@ export default async function Page({
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
 
-  const totalPages = await fetchCicloDeContratatacionPages(query);
-  const HiringCycles = await fetchCicloDeContratatacion(query, currentPage);
+  const totalPages = await fetchHiringCyclePages(query);
+  const HiringCycles = await fetchHiringCycle(query, currentPage);
 
   return (
     <main>

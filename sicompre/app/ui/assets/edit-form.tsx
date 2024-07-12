@@ -1,9 +1,6 @@
 'use client';
 
-import { Bien, GrupoBien } from 'lib/definitions';
 import {
-  CheckIcon,
-  ClockIcon,
   CurrencyDollarIcon,
   PencilIcon,
   UserCircleIcon,
@@ -11,14 +8,14 @@ import {
 import Link from 'next/link';
 import { Button } from 'ui/button';
 import { updateAsset } from '@lib/actions/actionsAssets';
-import { MessageUpdate } from './toast-message';
+import { MessageUpdate } from '@ui/common/toast-message';
 
 export default function EditAssetForm({
   asset,
-  gruposBienes,
+  gruposAssets,
 }: {
-  asset: Bien;
-  gruposBienes: GrupoBien[];
+  asset: Asset;
+  gruposAssets: AssetGroup[];
 }) {
   const updateInvoiceWithId = updateAsset.bind(null, asset?.id!);
   return (
@@ -30,26 +27,29 @@ export default function EditAssetForm({
     >
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         <div className="mb-4 w-5/12">
-          <label htmlFor="grupoBien" className="mb-2 block text-sm font-medium">
-            Selecciona el grupo del bien o servicio *
+          <label
+            htmlFor="assetGroup"
+            className="mb-2 block text-sm font-medium"
+          >
+            Selecciona el grupo del asset o servicio *
           </label>
           <div className="relative">
             <select
-              id="grupoBien"
-              name="grupoBienId"
+              id="assetGroup"
+              name="assetGroupId"
               required
               className="input-app"
-              defaultValue={asset?.grupoBien?.descripcion}
+              defaultValue={asset?.assetGroup?.description}
             >
               <option value="" disabled>
                 Selecciona un grupo
               </option>
-              {gruposBienes.map((gruposBienes) => (
+              {gruposAssets.map((gruposAssets) => (
                 <option
-                  key={Number(gruposBienes.id)}
-                  value={Number(gruposBienes.id)}
+                  key={Number(gruposAssets.id)}
+                  value={Number(gruposAssets.id)}
                 >
-                  {gruposBienes.descripcion}
+                  {gruposAssets.description}
                 </option>
               ))}
             </select>
@@ -60,18 +60,18 @@ export default function EditAssetForm({
         <div className="mb-4 flex gap-5">
           <div className="w-full">
             <label
-              htmlFor="descripcion"
+              htmlFor="description"
               className="mb-2 block text-sm font-medium"
             >
-              Indica una descripción del bien o servicio *
+              Indica una descripción del asset o servicio *
             </label>
             <div className="relative mt-2 rounded-md">
               <div className="w-full">
                 <input
-                  id="descripcion"
-                  name="descripcion"
-                  defaultValue={asset?.descripcion}
-                  placeholder="Ingrese nombre o descripción"
+                  id="description"
+                  name="description"
+                  defaultValue={asset?.description}
+                  placeholder="Ingrese name o descripción"
                   required
                   className="input-app"
                 />
@@ -84,14 +84,14 @@ export default function EditAssetForm({
               htmlFor="valorvigente"
               className="mb-2 block text-sm font-medium"
             >
-              Valor Bien
+              Valor Asset
             </label>
             <div className="relative mt-2 rounded-md">
               <div className="w-full">
                 <input
-                  id="valorVigente"
-                  name="valorVigente"
-                  defaultValue={asset?.valorVigente ? asset.valorVigente : 0}
+                  id="currentValue"
+                  name="currentValue"
+                  defaultValue={asset?.currentValue ? asset.currentValue : 0}
                   placeholder="Ingresa un valor sin signos"
                   required
                   className="input-app"
@@ -108,7 +108,7 @@ export default function EditAssetForm({
           >
             Cancelar
           </Link>
-          <Button type="submit">Actualizar Bien</Button>
+          <Button type="submit">Actualizar Asset</Button>
         </div>
       </div>
     </form>

@@ -1,18 +1,18 @@
 const { PrismaClient } = require('@prisma/client');
 //Esto se ejecuta una vez con npm run seed
 const {
-  gruposBienes,
-  bienes,
-  usuarios,
-  proveedores,
-  entidades,
-  dependencias,
-  ciclosContratacion,
-  cotizaciones,
-  bienCantidades,
-  planesDeCompras,
-  bienProveedores,
-  cotizacionesProveedores,
+  assetGroups,
+  assets,
+  assetQuantities,
+  purchasePlans,
+  assetSuppliers,
+  suppliers,
+  quotationSuppliers,
+  quotations,
+  hiringCycles,
+  entities,
+  departments,
+  users,
 } = require('../app/lib/placeholder-data.js');
 
 const bcrypt = require('bcrypt');
@@ -20,19 +20,19 @@ const bcrypt = require('bcrypt');
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.grupoBien.createMany({ data: gruposBienes });
-  await prisma.bien.createMany({ data: bienes });
-  await prisma.usuario.createMany({ data: usuarios });
-  await prisma.proveedor.createMany({ data: proveedores });
-  await prisma.entidad.createMany({ data: entidades });
-  await prisma.dependencia.createMany({ data: dependencias });
-  await prisma.cicloContratacion.createMany({ data: ciclosContratacion });
-  await prisma.cotizacion.createMany({ data: cotizaciones });
-  await prisma.bienCantidad.createMany({ data: bienCantidades });
-  await prisma.planDeCompras.createMany({ data: planesDeCompras });
-  await prisma.bienProveedor.createMany({ data: bienProveedores });
-  await prisma.cotizacionProveedor.createMany({
-    data: cotizacionesProveedores,
+  await prisma.assetGroup.createMany({ data: assetGroups });
+  await prisma.asset.createMany({ data: assets });
+  await prisma.user.createMany({ data: users });
+  await prisma.supplier.createMany({ data: suppliers });
+  await prisma.entity.createMany({ data: entities });
+  await prisma.department.createMany({ data: departments });
+  await prisma.hiringCycle.createMany({ data: hiringCycles });
+  await prisma.quotation.createMany({ data: quotations });
+  await prisma.purchasePlan.createMany({ data: purchasePlans });
+  await prisma.assetQuantity.createMany({ data: assetQuantities });
+  await prisma.assetSupplier.createMany({ data: assetSuppliers });
+  await prisma.quotationSupplier.createMany({
+    data: quotationSuppliers,
   });
 }
 

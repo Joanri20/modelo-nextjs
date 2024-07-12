@@ -4,25 +4,25 @@ import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
 import { MessageUpdate } from '@ui/common/toast-message';
 import { convertEnumToArray } from '@lib/conversEnums';
-import { Enum_EstadoGeneral } from '@prisma/client';
+import { Enum_GeneralStatus } from '@prisma/client';
 import { updateHiringCycle } from '@lib/actions/actionshiringcycles';
 
 interface UpdateHiringCyclesDialogProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  cicloContratacion: CicloContratacion;
+  hiringCycle: HiringCycle;
 }
 
 export default function UpdateHiringCycleDialog({
   open,
   setOpen,
-  cicloContratacion,
+  hiringCycle,
 }: UpdateHiringCyclesDialogProps) {
   const [error, setError] = useState('');
 
   const handleSubmit = async (formData: FormData) => {
     try {
-      const result = await updateHiringCycle(cicloContratacion.id, formData);
+      const result = await updateHiringCycle(hiringCycle.id, formData);
       const err = MessageUpdate({ result });
       if (err) {
         setError(err);
@@ -51,40 +51,36 @@ export default function UpdateHiringCycleDialog({
             <div className="mb-2 flex w-full gap-3">
               <div>
                 <label
-                  htmlFor="fechaInicio"
+                  htmlFor="startDate"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Fecha de Inicio
                 </label>
                 <input
                   type="date"
-                  id="fechaInicio"
-                  name="fechaInicio"
+                  id="startDate"
+                  name="startDate"
                   required
                   defaultValue={
-                    new Date(cicloContratacion.fechaInicio)
-                      .toISOString()
-                      .split('T')[0]
+                    new Date(hiringCycle.startDate).toISOString().split('T')[0]
                   }
                   className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
               </div>
               <div>
                 <label
-                  htmlFor="fechaFinal"
+                  htmlFor="endDate"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Fecha Final
                 </label>
                 <input
                   type="date"
-                  id="fechaFinal"
-                  name="fechaFinal"
+                  id="endDate"
+                  name="endDate"
                   required
                   defaultValue={
-                    new Date(cicloContratacion.fechaFinal)
-                      .toISOString()
-                      .split('T')[0]
+                    new Date(hiringCycle.endDate).toISOString().split('T')[0]
                   }
                   className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
@@ -93,31 +89,31 @@ export default function UpdateHiringCycleDialog({
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
                 <label
-                  htmlFor="usuarioId"
+                  htmlFor="userId"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Usuario Responsable
                 </label>
                 <input
-                  id="usuarioId"
-                  name="usuarioId"
+                  id="userId"
+                  name="userId"
                   required
-                  defaultValue={cicloContratacion.usuarioId}
+                  defaultValue={hiringCycle.userId}
                   className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 ></input>
               </div>
               <div>
                 <label
-                  htmlFor="entidadId"
+                  htmlFor="entityId"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Entidad
                 </label>
                 <input
-                  id="entidadId"
-                  name="entidadId"
+                  id="entityId"
+                  name="entityId"
                   required
-                  defaultValue={cicloContratacion.entidadId.toString()}
+                  defaultValue={hiringCycle.entityId.toString()}
                   className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 ></input>
               </div>
@@ -125,33 +121,33 @@ export default function UpdateHiringCycleDialog({
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
                 <label
-                  htmlFor="estado"
+                  htmlFor="status"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Estado
                 </label>
                 <input
-                  id="estado"
-                  name="estado"
+                  id="status"
+                  name="status"
                   required
-                  defaultValue={cicloContratacion.estado}
+                  defaultValue={hiringCycle.status}
                   className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 ></input>
               </div>
               <div>
                 <label
-                  htmlFor="cotizacionId"
+                  htmlFor="quotationId"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Cotización (opcional)
                 </label>
                 <input
                   type="text"
-                  id="cotizacionId"
-                  name="cotizacionId"
+                  id="quotationId"
+                  name="quotationId"
                   defaultValue={
-                    cicloContratacion.cotizacionId
-                      ? String(cicloContratacion.cotizacionId)
+                    hiringCycle.quotationId
+                      ? String(hiringCycle.quotationId)
                       : ''
                   }
                   className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"

@@ -10,9 +10,9 @@ import { getErrorMesssage } from './actionsCommon';
 
 const CreateAssetSchema = z.object({
   id: z.string(),
-  descripcion: z.string(),
-  grupoBienId: z.coerce.number(),
-  valorVigente: z.coerce.number(),
+  description: z.string(),
+  assetGroupId: z.coerce.number(),
+  currentValue: z.coerce.number(),
   date: z.string(),
 });
 
@@ -23,21 +23,21 @@ const CreateAssetFormSchema = CreateAssetSchema.omit({
 
 export const createAsset = async (formData: FormData) => {
   try {
-    const { descripcion, grupoBienId, valorVigente } =
+    const { description, assetGroupId, currentValue } =
       CreateAssetFormSchema.parse({
         id: formData.get('codigoid'),
-        descripcion: formData.get('descripcion'),
-        grupoBienId: formData.get('grupoBienId'),
-        valorVigente: formData.get('valorVigente'),
+        description: formData.get('description'),
+        assetGroupId: formData.get('assetGroupId'),
+        currentValue: formData.get('currentValue'),
       });
 
     //const [date] = new Date().toISOString().split('T');
 
-    const newAsset = await prisma.bien.create({
+    const newAsset = await prisma.asset.create({
       data: {
-        descripcion: descripcion,
-        grupoBienId: grupoBienId,
-        valorVigente: valorVigente,
+        description: description,
+        assetGroupId: assetGroupId,
+        currentValue: currentValue,
       },
     });
   } catch (e) {
@@ -50,21 +50,21 @@ export const createAsset = async (formData: FormData) => {
 
 export async function updateAsset(id: bigint, formData: FormData) {
   try {
-    const { descripcion, grupoBienId, valorVigente } =
+    const { description, assetGroupId, currentValue } =
       CreateAssetFormSchema.parse({
-        descripcion: formData.get('descripcion'),
-        grupoBienId: formData.get('grupoBienId'),
-        valorVigente: formData.get('valorVigente'),
+        description: formData.get('description'),
+        assetGroupId: formData.get('assetGroupId'),
+        currentValue: formData.get('currentValue'),
       });
 
-    const newAsset = await prisma.bien.update({
+    const newAsset = await prisma.asset.update({
       where: {
         id: id,
       },
       data: {
-        descripcion: descripcion,
-        grupoBienId: grupoBienId,
-        valorVigente: valorVigente,
+        description: description,
+        assetGroupId: assetGroupId,
+        currentValue: currentValue,
       },
     });
   } catch (e) {
@@ -75,16 +75,16 @@ export async function updateAsset(id: bigint, formData: FormData) {
   redirect('/dashboard/assets');
 }
 
-const CreateGrupoBienFormSchema = CreateAssetSchema.omit({
+const CreateAssetGroupFormSchema = CreateAssetSchema.omit({
   id: true,
   date: true,
-  grupoBienId: true,
-  valorVigente: true,
+  assetGroupId: true,
+  currentValue: true,
 });
 
 export async function deleteAsset(id: bigint) {
   try {
-    await prisma.bien.delete({
+    await prisma.asset.delete({
       where: {
         id: id,
       },
@@ -97,17 +97,17 @@ export async function deleteAsset(id: bigint) {
   redirect('/dashboard/assets');
 }
 
-export async function createGrupoBien(formData: FormData) {
+export async function createAssetGroup(formData: FormData) {
   try {
-    const { descripcion } = CreateGrupoBienFormSchema.parse({
-      descripcion: formData.get('descripcion'),
+    const { description } = CreateAssetGroupFormSchema.parse({
+      description: formData.get('description'),
     });
 
     const date = new Date().toISOString().split('T')[0];
 
-    const newAsset = await prisma.grupoBien.create({
+    const newAsset = await prisma.assetGroup.create({
       data: {
-        descripcion: descripcion,
+        description: description,
       },
     });
   } catch (e) {
@@ -120,12 +120,12 @@ export async function createGrupoBien(formData: FormData) {
 export async function fetchAssestById(id: bigint | undefined) {
   let data = null;
   try {
-    data = await prisma.bien.findUnique({
+    data = await prisma.asset.findUnique({
       where: {
         id: id,
       },
       include: {
-        grupoBien: true,
+        assetGroup: true,
       },
     });
   } catch (e) {
@@ -133,12 +133,12 @@ export async function fetchAssestById(id: bigint | undefined) {
   }
   console.log('cosulta: ', data);
 
-  return data as Bien;
+  return data as Asset;
 }
 
-export async function fetchGrupoBien(): Promise<GrupoBien[]> {
-  const data = await prisma.grupoBien.findMany({
-    distinct: ['descripcion'],
+export async function fetchAssetGroup(): Promise<AssetGroup[]> {
+  const data = await prisma.assetGroup.findMany({
+    distinct: ['description'],
   });
   return data; // Asegúrate de devolver los datos
 }

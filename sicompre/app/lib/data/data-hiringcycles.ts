@@ -1,44 +1,41 @@
 import prisma from '@lib/db';
 const ITEMS_PER_PAGE = 6;
-export async function fetchCicloDeContratatacion(
-  query: string,
-  currentPage: number,
-) {
+export async function fetchHiringCycle(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  const data = await prisma.cicloContratacion.findMany({
+  const data = await prisma.hiringCycle.findMany({
     skip: offset,
     take: ITEMS_PER_PAGE,
     where: {
-      entidad: {
+      entity: {
         OR: [
           {
-            nombre: {
+            name: {
               contains: query,
               mode: 'insensitive',
             },
-            nit: {
+            taxId: {
               contains: query,
               mode: 'insensitive',
             },
           },
         ],
       },
-      usuario: {
+      user: {
         OR: [
           {
-            primerNombre: {
+            firstName: {
               contains: query,
               mode: 'insensitive',
             },
-            segundoNombre: {
+            middleName: {
               contains: query,
               mode: 'insensitive',
             },
-            primerApellido: {
+            lastName: {
               contains: query,
               mode: 'insensitive',
             },
-            segundoApellido: {
+            secondLastName: {
               contains: query,
               mode: 'insensitive',
             },
@@ -47,52 +44,52 @@ export async function fetchCicloDeContratatacion(
       },
     },
     include: {
-      entidad: true,
-      usuario: true,
-      Cotizacion: true,
+      entity: true,
+      user: true,
+      quotation: true,
     },
     orderBy: {
-      entidad: {
-        nombre: 'asc',
+      entity: {
+        name: 'asc',
       },
     },
   });
-  return data as unknown as CicloContratacion[];
+  return data as unknown as HiringCycle[];
 }
 
-export async function fetchCicloDeContratatacionPages(query: string) {
-  const data = await prisma.cicloContratacion.count({
+export async function fetchHiringCyclePages(query: string) {
+  const data = await prisma.hiringCycle.count({
     where: {
-      entidad: {
+      entity: {
         OR: [
           {
-            nombre: {
+            name: {
               contains: query,
               mode: 'insensitive',
             },
-            nit: {
+            taxId: {
               contains: query,
               mode: 'insensitive',
             },
           },
         ],
       },
-      usuario: {
+      user: {
         OR: [
           {
-            primerNombre: {
+            firstName: {
               contains: query,
               mode: 'insensitive',
             },
-            segundoNombre: {
+            middleName: {
               contains: query,
               mode: 'insensitive',
             },
-            primerApellido: {
+            lastName: {
               contains: query,
               mode: 'insensitive',
             },
-            segundoApellido: {
+            secondLastName: {
               contains: query,
               mode: 'insensitive',
             },
@@ -101,8 +98,8 @@ export async function fetchCicloDeContratatacionPages(query: string) {
       },
     },
     orderBy: {
-      entidad: {
-        nombre: 'asc',
+      entity: {
+        name: 'asc',
       },
     },
   });

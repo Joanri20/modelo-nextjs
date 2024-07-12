@@ -4,10 +4,10 @@ import { PencilIcon } from '@heroicons/react/24/outline';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { Button } from '@ui/button';
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
-import { createGrupoBien } from '@lib/actions/actionsAssets';
+import { createAssetGroup } from '@lib/actions/actionsAssets';
 import MessageCreate from '@ui/common/toast-message';
 
-export default function CreateGrupoBienDialog() {
+export default function CreateAssetGroupDialog() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -27,28 +27,28 @@ export default function CreateGrupoBienDialog() {
         }}
       >
         <DialogTitle>
-          <h1 className="font-bold">Crear Nuevo Grupo de Bienes y Servicios</h1>
+          <h1 className="font-bold">Crear Nuevo Grupo de Assets y Servicios</h1>
         </DialogTitle>
         <DialogContent>
-          <CreateGrupoBien setOpen={setOpen} />
+          <CreateAssetGroup setOpen={setOpen} />
         </DialogContent>
       </Dialog>
     </div>
   );
 }
 
-interface CreateGrupoBienProps {
+interface CreateAssetGroupProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const CreateGrupoBien = ({ setOpen }: CreateGrupoBienProps) => {
+const CreateAssetGroup = ({ setOpen }: CreateAssetGroupProps) => {
   const [error, setError] = useState('');
 
   return (
     <div>
       <form
         action={async (formData: FormData) => {
-          const result = await createGrupoBien(formData);
+          const result = await createAssetGroup(formData);
           const err = MessageCreate({ result });
           if (err) {
             setError(err);
@@ -59,12 +59,12 @@ const CreateGrupoBien = ({ setOpen }: CreateGrupoBienProps) => {
         className="flex flex-col items-center gap-3"
       >
         <div className="flex flex-col items-start">
-          <label htmlFor="descripcion" className="mt-3 font-bold">
+          <label htmlFor="description" className="mt-3 font-bold">
             Descripción del Grupo *
             <input
               type="text"
-              id="descripcion"
-              name="descripcion"
+              id="description"
+              name="description"
               placeholder="Ingrese descripción del Grupo"
               className="w-full rounded border-gray-300 p-2 font-normal outline-none focus:border-blue-500"
             />

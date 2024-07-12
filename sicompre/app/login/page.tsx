@@ -1,22 +1,60 @@
+'use client';
 import AcmeLogo from 'ui/acme-logo';
 import LoginForm from 'ui/login-form';
 import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Login',
-};
+import Form from '@ui/register-form';
+import { useState } from 'react';
+import './style.css';
 
 export default function LoginPage() {
+  const [rightPanelActive, setRightPanelActive] = useState(false);
+
+  const handleSignUpClick = () => {
+    setRightPanelActive(true);
+  };
+
+  const handleSignInClick = () => {
+    setRightPanelActive(false);
+  };
+
   return (
-    <main className="flex items-center justify-center md:h-screen">
-      <div className="sd:max-w-[400px] relative mx-auto flex w-full max-w-[800px] flex-col space-y-2.5 p-4 md:-mt-32">
-        <div className="flex h-20 w-full items-center justify-center rounded-lg bg-blue-700 p-3 md:h-36">
-          <div className="flex w-32 items-center justify-center text-white md:w-36">
-            <AcmeLogo />
+    <div className="mt-5 flex h-screen flex-col items-center">
+      <div className="flex w-10/12 items-center justify-center rounded-lg bg-blue-600 bg-gradient-to-t sm:w-[800px] ">
+        <AcmeLogo />
+      </div>
+
+      <div
+        className={`container items-center justify-center ${
+          rightPanelActive ? 'right-panel-active' : ''
+        }`}
+      >
+        <div className="form-container sign-in-container">
+          <LoginForm />
+        </div>
+
+        <div className="form-container sign-up-container">
+          <Form />
+        </div>
+        <div className="overlay-container">
+          <div className="overlay">
+            <div className="overlay-panel overlay-left">
+              <h1 className="text-sm sm:text-base">
+                ¿Ya te encuentras registrado?
+              </h1>
+              <button className="ghost text-xs" onClick={handleSignInClick}>
+                Inicia Sesión
+              </button>
+            </div>
+            <div className="overlay-panel overlay-right">
+              <h1>Registrate</h1>
+              <p>Si eres proveedor te puedes registrar aquí</p>
+              <button className="ghost" onClick={handleSignUpClick}>
+                Registrar
+              </button>
+            </div>
           </div>
         </div>
-        <LoginForm />
       </div>
-    </main>
+    </div>
   );
 }

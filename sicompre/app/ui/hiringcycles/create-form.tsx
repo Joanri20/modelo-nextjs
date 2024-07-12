@@ -4,7 +4,7 @@ import { Button } from '@ui/button';
 import { createAsset } from '@lib/actions/actionsAssets';
 import { useState } from 'react';
 import MessageCreate from '@ui/common/toast-message';
-import { Enum_EstadoGeneral } from '@prisma/client';
+import { Enum_GeneralStatus } from '@prisma/client';
 import { convertEnumToArray } from '@lib/conversEnums';
 
 export default function Form() {
@@ -22,16 +22,13 @@ export default function Form() {
     >
       <div className="flex flex-col gap-8">
         <div className="mb-4 w-full">
-          <label
-            htmlFor="fechaInicio"
-            className="mb-2 block text-sm font-medium"
-          >
+          <label htmlFor="startDate" className="mb-2 block text-sm font-medium">
             Fecha de Inicio *
           </label>
           <div className="relative">
             <input
-              id="fechaInicio"
-              name="fechaInicio"
+              id="startDate"
+              name="startDate"
               type="date"
               required
               className="input-app"
@@ -40,16 +37,13 @@ export default function Form() {
         </div>
 
         <div className="mb-4 w-full">
-          <label
-            htmlFor="fechaFinal"
-            className="mb-2 block text-sm font-medium"
-          >
+          <label htmlFor="endDate" className="mb-2 block text-sm font-medium">
             Fecha Final *
           </label>
           <div className="relative">
             <input
-              id="fechaFinal"
-              name="fechaFinal"
+              id="endDate"
+              name="endDate"
               type="date"
               required
               className="input-app"
@@ -58,13 +52,13 @@ export default function Form() {
         </div>
 
         <div className="mb-4 w-full">
-          <label htmlFor="usuarioId" className="mb-2 block text-sm font-medium">
+          <label htmlFor="userId" className="mb-2 block text-sm font-medium">
             Usuario *
           </label>
           <div className="relative">
             <input
-              id="usuarioId"
-              name="usuarioId"
+              id="userId"
+              name="userId"
               required
               placeholder="Ingrese el ID del usuario"
               className="input-app"
@@ -73,28 +67,28 @@ export default function Form() {
         </div>
 
         <div className="mb-4 w-full">
-          <label htmlFor="entidadId" className="mb-2 block text-sm font-medium">
+          <label htmlFor="entityId" className="mb-2 block text-sm font-medium">
             Entidad *
           </label>
           <div className="relative">
             <input
-              id="entidadId"
-              name="entidadId"
+              id="entityId"
+              name="entityId"
               required
-              placeholder="Ingrese el ID de la entidad"
+              placeholder="Ingrese el ID de la Entidad"
               className="input-app"
             />
           </div>
         </div>
 
         <div className="mb-4 w-full">
-          <label htmlFor="estado" className="mb-2 block text-sm font-medium">
+          <label htmlFor="status" className="mb-2 block text-sm font-medium">
             Estado *
           </label>
           <div className="relative">
             <select
-              id="estado"
-              name="estado"
+              id="status"
+              name="status"
               required
               className="input-app"
               defaultValue=""
@@ -102,7 +96,7 @@ export default function Form() {
               <option value="" disabled>
                 Selecciona un estado
               </option>
-              {/* Reemplaza con las opciones reales de Enum_EstadoProceso */}
+              {/* Reemplaza con las opciones reales de Enum_ProcessStatus */}
               <option value="Abierto">Abierto</option>
               <option value="Cerrado">Cerrado</option>
             </select>
@@ -111,15 +105,15 @@ export default function Form() {
 
         <div className="mb-4 w-full">
           <label
-            htmlFor="cotizacionId"
+            htmlFor="quotationId"
             className="mb-2 block text-sm font-medium"
           >
             Cotización (opcional)
           </label>
           <div className="relative">
             <input
-              id="cotizacionId"
-              name="cotizacionId"
+              id="quotationId"
+              name="quotationId"
               placeholder="Ingrese el ID de la cotización"
               className="input-app"
             />

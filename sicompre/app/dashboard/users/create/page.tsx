@@ -1,6 +1,6 @@
 import Form from '@ui/users/create-form';
 import Breadcrumbs from '@ui/common/breadcrumbs';
-import { fetchGrupoBien } from '@lib/data';
+import { fetchAssetGroup } from '@lib/data';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export default async function Page() {
         breadcrumbs={[
           { label: 'Usuarios', href: '/dashboard/users' },
           {
-            label: 'Crear Usuarios',
+            label: 'Crear Usuario',
             href: '/dashboard/users/create',
             active: true,
           },

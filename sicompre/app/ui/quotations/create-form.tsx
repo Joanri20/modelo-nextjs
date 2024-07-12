@@ -5,9 +5,9 @@ import { createAsset } from '@lib/actions/actionsAssets';
 import { useState } from 'react';
 import MessageCreate from '@ui/common/toast-message';
 import {
-  Enum_EstadoGeneral,
-  Enum_TipoDocumento,
-  Enum_TipoUsuario,
+  Enum_GeneralStatus,
+  Enum_DocumentType,
+  Enum_UserType,
 } from '@prisma/client';
 import { convertEnumToArray } from '@lib/conversEnums';
 
@@ -28,30 +28,27 @@ export default function Form() {
         <div className="mb-4 flex flex-wrap gap-5">
           <div className="w-full md:w-5/12">
             <label
-              htmlFor="fechaInicio"
+              htmlFor="startDate"
               className="mb-2 block text-sm font-medium"
             >
               Fecha de Inicio*
             </label>
             <input
               type="date"
-              id="fechaInicio"
-              name="fechaInicio"
+              id="startDate"
+              name="startDate"
               required
               className="input-app"
             />
           </div>
           <div className="w-full md:w-5/12">
-            <label
-              htmlFor="fechaFinal"
-              className="mb-2 block text-sm font-medium"
-            >
+            <label htmlFor="endDate" className="mb-2 block text-sm font-medium">
               Fecha Final*
             </label>
             <input
               type="date"
-              id="fechaFinal"
-              name="fechaFinal"
+              id="endDate"
+              name="endDate"
               required
               className="input-app"
             />
@@ -60,29 +57,26 @@ export default function Form() {
 
         <div className="mb-4 flex flex-wrap gap-5">
           <div className="w-full md:w-5/12">
-            <label
-              htmlFor="usuarioId"
-              className="mb-2 block text-sm font-medium"
-            >
-              Usuario*
+            <label htmlFor="userId" className="mb-2 block text-sm font-medium">
+              Usuario *
             </label>
             <input
-              id="usuarioId"
-              name="usuarioId"
+              id="userId"
+              name="userId"
               required
               className="input-app"
             ></input>
           </div>
           <div className="w-full md:w-5/12">
             <label
-              htmlFor="entidadId"
+              htmlFor="entityId"
               className="mb-2 block text-sm font-medium"
             >
               Entidad*
             </label>
             <input
-              id="entidadId"
-              name="entidadId"
+              id="entityId"
+              name="entityId"
               required
               className="input-app"
             ></input>
@@ -91,16 +85,16 @@ export default function Form() {
 
         {/*
         <div className="mb-4">
-          <label htmlFor="estado" className="mb-2 block text-sm font-medium">
+          <label htmlFor="status" className="mb-2 block text-sm font-medium">
             Estado*
           </label>
-          <select id="estado" name="estado" required className="input-app">
+          <select id="status" name="status" required className="input-app">
             <option value="" disabled selected>
-              Selecciona un estado
+              Selecciona un status
             </option>
-            {estados.map((estado) => (
-              <option key={estado} value={estado}>
-                {estado}
+            {statuss.map((status) => (
+              <option key={status} value={status}>
+                {status}
               </option>
             ))}
           </select>

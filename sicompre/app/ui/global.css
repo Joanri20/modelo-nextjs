@@ -7,13 +7,13 @@ input[type='number'] {
   appearance: textfield;
 }
 
-input[type='number']::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+input[type='number']::-websitekit-inner-spin-button {
+  -websitekit-appearance: none;
   margin: 0;
 }
 
-input[type='number']::-webkit-outer-spin-button {
-  -webkit-appearance: none;
+input[type='number']::-websitekit-outer-spin-button {
+  -websitekit-appearance: none;
   margin: 0;
 }
 
@@ -22,7 +22,7 @@ button:disabled{
 }
 
 .input-app {
-  @apply block w-full rounded-md border border-gray-400 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500;
+  @apply block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500;
 }
 
 

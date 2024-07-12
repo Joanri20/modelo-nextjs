@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,230 +7,227 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Todos los Enum
+model AssetGroup {
+  id          BigInt    @id @default(autoincrement())
+  description String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  assets      Asset[]
+}
 
-enum Enum_TipoDocumento {
+model Asset {
+  id              BigInt          @id @default(autoincrement())
+  description     String
+  assetGroupId    BigInt
+  currentValue    Float?          @default(0)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime?       @updatedAt
+  assetGroup      AssetGroup      @relation(fields: [assetGroupId], references: [id])
+  assetQuantities AssetQuantity[]
+}
+
+model AssetQuantity {
+  id             BigInt          @id @default(autoincrement())
+  assetId        BigInt
+  quantity       Float           @default(1)
+  purchasePlanId BigInt?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime?       @updatedAt
+  quotationId    BigInt?
+  asset          Asset           @relation(fields: [assetId], references: [id])
+  purchasePlan   PurchasePlan?   @relation(fields: [purchasePlanId], references: [id])
+  quotation      Quotation?      @relation(fields: [quotationId], references: [id])
+  assetSuppliers AssetSupplier[]
+}
+
+model PurchasePlan {
+  id              BigInt             @id @default(autoincrement())
+  date            DateTime           @default(now())
+  status          Enum_ProcessStatus @default(Open)
+  totalValue      Float?             @default(0)
+  departmentId    BigInt
+  userId          String
+  hiringCycleId   BigInt?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  assetQuantities AssetQuantity[]
+  department      Department         @relation(fields: [departmentId], references: [id])
+  hiringCycle     HiringCycle?       @relation(fields: [hiringCycleId], references: [id])
+  user            User               @relation(fields: [userId], references: [id])
+}
+
+model AssetSupplier {
+  value           Float         @default(0)
+  assetQuantityId BigInt
+  supplierId      BigInt
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime?     @updatedAt
+  quotationId     BigInt
+  assetQuantity   AssetQuantity @relation(fields: [assetQuantityId], references: [id])
+  quotation       Quotation     @relation(fields: [quotationId], references: [id])
+  supplier        Supplier      @relation(fields: [supplierId], references: [id])
+
+  @@id([quotationId, supplierId])
+}
+
+model Supplier {
+  id                    BigInt              @id @default(autoincrement())
+  name                  String
+  taxId                 String
+  address               String
+  email                 String
+  phone                 String
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  password              String?             @default("$1234")
+  namePersonResponsible String?             @default("Responsable")
+  website               String?
+  assetSuppliers        AssetSupplier[]
+  quotationSuppliers    QuotationSupplier[]
+}
+
+model QuotationSupplier {
+  totalValue  Float     @default(0)
+  supplierId  BigInt
+  quotationId BigInt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  quotation   Quotation @relation(fields: [quotationId], references: [id])
+  supplier    Supplier  @relation(fields: [supplierId], references: [id])
+
+  @@id([quotationId, supplierId])
+}
+
+model Quotation {
+  id                 BigInt               @id @default(autoincrement())
+  startDate          DateTime             @default(now())
+  endDate            DateTime             @default(now())
+  status             Enum_QuotationStatus
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  userId             String
+  entityId           BigInt
+  assetQuantities    AssetQuantity[]
+  assetSuppliers     AssetSupplier[]
+  hiringCycles       HiringCycle[]
+  entity             Entity               @relation(fields: [entityId], references: [id])
+  user               User                 @relation(fields: [userId], references: [id])
+  quotationSuppliers QuotationSupplier[]
+}
+
+model HiringCycle {
+  id            BigInt             @id @default(autoincrement())
+  startDate     DateTime           @default(now())
+  endDate       DateTime           @default(now())
+  status        Enum_ProcessStatus
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  userId        String
+  entityId      BigInt
+  quotationId   BigInt?
+  entity        Entity             @relation(fields: [entityId], references: [id])
+  quotation     Quotation?         @relation(fields: [quotationId], references: [id])
+  user          User               @relation(fields: [userId], references: [id])
+  purchasePlans PurchasePlan[]
+}
+
+model Entity {
+  id                   BigInt             @id @default(autoincrement())
+  name                 String
+  taxId                String
+  address              String?
+  phone                String?
+  city                 String
+  state                String
+  country              String
+  website              String?
+  email                String?
+  possessionResolution String?
+  possessionDate       DateTime?
+  status               Enum_GeneralStatus @default(Active)
+  availableBalance     Float              @default(0)
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  departments          Department[]
+  hiringCycles         HiringCycle[]
+  quotations           Quotation[]
+  members              User[]             @relation("EntityToUser")
+}
+
+model Department {
+  id                   BigInt             @id @default(autoincrement())
+  name                 String
+  taxId                String
+  address              String?
+  phone                String?
+  city                 String
+  state                String
+  country              String
+  website              String?
+  email                String?
+  possessionResolution String?
+  possessionDate       DateTime?
+  status               Enum_GeneralStatus @default(Active)
+  availableBalance     Float
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  entityId             BigInt
+  userId               String?
+  parentEntity         Entity             @relation(fields: [entityId], references: [id])
+  user                 User?              @relation(fields: [userId], references: [id])
+  purchasePlans        PurchasePlan[]
+}
+
+model User {
+  id             String             @id
+  firstName      String
+  middleName     String?
+  lastName       String
+  secondLastName String?
+  documentType   Enum_DocumentType  @default(CC)
+  document       String
+  phone          String?
+  mobile         String
+  email          String             @unique
+  address        String?
+  status         Enum_GeneralStatus @default(Active)
+  type           Enum_UserType      @default(Manager)
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  password       String             @default("1234")
+  departments    Department[]
+  hiringCycles   HiringCycle[]
+  purchasePlans  PurchasePlan[]
+  quotations     Quotation[]
+  entities       Entity[]           @relation("EntityToUser")
+
+  @@unique([documentType, document])
+}
+
+enum Enum_DocumentType {
   CC
   CE
   TI
-  PASAPORTE
+  PASSPORT
 }
 
-enum Enum_EstadoProceso {
-  Abierto
-  Cerrado
-  EnProceso
+enum Enum_ProcessStatus {
+  Open
+  Closed
+  InProcess
 }
 
-enum Enum_TipoUsuario {
-  Administrador
-  Encargado
+enum Enum_UserType {
+  Administrator
+  Manager
 }
 
-enum Enum_EstadoGeneral {
-  Activo
-  Deshabilitado
+enum Enum_GeneralStatus {
+  Active
+  Disabled
 }
 
-enum Enum_EstadoCotizacion {
-  Abierto
-  Cerrado
-}
-
-// Modelos
-
-model GrupoBien {
-  id          BigInt    @id @default(autoincrement())
-  descripcion String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
-  Bien        Bien[]
-}
-
-model Bien {
-  id           BigInt         @id @default(autoincrement())
-  descripcion  String
-  grupoBien    GrupoBien      @relation(fields: [grupoBienId], references: [id])
-  grupoBienId  BigInt
-  valorVigente Float?         @default(0)
-  bienCantidad BienCantidad[]
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime?      @updatedAt
-}
-
-model BienCantidad {
-  id              BigInt          @id @default(autoincrement())
-  bien            Bien            @relation(fields: [bienId], references: [id])
-  bienId          BigInt
-  cantidad        Float           @default(1)
-  planDeCompras   PlanDeCompras?  @relation(fields: [planDeComprasId], references: [id])
-  planDeComprasId BigInt?
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime?       @updatedAt
-  BienProveedor   BienProveedor[]
-  Cotizacion      Cotizacion?     @relation(fields: [cotizacionId], references: [id])
-  cotizacionId    BigInt?
-}
-
-model PlanDeCompras {
-  id                  BigInt             @id @default(autoincrement())
-  bienes              BienCantidad[]
-  fecha               DateTime           @default(now())
-  estado              Enum_EstadoProceso @default(Abierto)
-  dependencia         Dependencia        @relation(fields: [dependenciaId], references: [id])
-  usuario             Usuario            @relation(fields: [usuarioId], references: [id])
-  valorTotal          Float?             @default(0)
-  dependenciaId       BigInt
-  usuarioId           String
-  cicloContratacion   CicloContratacion? @relation(fields: [cicloContratacionId], references: [id])
-  cicloContratacionId BigInt?
-  createdAt           DateTime           @default(now())
-  updatedAt           DateTime           @updatedAt
-}
-
-model BienProveedor {
-  bien           BienCantidad @relation(fields: [bienCantidadId], references: [id])
-  proveedor      Proveedor    @relation(fields: [proveedorId], references: [id])
-  valor          Float        @default(0)
-  cotizacion     Cotizacion   @relation(fields: [cotizacionId], references: [id])
-  bienCantidadId BigInt
-  proveedorId    BigInt
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime?    @updatedAt
-  cotizacionId   BigInt
-
-  @@id([cotizacionId, proveedorId])
-}
-
-model Proveedor {
-  id            BigInt                @id @default(autoincrement())
-  nombre        String
-  nit           String
-  direccion     String
-  email         String
-  telefono      String
-  cotizaciones  CotizacionProveedor[]
-  createdAt     DateTime              @default(now())
-  updatedAt     DateTime              @updatedAt
-  BienProveedor BienProveedor[]
-}
-
-model CotizacionProveedor {
-  proveedor    Proveedor  @relation(fields: [proveedorId], references: [id])
-  cotizacion   Cotizacion @relation(fields: [cotizacionId], references: [id])
-  valorTotal   Float      @default(0)
-  proveedorId  BigInt
-  cotizacionId BigInt
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime?  @updatedAt
-
-  @@id([cotizacionId, proveedorId])
-}
-
-model Cotizacion {
-  id                  BigInt                @id @default(autoincrement())
-  fechaInicio         DateTime              @default(now())
-  fechaFinal          DateTime              @default(now())
-  usuario             Usuario               @relation(fields: [usuarioId], references: [id])
-  entidad             Entidad               @relation(fields: [entidadId], references: [id])
-  estado              Enum_EstadoCotizacion
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
-  usuarioId           String
-  entidadId           BigInt
-  BienProveedor       BienProveedor[]
-  CotizacionProveedor CotizacionProveedor[]
-  BienCantidad        BienCantidad[]
-  CicloContratacion   CicloContratacion[]
-}
-
-model CicloContratacion {
-  id            BigInt             @id @default(autoincrement())
-  fechaInicio   DateTime           @default(now())
-  fechaFinal    DateTime           @default(now())
-  planDeCompras PlanDeCompras[]
-  usuario       Usuario            @relation(fields: [usuarioId], references: [id])
-  estado        Enum_EstadoProceso
-  entidad       Entidad            @relation(fields: [entidadId], references: [id])
-  createdAt     DateTime           @default(now())
-  updatedAt     DateTime           @updatedAt
-  usuarioId     String
-  entidadId     BigInt
-  Cotizacion    Cotizacion?        @relation(fields: [cotizacionId], references: [id])
-  cotizacionId  BigInt?
-}
-
-model Entidad {
-  id                 BigInt              @id @default(autoincrement())
-  nombre             String
-  nit                String
-  direccion          String?
-  telefono           String?
-  municipio          String
-  departamento       String
-  pais               String
-  web                String?
-  email              String?
-  resolucionPosesion String?
-  fechaPosesion      DateTime?
-  estado             Enum_EstadoGeneral  @default(Activo)
-  saldoDisponible    Float               @default(0)
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime            @updatedAt
-  dependencias       Dependencia[]
-  cicloContratacion  CicloContratacion[]
-  integrantes        Usuario[]
-  Cotizacion         Cotizacion[]
-}
-
-model Dependencia {
-  id                 BigInt             @id @default(autoincrement())
-  nombre             String
-  nit                String
-  direccion          String?
-  telefono           String?
-  municipio          String
-  departamento       String
-  pais               String
-  web                String?
-  email              String?
-  resolucionPosesion String?
-  fechaPosesion      DateTime?
-  estado             Enum_EstadoGeneral @default(Activo)
-  entidadPadre       Entidad            @relation(fields: [entidadId], references: [id])
-  saldoDisponible    Float
-  createdAt          DateTime           @default(now())
-  updatedAt          DateTime           @updatedAt
-  entidadId          BigInt
-  Cotizacion         PlanDeCompras[]
-  Usuario            Usuario?           @relation(fields: [usuarioId], references: [id])
-  usuarioId          String?
-
-  @@map("Dependecia")
-}
-
-model Usuario {
-  id                String              @id
-  primerNombre      String
-  segundoNombre     String?
-  primerApellido    String
-  segundoApellido   String?
-  tipoDocumento     Enum_TipoDocumento  @default(CC)
-  documento         String
-  telefono          String?
-  celular           String
-  email             String              @unique
-  direccion         String?
-  estado            Enum_EstadoGeneral  @default(Activo)
-  tipo              Enum_TipoUsuario    @default(Encargado)
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  entidad           Entidad[]
-  dependencia       Dependencia[]
-  cotizacion        PlanDeCompras[]
-  cicloContratacion CicloContratacion[]
-  password          String              @default("1234")
-  Cotizacion        Cotizacion[]
-
-  @@unique([tipoDocumento, documento])
+enum Enum_QuotationStatus {
+  Open
+  Closed
 }

@@ -7,11 +7,11 @@ import {
 } from '@heroicons/react/24/outline';
 import { Button } from '@ui/button';
 import { createAsset } from '@lib/actions/actionsAssets';
-import CreateGrupoBienDialog from './create-grupoBien-dialog';
 import { useState } from 'react';
 import MessageCreate from '@ui/common/toast-message';
+import CreateAssetGroupDialog from './create-grupoBien-dialog';
 
-export default function Form({ gruposBienes }: { gruposBienes: GrupoBien[] }) {
+export default function Form({ gruposAssets }: { gruposAssets: AssetGroup[] }) {
   const [error, setError] = useState('');
 
   return (
@@ -28,15 +28,15 @@ export default function Form({ gruposBienes }: { gruposBienes: GrupoBien[] }) {
         <div className="flex items-center gap-8">
           <div className="mb-4 w-5/12">
             <label
-              htmlFor="grupoBien"
+              htmlFor="assetGroup"
               className="mb-2 block text-sm font-medium"
             >
               Selecciona el grupo del bien o servicio *
             </label>
             <div className="relative">
               <select
-                id="grupoBien"
-                name="grupoBienId"
+                id="assetGroup"
+                name="assetGroupId"
                 required
                 className="input-app"
                 defaultValue=""
@@ -44,25 +44,25 @@ export default function Form({ gruposBienes }: { gruposBienes: GrupoBien[] }) {
                 <option value="" disabled>
                   Selecciona un grupo
                 </option>
-                {gruposBienes.map((gruposBienes) => (
+                {gruposAssets.map((gruposAssets) => (
                   <option
-                    key={Number(gruposBienes.id)}
-                    value={Number(gruposBienes.id)}
+                    key={Number(gruposAssets.id)}
+                    value={Number(gruposAssets.id)}
                   >
-                    {gruposBienes.descripcion}
+                    {gruposAssets.description}
                   </option>
                 ))}
               </select>
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
             </div>
           </div>
-          <CreateGrupoBienDialog />
+          <CreateAssetGroupDialog />
         </div>
 
         <div className="mb-4 flex gap-5">
           <div className="w-full">
             <label
-              htmlFor="descripcion"
+              htmlFor="description"
               className="mb-2 block text-sm font-medium"
             >
               Indica una descripción del bien o servicio *
@@ -70,8 +70,8 @@ export default function Form({ gruposBienes }: { gruposBienes: GrupoBien[] }) {
             <div className="relative mt-2 rounded-md">
               <div className="w-full">
                 <input
-                  id="descripcion"
-                  name="descripcion"
+                  id="description"
+                  name="description"
                   required
                   placeholder="Ingrese nombre o descripción"
                   className="input-app"
@@ -90,8 +90,8 @@ export default function Form({ gruposBienes }: { gruposBienes: GrupoBien[] }) {
             <div className="relative mt-2 rounded-md">
               <div className="w-full">
                 <input
-                  id="valorVigente"
-                  name="valorVigente"
+                  id="currentValue"
+                  name="currentValue"
                   defaultValue="0"
                   required
                   placeholder="Ingresa un valor sin signos"

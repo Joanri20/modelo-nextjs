@@ -6,24 +6,24 @@ import { CurrencyDollarIcon, PencilIcon } from '@heroicons/react/24/outline';
 import { updatePurchasePlan } from '@lib/actions/actionsPurchasePlans';
 import { MessageUpdate } from '@ui/common/toast-message';
 import { convertEnumToArray } from '@lib/conversEnums';
-import { Enum_EstadoGeneral, Enum_TipoDocumento } from '@prisma/client';
+import { Enum_GeneralStatus, Enum_DocumentType } from '@prisma/client';
 
 interface UpdatePurchasePlansDialogProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  plandecompras: PlanDeCompras;
+  purchaseplan: PurchasePlan;
 }
 
 export default function UpdatePurchasePlanDialog({
   open,
   setOpen,
-  plandecompras,
+  purchaseplan,
 }: UpdatePurchasePlansDialogProps) {
   const [error, setError] = useState('');
 
   const handleSubmit = async (formData: FormData) => {
     try {
-      const result = await updatePurchasePlan(plandecompras?.id, formData);
+      const result = await updatePurchasePlan(purchaseplan?.id, formData);
       const err = MessageUpdate({ result });
       if (err) {
         setError(err);
@@ -52,18 +52,18 @@ export default function UpdatePurchasePlanDialog({
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {/* Campo Fecha */}
               <div className="mb-4">
-                <label htmlFor="fecha" className="block text-sm font-medium">
+                <label htmlFor="date" className="block text-sm font-medium">
                   Fecha *
                 </label>
                 <input
-                  id="fecha"
-                  name="fecha"
+                  id="date"
+                  name="date"
                   type="date"
                   required
                   className="input-app"
                   defaultValue={
-                    plandecompras.fecha
-                      ? plandecompras.fecha.toISOString().substring(0, 10)
+                    purchaseplan.date
+                      ? purchaseplan.date.toISOString().substring(0, 10)
                       : ''
                   }
                 />
@@ -71,15 +71,15 @@ export default function UpdatePurchasePlanDialog({
 
               {/* Campo Estado */}
               <div className="mb-4">
-                <label htmlFor="estado" className="block text-sm font-medium">
+                <label htmlFor="status" className="block text-sm font-medium">
                   Estado *
                 </label>
                 <select
-                  id="estado"
-                  name="estado"
+                  id="status"
+                  name="status"
                   required
                   className="input-app"
-                  defaultValue={plandecompras.estado}
+                  defaultValue={purchaseplan.status}
                 >
                   <option value="Abierto">Abierto</option>
                   <option value="Cerrado">Cerrado</option>
@@ -87,71 +87,68 @@ export default function UpdatePurchasePlanDialog({
                 </select>
               </div>
 
-              {/* Campo Dependencia */}
+              {/* Campo Department */}
               <div className="mb-4">
                 <label
-                  htmlFor="dependenciaId"
+                  htmlFor="departmentId"
                   className="block text-sm font-medium"
                 >
                   Dependencia *
                 </label>
                 <input
-                  id="dependenciaId"
-                  name="dependenciaId"
+                  id="departmentId"
+                  name="departmentId"
                   required
                   className="input-app"
-                  defaultValue={plandecompras.dependenciaId.toString()}
+                  defaultValue={purchaseplan.departmentId.toString()}
                 ></input>
               </div>
 
-              {/* Campo Usuario */}
+              {/* Campo User */}
               <div className="mb-4">
-                <label
-                  htmlFor="usuarioId"
-                  className="block text-sm font-medium"
-                >
+                <label htmlFor="userId" className="block text-sm font-medium">
                   Usuario *
                 </label>
                 <input
-                  id="usuarioId"
-                  name="usuarioId"
+                  id="userId"
+                  name="userId"
                   required
                   className="input-app"
-                  defaultValue={plandecompras.usuarioId.toString()}
+                  defaultValue={purchaseplan.userId.toString()}
                 ></input>
               </div>
 
               {/* Campo Ciclo de Contratación */}
               <div className="mb-4">
                 <label
-                  htmlFor="cicloContratacionId"
+                  htmlFor="hiringCycleId"
                   className="block text-sm font-medium"
                 >
                   Ciclo de Contratación (opcional)
                 </label>
                 <input
-                  id="cicloContratacionId"
-                  name="cicloContratacionId"
+                  id="hiringCycleId"
+                  name="hiringCycleId"
                   className="input-app"
-                  defaultValue={plandecompras.cicloContratacionId?.toString()}
+                  defaultValue={purchaseplan.hiringCycleId?.toString()}
                 ></input>
               </div>
 
               {/* Campo Valor Total */}
               <div className="mb-4">
                 <label
-                  htmlFor="valorTotal"
+                  htmlFor="totalValue"
                   className="block text-sm font-medium"
                 >
                   Valor Total (opcional)
                 </label>
                 <input
-                  id="valorTotal"
-                  name="valorTotal"
+                  id="totalValue"
+                  name="totalValue"
                   type="number"
                   step="0.01"
                   className="input-app"
-                  defaultValue={plandecompras.valorTotal}
+                  defaultValue={purchaseplan.totalValue}
                 />
               </div>
             </div>

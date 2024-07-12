@@ -5,20 +5,20 @@ import prisma from '../db';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import {
-  Enum_EstadoGeneral,
-  Enum_TipoDocumento,
-  Enum_TipoUsuario,
+  Enum_GeneralStatus,
+  Enum_DocumentType,
+  Enum_UserType,
 } from '@prisma/client';
 import { getErrorMesssage } from './actionsCommon';
 
 const CreateHiringCycleSchema = z.object({
   id: z.string().optional(),
-  fechaInicio: z.date(),
-  fechaFinal: z.date(),
-  usuarioId: z.string(),
-  entidadId: z.bigint(),
-  estado: z.enum(['Abierto', 'Cerrado', 'EnProceso']),
-  cotizacionId: z.bigint().optional(),
+  startDate: z.date(),
+  endDate: z.date(),
+  userId: z.string(),
+  entityId: z.bigint(),
+  status: z.enum(['Open', 'Closed', 'InProcess']),
+  quotationId: z.bigint().optional(),
 });
 
 const CreateHiringCycleFormSchema = CreateHiringCycleSchema.omit({
@@ -29,32 +29,26 @@ const CreateHiringCycleFormSchema = CreateHiringCycleSchema.omit({
 
 export const createHiringCycle = async (formData: FormData) => {
   try {
-    const {
-      fechaInicio,
-      fechaFinal,
-      usuarioId,
-      entidadId,
-      estado,
-      cotizacionId,
-    } = CreateHiringCycleFormSchema.parse({
-      fechaInicio: new Date(formData.get('fechaInicio') as string),
-      fechaFinal: new Date(formData.get('fechaFinal') as string),
-      usuarioId: formData.get('usuarioId') as string,
-      entidadId: BigInt(formData.get('entidadId') as string),
-      estado: formData.get('estado') as Enum_EstadoProceso,
-      cotizacionId: formData.get('cotizacionId')
-        ? BigInt(formData.get('cotizacionId') as string)
-        : undefined,
-    });
+    const { startDate, endDate, userId, entityId, status, quotationId } =
+      CreateHiringCycleFormSchema.parse({
+        startDate: new Date(formData.get('startDate') as string),
+        endDate: new Date(formData.get('endDate') as string),
+        userId: formData.get('userId') as string,
+        entityId: BigInt(formData.get('entityId') as string),
+        status: formData.get('status') as Enum_ProcessStatus,
+        quotationId: formData.get('quotationId')
+          ? BigInt(formData.get('quotationId') as string)
+          : undefined,
+      });
 
-    const newCicloContratacion = await prisma.cicloContratacion.create({
+    const newHiringCycle = await prisma.hiringCycle.create({
       data: {
-        fechaInicio: fechaInicio,
-        fechaFinal: fechaFinal,
-        usuarioId: usuarioId,
-        entidadId: entidadId,
-        estado: estado,
-        cotizacionId: cotizacionId,
+        startDate: startDate,
+        endDate: endDate,
+        userId: userId,
+        entityId: entityId,
+        status: status,
+        quotationId: quotationId,
       },
     });
   } catch (e) {
@@ -68,7 +62,7 @@ export const createHiringCycle = async (formData: FormData) => {
 export async function fetchHiringCycleById(id: bigint | undefined) {
   let data = null;
   try {
-    data = await prisma.cicloContratacion.findUnique({
+    data = await prisma.hiringCycle.findUnique({
       where: {
         id: id,
       },
@@ -77,40 +71,34 @@ export async function fetchHiringCycleById(id: bigint | undefined) {
     return getErrorMesssage(e);
   }
 
-  return data as unknown as CicloContratacion;
+  return data as unknown as HiringCycle;
 }
 
 export async function updateHiringCycle(id: bigint, formData: FormData) {
   try {
-    const {
-      fechaInicio,
-      fechaFinal,
-      usuarioId,
-      entidadId,
-      estado,
-      cotizacionId,
-    } = CreateHiringCycleFormSchema.parse({
-      fechaInicio: new Date(formData.get('fechaInicio') as string),
-      fechaFinal: new Date(formData.get('fechaFinal') as string),
-      usuarioId: formData.get('usuarioId') as string,
-      entidadId: BigInt(formData.get('entidadId') as string),
-      estado: formData.get('estado') as Enum_EstadoProceso,
-      cotizacionId: formData.get('cotizacionId')
-        ? BigInt(formData.get('cotizacionId') as string)
-        : undefined,
-    });
+    const { startDate, endDate, userId, entityId, status, quotationId } =
+      CreateHiringCycleFormSchema.parse({
+        startDate: new Date(formData.get('startDate') as string),
+        endDate: new Date(formData.get('endDate') as string),
+        userId: formData.get('userId') as string,
+        entityId: BigInt(formData.get('entityId') as string),
+        status: formData.get('status') as Enum_ProcessStatus,
+        quotationId: formData.get('quotationId')
+          ? BigInt(formData.get('quotationId') as string)
+          : undefined,
+      });
 
-    const updatedCicloContratacion = await prisma.cicloContratacion.update({
+    const updatedHiringCycle = await prisma.hiringCycle.update({
       where: {
         id: id,
       },
       data: {
-        fechaInicio: fechaInicio,
-        fechaFinal: fechaFinal,
-        usuarioId: usuarioId,
-        entidadId: entidadId,
-        estado: estado,
-        cotizacionId: cotizacionId,
+        startDate: startDate,
+        endDate: endDate,
+        userId: userId,
+        entityId: entityId,
+        status: status,
+        quotationId: quotationId,
       },
     });
   } catch (e) {
@@ -123,7 +111,7 @@ export async function updateHiringCycle(id: bigint, formData: FormData) {
 
 export async function deleteHiringCycle(id: bigint | undefined) {
   try {
-    await prisma.cicloContratacion.delete({
+    await prisma.hiringCycle.delete({
       where: {
         id: id,
       },

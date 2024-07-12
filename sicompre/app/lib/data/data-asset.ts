@@ -1,19 +1,19 @@
 import prisma from '@lib/db';
 
-export async function fetchGrupoBien() {
-  const data = await prisma.grupoBien.findMany({
-    distinct: ['descripcion'],
+export async function fetchAssetGroup() {
+  const data = await prisma.assetGroup.findMany({
+    distinct: ['description'],
   });
   return data;
 }
 
-export async function fetchBienById(id: bigint) {
-  const data = await prisma.bien.findUnique({
+export async function fetchAssetById(id: bigint) {
+  const data = await prisma.asset.findUnique({
     where: {
       id: id,
     },
     include: {
-      grupoBien: true,
+      assetGroup: true,
     },
   });
   return data;
@@ -21,13 +21,13 @@ export async function fetchBienById(id: bigint) {
 
 const ITEMS_PER_PAGE = 6;
 
-export async function fetchBien(query: string, currentPage: number) {
+export async function fetchAsset(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  const data = await prisma.bien.findMany({
+  const data = await prisma.asset.findMany({
     skip: offset,
     take: ITEMS_PER_PAGE,
     where: {
-      descripcion: {
+      description: {
         contains: query,
         mode: 'insensitive',
       },
@@ -36,29 +36,29 @@ export async function fetchBien(query: string, currentPage: number) {
       createdAt: 'desc',
     },
     include: {
-      grupoBien: true,
-      bienCantidad: {
+      assetGroup: true,
+      assetQuantities: {
         include: {
-          bien: true,
-          BienProveedor: true,
+          asset: true,
+          assetSuppliers: true,
         },
       },
     },
   });
-  const typedData = data as unknown as Bien[];
+  const typedData = data as unknown as Asset[];
   return typedData;
 }
 
-export async function fetchBienPages(query: string) {
-  const data = await prisma.bien.count({
+export async function fetchAssetPages(query: string) {
+  const data = await prisma.asset.count({
     where: {
-      descripcion: {
+      description: {
         contains: query,
         mode: 'insensitive',
       },
     },
     orderBy: {
-      descripcion: 'asc',
+      description: 'asc',
     },
   });
   const totalPages = Math.ceil(data / ITEMS_PER_PAGE);

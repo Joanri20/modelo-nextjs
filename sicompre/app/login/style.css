@@ -1,0 +1,197 @@
+/* Importa la fuente Montserrat desde Google Fonts */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Aplica el modelo de caja para todos los elementos */
+* {
+    box-sizing: border-box;
+}
+
+/* Estiliza el cuerpo del documento */
+
+/* Estilo para los botones */
+button {
+    border-radius: 20px; /* Bordes redondeados */
+    border: 1px solid #41fff6; /* Borde */
+    background-color: #41fff6; /* Color de fondo */
+    color: #FFFFFF; /* Color del texto */
+    font-size: 12px; /* Tamaño de fuente */
+    font-weight: bold; /* Negrita */
+    padding: 12px 45px; /* Relleno */
+    letter-spacing: 1px; /* Espaciado entre letras */
+    text-transform: uppercase; /* Texto en mayúsculas */
+    transition: transform 80ms ease-in; /* Transición para el transform */
+}
+
+/* Efecto al hacer clic en el botón */
+button:active {
+    transform: scale(0.9); /* Escala el botón */
+}
+
+/* Quitar el contorno del botón al enfocarse */
+button:focus {
+    outline: none;
+}
+
+/* Estilo para los botones con la clase .ghost */
+button.ghost {
+    background-color: transparent; /* Fondo transparente */
+    border-color: #FFFFFF; /* Color del borde */
+}
+
+/* Estilo para los formularios */
+form {
+    background-color: #FFFFFF; /* Color de fondo */
+    display: flex; /* Usar flexbox */
+    align-items: center; /* Centrar verticalmente */
+    justify-content: center; /* Centrar horizontalmente */
+    flex-direction: column; /* Disposición en columna */
+    padding: 5px 0px; /* Relleno */
+    width: 100%;
+    text-align: center; /* Alinear texto al centro */
+}
+
+/* Estilo para los campos de entrada */
+input {
+    background-color: #fffefe; /* Color de fondo */
+    border: blue; /* Sin borde */
+    padding: 12px 15px; /* Relleno */
+    margin: 8px 0; /* Márgenes */
+    width: 100%; /* Ancho completo */
+}
+
+/* Estilo para el contenedor principal */
+.container {
+    background-color: #fff; /* Color de fondo */
+    border-radius: 5px; /* Bordes redondeados */
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+                0 10px 10px rgba(0, 0, 0, 0.22); /* Sombra */
+    position: relative; /* Posición relativa */
+    overflow: hidden; /* Ocultar contenido desbordado */
+    width: 100%; /* Ancho */
+    @apply flex w-screen max-w-6xl h-5/6;    
+}
+
+/* Estilo para el contenedor del formulario */
+.form-container {
+    @apply absolute; /* Posición absoluta */
+    top: 0%; /* Desde la parte superior */
+    height: 100%; /* Altura completa */
+    transition: all 0.6s ease-in-out; /* Transición */
+    overflow-y: auto;
+}
+
+/* Estilo para el contenedor de inicio de sesión */
+.sign-in-container {
+    @apply w-11/12 sm:w-11/12; /* Ancho */
+    z-index: 2; /* Índice z */
+}
+
+/* Estilo cuando el contenedor principal tiene la clase .right-panel-active */
+.container.right-panel-active .sign-in-container {
+    transform: translateX(-100%); /* Mover inicio sesion a la izquierda */
+}
+
+/* Estilo para el contenedor de registro */
+.sign-up-container {
+    left: 0; /* Desde la izquierda */
+    width: 70%; /* Ancho */
+    opacity: 0; /* Opacidad */
+    z-index: 1; /* Índice z */
+}
+
+/* Estilo cuando el contenedor principal tiene la clase .right-panel-active */
+.container.right-panel-active .sign-up-container {
+    transform: translateX(30%); /* mueve contenedor registrarse hacia la izquierda - o derecha +*/
+    opacity: 1; /* Opacidad */
+    z-index: 5; /* Índice z */
+    animation: show 0.6s; /* Animación */
+}
+
+/* Animación para mostrar el contenedor */
+@keyframes show {
+    0%, 49.99% {opacity: 0;
+    z-index: 1;} /* Opacidad y z-index inicial */
+    50%, 100% {opacity: 1;
+    z-index: 5;} /* Opacidad y z-index final */
+}
+
+/* Estilo para el contenedor de la superposición */
+.overlay-container {
+    position: absolute; /* Posición absoluta */
+    top: 0; /* Desde la parte superior */
+    left: 80%; /* Desde la izquierda */
+    width: 20%; /* Ancho */
+    height: 100%; /* Altura completa */
+    overflow: hidden; /* Ocultar contenido desbordado */
+    transition: transform 0.6s ease-in-out; /* Transición */
+    z-index: 200; /* Índice z */
+}
+
+/* Estilo cuando el contenedor principal tiene la clase .right-panel-active */
+.container.right-panel-active .overlay-container {
+    transform: translateX(-400%); /* Mover a la izquierda */
+}
+
+/* Estilo para la superposición */
+.overlay {
+    background: #FF416C; /* Color de fondo */
+    background: -webkit-linear-gradient(to right, #2bbfff , #1be2cb); /* Degradado */
+    background: linear-gradient(to right, rgb(51, 51, 195) , #5c6ef6); /* Degradado */
+    background-repeat: no-repeat; /* Sin repetición */
+    background-size: cover; /* Cubrir */
+    background-position: 0 0; /* Posición de fondo */
+    color: white; /* Color del texto */
+    position: relative; /* Posición relativa */
+    left: -100%; /* Desde la izquierda */
+    height: 100%; /* Altura completa */
+    width: 200%; /* Ancho */
+    transform: translateX(0); /* Sin transformación */
+    transition: transform 0.6s ease-in-out; /* Transición */
+    border-radius: 10px;
+}
+
+/* Estilo cuando el contenedor principal tiene la clase .right-panel-active */
+.container.right-panel-active .overlay {
+    transform: translateX(50%); /* Mover a la derecha */
+}
+
+/* Estilo para el panel de la superposición */
+.overlay-panel {
+    position: absolute; /* Posición absoluta */
+    display: flex; /* Usar flexbox */
+    align-items: center; /* Centrar verticalmente */
+    justify-content: center; /* Centrar horizontalmente */
+    flex-direction: column; /* Disposición en columna */
+    padding: 0 10px; /* Relleno */
+    text-align: center; /* Alinear texto al centro */
+    top: 0; /* Desde la parte superior */
+    height: 100%; /* Altura completa */
+    width: 50%; /* Ancho */
+    transform: translateX(10%); /* Sin transformación */
+    transition: transform 0.6px ease-in-out; /* Transición */
+}
+
+/* Estilo para el panel de la superposición izquierda */
+.overlay-left {
+    transform: translateX(-50%); /* Mover a la izquierda - el boton de inicio sesion para que no se vea desde registrar  */
+}
+
+/* Estilo cuando el contenedor principal tiene la clase .right-panel-active */
+.container.right-panel-active .overlay-left {
+    transform: translateX(0); /* mueve boton inicio sesion a la derecha + */
+}
+
+/* Estilo para el panel de la superposición derecha */
+.overlay-right {
+    right: 0; /* Desde la derecha */
+    transform: translateX(0); /* corre el boton registrar a la derecha +*/
+}
+
+/* Estilo cuando el contenedor principal tiene la clase .right-panel-active */
+.container.right-panel-active .overlay-right {
+    transform: translateX(50%); /* Mover a la derecha + el boton de registrar para que no se vea desde inicio sesion */
+}
+

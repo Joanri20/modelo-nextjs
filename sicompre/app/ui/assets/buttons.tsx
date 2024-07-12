@@ -3,7 +3,7 @@ import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import {
   deleteAsset,
   fetchAssestById,
-  fetchGrupoBien,
+  fetchAssetGroup,
 } from '@lib/actions/actionsAssets';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -38,21 +38,21 @@ export function UpdateAsset({ id }: { id: string }) {
 
 export function UpdateAssetT({ id }: { id: bigint | undefined }) {
   const assestWithId = fetchAssestById.bind(null, id);
-  const groupBien = fetchGrupoBien;
-  const [data, setData] = useState<string | Bien>();
-  const [datagroup, setDataGroup] = useState<GrupoBien[] | null>(null);
+  const groupAsset = fetchAssetGroup;
+  const [data, setData] = useState<string | Asset>();
+  const [datagroup, setDataGroup] = useState<AssetGroup[] | null>(null);
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async () => {
     if (id) {
       try {
         const result = await assestWithId();
-        const grupo = await groupBien();
+        const grupo = await groupAsset();
         if (result != null) {
-          setData(result); // Set the first element (assuming single provider)
+          setData(result); // Set the first element (assuming single supplier)
         } else {
           // Handle the case where result is not an array or empty
-          console.warn('Unexpected data format from providerWithId()');
+          console.warn('Unexpected data format from supplierWithId()');
         }
         setDataGroup(grupo);
         setOpen(true);
@@ -67,10 +67,10 @@ export function UpdateAssetT({ id }: { id: bigint | undefined }) {
       action={async (formData: FormData) => {
         const result = await assestWithId();
         if (result != null) {
-          setData(result); // Set the first element (assuming single provider)
+          setData(result); // Set the first element (assuming single supplier)
         } else {
           // Handle the case where result is not an array or empty
-          console.warn('Unexpected data format from providerWithId()');
+          console.warn('Unexpected data format from supplierWithId()');
         }
       }}
     >
@@ -78,8 +78,8 @@ export function UpdateAssetT({ id }: { id: bigint | undefined }) {
         <UpdateAssetDialog
           open={open}
           setOpen={setOpen}
-          bien={data as Bien}
-          groupBien={datagroup ?? []}
+          asset={data as Asset}
+          groupAsset={datagroup ?? []}
         />
       )}
       <button

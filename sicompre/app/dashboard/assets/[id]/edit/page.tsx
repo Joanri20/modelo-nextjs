@@ -1,31 +1,31 @@
 import Form from 'ui/assets/edit-form';
 import Breadcrumbs from '@ui/common/breadcrumbs';
-import { fetchBienById, fetchGrupoBien } from 'lib/data';
+import { fetchAssetById, fetchAssetGroup } from 'lib/data';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Edición de Bienes o Servicios',
+  title: 'Edición de Assets o Servicios',
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;
-  const [asset, gruposBienes] = await Promise.all([
-    fetchBienById(id),
-    fetchGrupoBien(),
+  const [asset, gruposAssets] = await Promise.all([
+    fetchAssetById(id),
+    fetchAssetGroup(),
   ]);
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Bienes', href: '/dashboard/assets' },
+          { label: 'Assets', href: '/dashboard/assets' },
           {
-            label: 'Editar Bienes o Servicios',
+            label: 'Editar Assets o Servicios',
             href: `/dashboard/assets/${id}/edit`,
             active: true,
           },
         ]}
       />
-      <Form asset={asset} gruposBienes={gruposBienes} />
+      <Form asset={asset} gruposAssets={gruposAssets} />
     </main>
   );
 }

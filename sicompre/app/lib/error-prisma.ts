@@ -11,7 +11,7 @@ export function getPrismaErrorCodeDescription(code: string) {
     P2012: 'El valor proporcionado para el campo no es válido.',
     P2013:
       'El valor proporcionado para el campo es nulo, pero el campo no permite valores nulos.',
-    P2014: 'El valor proporcionado para el campo es de un tipo incorrecto.',
+    P2014: 'El valor proporcionado para el campo es de un type incorrecto.',
     P2015: 'El valor proporcionado para el campo es de un formato incorrecto.',
     P2016:
       'El valor proporcionado para el campo está fuera del rango permitido.',

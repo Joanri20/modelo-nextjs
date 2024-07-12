@@ -4,25 +4,25 @@ import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
 import { MessageUpdate } from '@ui/common/toast-message';
 import { convertEnumToArray } from '@lib/conversEnums';
-import { Enum_EstadoGeneral } from '@prisma/client';
+import { Enum_GeneralStatus } from '@prisma/client';
 import { updateEntity } from '@lib/actions/actionsEntities';
 
 interface UpdateEntitiesDialogProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  entidad: Entidad;
+  entity: Entity;
 }
 
 export default function UpdateEntityDialog({
   open,
   setOpen,
-  entidad,
+  entity,
 }: UpdateEntitiesDialogProps) {
   const [error, setError] = useState('');
 
   const handleSubmit = async (formData: FormData) => {
     try {
-      const result = await updateEntity(entidad.id, formData);
+      const result = await updateEntity(entity.id, formData);
       const err = MessageUpdate({ result });
       if (err) {
         setError(err);
@@ -51,52 +51,55 @@ export default function UpdateEntityDialog({
             <div className="mb-2 flex w-full gap-3">
               <div className="mb-2 w-full md:w-1/2">
                 <label
-                  htmlFor="nombre"
+                  htmlFor="name"
                   className="mb-2 block text-sm font-medium"
                 >
-                  Nombre entidad/organización*
+                  Nombre Entidad/organización*
                 </label>
                 <div className="relative">
                   <input
-                    id="nombre"
-                    name="nombre"
+                    id="name"
+                    name="name"
                     required
                     placeholder="Ingrese el nombre"
                     className="input-app"
-                    defaultValue={entidad.nombre}
-                  />
-                </div>
-              </div>
-              <div className="mb-2 w-full md:w-1/3">
-                <label htmlFor="nit" className="mb-2 block text-sm font-medium">
-                  NIT *
-                </label>
-                <div className="relative">
-                  <input
-                    id="nit"
-                    name="nit"
-                    required
-                    placeholder="Ingrese el NIT"
-                    className="input-app"
-                    defaultValue={entidad.nit}
+                    defaultValue={entity.name}
                   />
                 </div>
               </div>
               <div className="mb-2 w-full md:w-1/3">
                 <label
-                  htmlFor="telefono"
+                  htmlFor="taxId"
+                  className="mb-2 block text-sm font-medium"
+                >
+                  NIT *
+                </label>
+                <div className="relative">
+                  <input
+                    id="taxId"
+                    name="taxId"
+                    required
+                    placeholder="Ingrese el NIT"
+                    className="input-app"
+                    defaultValue={entity.taxId}
+                  />
+                </div>
+              </div>
+              <div className="mb-2 w-full md:w-1/3">
+                <label
+                  htmlFor="phone"
                   className="mb-2 block text-sm font-medium"
                 >
                   Teléfono *
                 </label>
                 <div className="relative">
                   <input
-                    id="telefono"
-                    name="telefono"
+                    id="phone"
+                    name="phone"
                     required
                     placeholder="Ingrese el teléfono"
                     className="input-app"
-                    defaultValue={entidad.telefono ?? ''}
+                    defaultValue={entity.phone ?? ''}
                   />
                 </div>
               </div>
@@ -104,37 +107,37 @@ export default function UpdateEntityDialog({
             <div className="mb-2 flex gap-3">
               <div className="w-full md:w-1/2">
                 <label
-                  htmlFor="direccion"
+                  htmlFor="address"
                   className="mb-2 block text-sm font-medium"
                 >
                   Dirección *
                 </label>
                 <div className="relative">
                   <input
-                    id="direccion"
-                    name="direccion"
+                    id="address"
+                    name="address"
                     required
                     placeholder="Ingrese la dirección"
                     className="input-app"
-                    defaultValue={entidad.direccion ?? ''}
+                    defaultValue={entity.address ?? ''}
                   />
                 </div>
               </div>
               <div className="w-full md:w-1/2">
                 <label
-                  htmlFor="municipio"
+                  htmlFor="city"
                   className="mb-2 block text-sm font-medium"
                 >
                   Municipio *
                 </label>
                 <div className="relative">
                   <input
-                    id="municipio"
-                    name="municipio"
+                    id="city"
+                    name="city"
                     required
                     placeholder="Ingrese el municipio"
                     className="input-app"
-                    defaultValue={entidad.municipio}
+                    defaultValue={entity.city}
                   />
                 </div>
               </div>
@@ -142,37 +145,37 @@ export default function UpdateEntityDialog({
             <div className="mb-2 flex gap-3">
               <div className="w-full md:w-1/2">
                 <label
-                  htmlFor="departamento"
+                  htmlFor="state"
                   className="mb-2 block text-sm font-medium"
                 >
                   Departamento *
                 </label>
                 <div className="relative">
                   <input
-                    id="departamento"
-                    name="departamento"
+                    id="state"
+                    name="state"
                     required
                     placeholder="Ingrese el departamento"
                     className="input-app"
-                    defaultValue={entidad.departamento}
+                    defaultValue={entity.state}
                   />
                 </div>
               </div>
               <div className="w-full md:w-1/2">
                 <label
-                  htmlFor="pais"
+                  htmlFor="country"
                   className="mb-2 block text-sm font-medium"
                 >
                   País *
                 </label>
                 <div className="relative">
                   <input
-                    id="pais"
-                    name="pais"
+                    id="country"
+                    name="country"
                     required
                     placeholder="Ingrese el país"
                     className="input-app"
-                    defaultValue={entidad.pais}
+                    defaultValue={entity.country}
                   />
                 </div>
               </div>
@@ -180,16 +183,19 @@ export default function UpdateEntityDialog({
 
             <div className="mb-2 flex gap-3">
               <div className="w-full md:w-1/2">
-                <label htmlFor="web" className="mb-2 block text-sm font-medium">
+                <label
+                  htmlFor="website"
+                  className="mb-2 block text-sm font-medium"
+                >
                   Web
                 </label>
                 <div className="relative">
                   <input
-                    id="web"
-                    name="web"
-                    placeholder="Ingrese el sitio web"
+                    id="website"
+                    name="website"
+                    placeholder="Ingrese el sitio website"
                     className="input-app"
-                    defaultValue={entidad.web ?? ''}
+                    defaultValue={entity.website ?? ''}
                   />
                 </div>
               </div>
@@ -207,7 +213,7 @@ export default function UpdateEntityDialog({
                     required
                     placeholder="Ingrese el email"
                     className="input-app"
-                    defaultValue={entidad.email ?? ''}
+                    defaultValue={entity.email ?? ''}
                   />
                 </div>
               </div>
@@ -215,37 +221,37 @@ export default function UpdateEntityDialog({
             <div className="mb-2 flex w-full gap-3">
               <div className="w-full md:w-1/2">
                 <label
-                  htmlFor="resolucionPosesion"
+                  htmlFor="possessionResolution"
                   className="mb-2 block text-sm font-medium"
                 >
                   Resolución de Posesión
                 </label>
                 <div className="relative">
                   <input
-                    id="resolucionPosesion"
-                    name="resolucionPosesion"
+                    id="possessionResolution"
+                    name="possessionResolution"
                     placeholder="Ingrese la resolución de posesión"
                     className="input-app"
-                    defaultValue={entidad.resolucionPosesion ?? ''}
+                    defaultValue={entity.possessionResolution ?? ''}
                   />
                 </div>
               </div>
               <div className="w-full md:w-1/2">
                 <label
-                  htmlFor="fechaPosesion"
+                  htmlFor="possessionDate"
                   className="mb-2 block text-sm font-medium"
                 >
                   Fecha de Posesión
                 </label>
                 <div className="relative">
                   <input
-                    id="fechaPosesion"
-                    name="fechaPosesion"
-                    placeholder="Ingrese la fecha de posesión"
+                    id="possessionDate"
+                    name="possessionDate"
+                    placeholder="Ingrese la date de posesión"
                     className="input-app"
                     defaultValue={
-                      entidad.fechaPosesion
-                        ? entidad.fechaPosesion.toISOString()
+                      entity.possessionDate
+                        ? entity.possessionDate.toISOString()
                         : 'No disponible'
                     }
                   />
@@ -255,42 +261,42 @@ export default function UpdateEntityDialog({
             <div className="mb-2 flex gap-3">
               <div className="w-full md:w-1/2">
                 <label
-                  htmlFor="saldoDisponible"
+                  htmlFor="availableBalance"
                   className="mb-2 block text-sm font-medium"
                 >
                   Saldo Disponible
                 </label>
                 <div className="relative">
                   <input
-                    id="saldoDisponible"
-                    name="saldoDisponible"
+                    id="availableBalance"
+                    name="availableBalance"
                     placeholder="Ingrese el saldo disponible"
                     className="input-app"
-                    defaultValue={entidad.saldoDisponible}
+                    defaultValue={entity.availableBalance}
                   />
                 </div>
               </div>
               <div className="w-full md:w-1/2">
                 <label
-                  htmlFor="estado"
+                  htmlFor="status"
                   className="mb-2 block text-sm font-medium"
                 >
                   Estado de Entidad *
                 </label>
                 <div className="relative">
                   <select
-                    id="estado"
-                    name="estado"
+                    id="status"
+                    name="status"
                     required
                     className="input-app"
-                    defaultValue={entidad.estado}
+                    defaultValue={entity.status}
                   >
                     <option value="" disabled>
-                      Selecciona un estado
+                      Selecciona un status
                     </option>
-                    {convertEnumToArray(Enum_EstadoGeneral).map((estado) => (
-                      <option key={estado.id} value={estado.id}>
-                        {estado.descripcion}
+                    {convertEnumToArray(Enum_GeneralStatus).map((status) => (
+                      <option key={status.id} value={status.id}>
+                        {status.description}
                       </option>
                     ))}
                   </select>

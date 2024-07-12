@@ -5,27 +5,27 @@ import prisma from '../db';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import {
-  Enum_EstadoGeneral,
-  Enum_TipoDocumento,
-  Enum_TipoUsuario,
+  Enum_GeneralStatus,
+  Enum_DocumentType,
+  Enum_UserType,
 } from '@prisma/client';
 import { getErrorMesssage } from './actionsCommon';
 
 const CreateEntitySchema = z.object({
   id: z.string(),
-  nombre: z.string(),
-  nit: z.string(),
-  direccion: z.string(),
-  telefono: z.string(),
-  municipio: z.string(),
-  departamento: z.string(),
-  pais: z.string(),
-  web: z.string(),
+  name: z.string(),
+  taxId: z.string(),
+  address: z.string(),
+  phone: z.string(),
+  city: z.string(),
+  state: z.string(),
+  country: z.string(),
+  website: z.string(),
   email: z.string(),
-  resolucionPosesion: z.string(),
-  fechaPosesion: z.string(),
-  estado: z.enum(['Activo', 'Deshabilitado']),
-  saldoDisponible: z.string(),
+  possessionResolution: z.string(),
+  possessionDate: z.string(),
+  status: z.enum(['Active', 'Disabled']),
+  availableBalance: z.string(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
 });
@@ -39,54 +39,54 @@ const CreateEntityFormSchema = CreateEntitySchema.omit({
 export const createEntity = async (formData: FormData) => {
   try {
     const {
-      nombre,
-      nit,
-      direccion,
-      telefono,
-      municipio,
-      departamento,
-      pais,
-      web,
+      name,
+      taxId,
+      address,
+      phone,
+      city,
+      state,
+      country,
+      website,
       email,
-      resolucionPosesion,
-      fechaPosesion,
-      estado,
-      saldoDisponible,
+      possessionResolution,
+      possessionDate,
+      status,
+      availableBalance,
     } = CreateEntityFormSchema.parse({
-      nombre: formData.get('nombre'),
-      nit: formData.get('nit'),
-      direccion: formData.get('direccion'),
-      telefono: formData.get('telefono'),
-      municipio: formData.get('municipio'),
-      departamento: formData.get('departamento'),
-      pais: formData.get('pais'),
-      web: formData.get('web'),
+      name: formData.get('name'),
+      taxId: formData.get('taxId'),
+      address: formData.get('address'),
+      phone: formData.get('phone'),
+      city: formData.get('city'),
+      state: formData.get('state'),
+      country: formData.get('country'),
+      website: formData.get('website'),
       email: formData.get('email'),
-      resolucionPosesion: formData.get('resolucionPosesion'),
-      fechaPosesion: formData.get('fechaPosesion'),
-      estado: formData.get('estado'),
-      saldoDisponible: formData.get('saldoDisponible'),
+      possessionResolution: formData.get('possessionResolution'),
+      possessionDate: formData.get('possessionDate'),
+      status: formData.get('status'),
+      availableBalance: formData.get('availableBalance'),
     });
 
-    const saldoDisponibleNumber = parseFloat(saldoDisponible);
+    const availableBalanceNumber = parseFloat(availableBalance);
 
     //const [date] = new Date().toISOString().split('T');
 
-    const newAsset = await prisma.entidad.create({
+    const newAsset = await prisma.entity.create({
       data: {
-        nombre: nombre,
-        nit: nit,
-        direccion: direccion,
-        telefono: telefono,
-        municipio: municipio,
-        departamento: departamento,
-        pais: pais,
-        web: web,
+        name: name,
+        taxId: taxId,
+        address: address,
+        phone: phone,
+        city: city,
+        state: state,
+        country: country,
+        website: website,
         email: email,
-        resolucionPosesion: resolucionPosesion,
-        fechaPosesion: fechaPosesion,
-        estado: estado,
-        saldoDisponible: saldoDisponibleNumber,
+        possessionResolution: possessionResolution,
+        possessionDate: possessionDate,
+        status: status,
+        availableBalance: availableBalanceNumber,
       },
     });
   } catch (e) {
@@ -100,75 +100,75 @@ export const createEntity = async (formData: FormData) => {
 export async function fetchEntityById(id: bigint | undefined) {
   let data = null;
   try {
-    data = await prisma.entidad.findUnique({
+    data = await prisma.entity.findUnique({
       where: {
         id: id,
       },
       include: {
-        dependencias: true,
-        cicloContratacion: true,
-        integrantes: true,
+        departments: true,
+        hiringCycles: true,
+        members: true,
       },
     });
   } catch (e) {
     return getErrorMesssage(e);
   }
 
-  return data as unknown as Entidad;
+  return data as unknown as Entity;
 }
 
 export async function updateEntity(id: bigint, formData: FormData) {
   try {
     const {
-      nombre,
-      nit,
-      direccion,
-      telefono,
-      municipio,
-      departamento,
-      pais,
-      web,
+      name,
+      taxId,
+      address,
+      phone,
+      city,
+      state,
+      country,
+      website,
       email,
-      resolucionPosesion,
-      fechaPosesion,
-      estado,
-      saldoDisponible,
+      possessionResolution,
+      possessionDate,
+      status,
+      availableBalance,
     } = CreateEntityFormSchema.parse({
-      nombre: formData.get('nombre'),
-      nit: formData.get('nit'),
-      direccion: formData.get('direccion'),
-      telefono: formData.get('telefono'),
-      municipio: formData.get('municipio'),
-      departamento: formData.get('departamento'),
-      pais: formData.get('pais'),
-      web: formData.get('web'),
+      name: formData.get('name'),
+      taxId: formData.get('taxId'),
+      address: formData.get('address'),
+      phone: formData.get('phone'),
+      city: formData.get('city'),
+      state: formData.get('state'),
+      country: formData.get('country'),
+      website: formData.get('website'),
       email: formData.get('email'),
-      resolucionPosesion: formData.get('resolucionPosesion'),
-      fechaPosesion: formData.get('fechaPosesion'),
-      estado: formData.get('estado'),
-      saldoDisponible: formData.get('saldoDisponible'),
+      possessionResolution: formData.get('possessionResolution'),
+      possessionDate: formData.get('possessionDate'),
+      status: formData.get('status'),
+      availableBalance: formData.get('availableBalance'),
     });
 
-    const saldoDisponibleNumber = parseFloat(saldoDisponible);
+    const availableBalanceNumber = parseFloat(availableBalance);
 
-    const newEntity = await prisma.entidad.update({
+    const newEntity = await prisma.entity.update({
       where: {
         id: id,
       },
       data: {
-        nombre: nombre,
-        nit: nit,
-        direccion: direccion,
-        telefono: telefono,
-        municipio: municipio,
-        departamento: departamento,
-        pais: pais,
-        web: web,
+        name: name,
+        taxId: taxId,
+        address: address,
+        phone: phone,
+        city: city,
+        state: state,
+        country: country,
+        website: website,
         email: email,
-        resolucionPosesion: resolucionPosesion,
-        fechaPosesion: fechaPosesion,
-        estado: estado,
-        saldoDisponible: saldoDisponibleNumber,
+        possessionResolution: possessionResolution,
+        possessionDate: possessionDate,
+        status: status,
+        availableBalance: availableBalanceNumber,
       },
     });
   } catch (e) {
@@ -181,7 +181,7 @@ export async function updateEntity(id: bigint, formData: FormData) {
 
 export async function deleteEntity(id: bigint | undefined) {
   try {
-    await prisma.entidad.delete({
+    await prisma.entity.delete({
       where: {
         id: id,
       },

@@ -4,10 +4,7 @@ import { RevenueChartSkeleton } from '@ui/skeletons';
 import Search from '@ui/search';
 import Pagination from '@ui/assets/pagination';
 import { Metadata } from 'next';
-import {
-  fetchCotizacion,
-  fetchCotizacionPages,
-} from '@lib/data/data-quotation';
+import { fetchQuotation, fetchQuotationPages } from '@lib/data/data-quotation';
 import { CreateQuotations } from '@ui/quotations/buttons';
 import TableQuotations from '@ui/quotations/table-quotations';
 
@@ -26,8 +23,8 @@ export default async function Page({
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
 
-  const totalPages = await fetchCotizacionPages(query);
-  const Quotations = await fetchCotizacion(query, currentPage);
+  const totalPages = await fetchQuotationPages(query);
+  const Quotations = await fetchQuotation(query, currentPage);
 
   return (
     <main>
@@ -35,7 +32,7 @@ export default async function Page({
         Cotizaciones
       </h1>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Buscar cotizacion" />
+        <Search placeholder="Buscar Cotización" />
         <CreateQuotations />
       </div>
       <div className="p-6">

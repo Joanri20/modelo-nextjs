@@ -25,7 +25,7 @@ export function CreatePurchasePlans() {
 
 export function UpdatePurchasePlan({ id }: { id: bigint }) {
   const purchaseplanWithId = fetchPurchasePlanById.bind(null, id);
-  const [data, setData] = useState<PlanDeCompras | string | null>(null);
+  const [data, setData] = useState<PurchasePlan | string | null>(null);
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async () => {
@@ -35,7 +35,7 @@ export function UpdatePurchasePlan({ id }: { id: bigint }) {
         if (result != null) {
           setData(result);
         } else {
-          console.warn('Unexpected data format from providerWithId()');
+          console.warn('Unexpected data format from supplierWithId()');
           setData(null); // Or set to a default value
         }
         setOpen(true);
@@ -61,7 +61,7 @@ export function UpdatePurchasePlan({ id }: { id: bigint }) {
         <UpdatePurchasePlanDialog
           open={open}
           setOpen={setOpen}
-          plandecompras={data as PlanDeCompras}
+          purchaseplan={data as PurchasePlan}
         />
       )}
       <button

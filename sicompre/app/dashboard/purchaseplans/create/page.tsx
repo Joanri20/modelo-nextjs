@@ -1,5 +1,5 @@
 import Breadcrumbs from '@ui/common/breadcrumbs';
-import { fetchGrupoBien } from '@lib/data';
+import { fetchAssetGroup } from '@lib/data';
 import { Metadata } from 'next';
 import Form from '@ui/purchaseplans/create-form';
 

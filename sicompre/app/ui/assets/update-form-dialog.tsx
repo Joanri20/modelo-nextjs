@@ -10,25 +10,25 @@ import { MessageUpdate } from '@ui/common/toast-message';
 interface UpdateAssetsDialogProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  bien: Bien;
-  groupBien: GrupoBien[];
+  asset: Asset;
+  groupAsset: AssetGroup[];
 }
 
 export default function UpdateAssetDialog({
   open,
   setOpen,
-  bien,
-  groupBien,
+  asset,
+  groupAsset,
 }: UpdateAssetsDialogProps) {
   const [error, setError] = useState('');
   const {
     id,
-    descripcion,
-    grupoBien,
-    grupoBienId,
-    valorVigente,
-    bienCantidad,
-  } = bien;
+    description: description,
+    assetGroup: assetGroup,
+    assetGroupId: assetGroupId,
+    currentValue: currentValue,
+    assetQuantities: assetQuantity,
+  } = asset;
 
   const handleSubmit = async (formData: FormData) => {
     try {
@@ -61,28 +61,28 @@ export default function UpdateAssetDialog({
             <div className="mb-4 flex gap-5">
               <div className="mb-4 w-5/12">
                 <label
-                  htmlFor="grupoBien"
+                  htmlFor="assetGroup"
                   className="mb-2 block text-sm font-medium"
                 >
-                  Selecciona el grupo del bien o servicio *
+                  Selecciona el grupo del asset o servicio *
                 </label>
                 <div className="relative">
                   <select
-                    id="grupoBien"
-                    name="grupoBienId"
+                    id="assetGroup"
+                    name="assetGroupId"
                     required
                     className="input-app"
-                    defaultValue={Number(grupoBienId)}
+                    defaultValue={Number(assetGroupId)}
                   >
                     <option value="" disabled>
                       Selecciona un grupo
                     </option>
-                    {groupBien.map((gruposBienes) => (
+                    {groupAsset.map((gruposAssets) => (
                       <option
-                        key={Number(gruposBienes.id)}
-                        value={Number(gruposBienes.id)}
+                        key={Number(gruposAssets.id)}
+                        value={Number(gruposAssets.id)}
                       >
-                        {gruposBienes.descripcion}
+                        {gruposAssets.description}
                       </option>
                     ))}
                   </select>
@@ -93,18 +93,18 @@ export default function UpdateAssetDialog({
             <div className="mb-4 flex gap-5">
               <div className="w-full">
                 <label
-                  htmlFor="descripcion"
+                  htmlFor="description"
                   className="mb-2 block text-sm font-medium"
                 >
-                  Indica una descripción del bien o servicio *
+                  Indica una descripción del asset o servicio *
                 </label>
                 <div className="relative mt-2 rounded-md">
                   <div className="w-full">
                     <input
-                      id="descripcion"
-                      name="descripcion"
-                      defaultValue={descripcion}
-                      placeholder="Ingrese nombre o descripción"
+                      id="description"
+                      name="description"
+                      defaultValue={description}
+                      placeholder="Ingrese name o descripción"
                       required
                       className="input-app"
                     />
@@ -117,14 +117,14 @@ export default function UpdateAssetDialog({
                   htmlFor="valorvigente"
                   className="mb-2 block text-sm font-medium"
                 >
-                  Valor Bien
+                  Valor Asset
                 </label>
                 <div className="relative mt-2 rounded-md">
                   <div className="w-full">
                     <input
-                      id="valorVigente"
-                      name="valorVigente"
-                      defaultValue={valorVigente ? valorVigente : 0}
+                      id="currentValue"
+                      name="currentValue"
+                      defaultValue={currentValue ? currentValue : 0}
                       placeholder="Ingresa un valor sin signos"
                       required
                       className="input-app"

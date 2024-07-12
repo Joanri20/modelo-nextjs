@@ -35,7 +35,7 @@ const links = [
   },
   {
     name: 'Proveedores',
-    href: '/dashboard/providers',
+    href: '/dashboard/suppliers',
     icon: TbTruckDelivery,
   },
   {
@@ -50,7 +50,7 @@ const links = [
   },
   {
     name: 'Dependencias',
-    href: '/dashboard/dependencies',
+    href: '/dashboard/departments',
     icon: BuildingOffice2Icon,
   },
   {

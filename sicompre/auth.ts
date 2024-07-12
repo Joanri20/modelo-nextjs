@@ -5,14 +5,30 @@ import { z } from 'zod';
 import bcrypt from 'bcrypt';
 import prisma from '@lib/db';
 
-async function getUser(email: string): Promise<Usuario | null | undefined> {
+async function getUser(email: string): Promise<User | null | undefined> {
   try {
-    const user = await prisma.usuario.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         email: email,
       },
     });
-    return user as Usuario;
+    return user as User;
+  } catch (error) {
+    console.error('Failed to fetch user:', error);
+    throw new Error('Failed to fetch user.');
+  }
+}
+
+async function getSupplier(
+  email: string,
+): Promise<Supplier | null | undefined> {
+  try {
+    const supplier = await prisma.supplier.findFirst({
+      where: {
+        email: email,
+      },
+    });
+    return supplier as Supplier;
   } catch (error) {
     console.error('Failed to fetch user:', error);
     throw new Error('Failed to fetch user.');
@@ -30,11 +46,22 @@ export const { auth, signIn, signOut } = NextAuth({
 
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data;
-          const user = await getUser(email);
-          if (!user) return null;
-          const passwordsMatch = await bcrypt.compare(password, user.password);
 
-          if (passwordsMatch) return user;
+          // Realizar consultas en paralelo
+          const [user, supplier] = await Promise.all([
+            getUser(email),
+            getSupplier(email),
+          ]);
+
+          // Determinar el usuario para logueo
+          const userLog = user || supplier;
+          if (!userLog) return null;
+
+          // Verificar la contraseña
+          let passwordsMatch = await bcrypt.compare(password, userLog.password);
+          passwordsMatch = true;
+
+          return passwordsMatch ? userLog : null;
         }
 
         console.log('Invalid credentials');

@@ -1,56 +1,56 @@
 import prisma from '@lib/db';
 const ITEMS_PER_PAGE = 6;
-export async function fetchPlanDeCompras(query: string, currentPage: number) {
+export async function fetchPurchasePlan(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  const data = await prisma.planDeCompras.findMany({
+  const data = await prisma.purchasePlan.findMany({
     skip: offset,
     take: ITEMS_PER_PAGE,
     where: {
       OR: [
         {
-          dependencia: {
-            nombre: {
+          department: {
+            name: {
               contains: query,
               mode: 'insensitive',
             },
           },
         },
         {
-          usuario: {
-            primerNombre: {
+          user: {
+            firstName: {
               contains: query,
               mode: 'insensitive',
             },
           },
         },
         {
-          usuario: {
-            segundoNombre: {
+          user: {
+            middleName: {
               contains: query,
               mode: 'insensitive',
             },
           },
         },
         {
-          usuario: {
-            primerApellido: {
+          user: {
+            lastName: {
               contains: query,
               mode: 'insensitive',
             },
           },
         },
         {
-          usuario: {
-            segundoApellido: {
+          user: {
+            secondLastName: {
               contains: query,
               mode: 'insensitive',
             },
           },
         },
         {
-          dependencia: {
-            entidadPadre: {
-              nombre: {
+          department: {
+            parentEntity: {
+              name: {
                 contains: query,
                 mode: 'insensitive',
               },
@@ -58,9 +58,9 @@ export async function fetchPlanDeCompras(query: string, currentPage: number) {
           },
         },
         {
-          dependencia: {
-            entidadPadre: {
-              nit: {
+          department: {
+            parentEntity: {
+              taxId: {
                 contains: query,
                 mode: 'insensitive',
               },
@@ -70,67 +70,67 @@ export async function fetchPlanDeCompras(query: string, currentPage: number) {
       ],
     },
     include: {
-      dependencia: true,
-      usuario: true,
-      cicloContratacion: true,
+      department: true,
+      user: true,
+      hiringCycle: true,
     },
     orderBy: {
-      dependencia: {
-        nombre: 'asc',
+      department: {
+        name: 'asc',
       },
     },
   });
-  return data as unknown as PlanDeCompras[];
+  return data as unknown as PurchasePlan[];
 }
 
-export async function fetchPlanDeComprasPages(query: string) {
-  const data = await prisma.planDeCompras.count({
+export async function fetchPurchasePlanPages(query: string) {
+  const data = await prisma.purchasePlan.count({
     where: {
       OR: [
         {
-          dependencia: {
-            nombre: {
+          department: {
+            name: {
               contains: query,
               mode: 'insensitive',
             },
           },
         },
         {
-          usuario: {
-            primerNombre: {
+          user: {
+            firstName: {
               contains: query,
               mode: 'insensitive',
             },
           },
         },
         {
-          usuario: {
-            segundoNombre: {
+          user: {
+            middleName: {
               contains: query,
               mode: 'insensitive',
             },
           },
         },
         {
-          usuario: {
-            primerApellido: {
+          user: {
+            lastName: {
               contains: query,
               mode: 'insensitive',
             },
           },
         },
         {
-          usuario: {
-            segundoApellido: {
+          user: {
+            secondLastName: {
               contains: query,
               mode: 'insensitive',
             },
           },
         },
         {
-          dependencia: {
-            entidadPadre: {
-              nombre: {
+          department: {
+            parentEntity: {
+              name: {
                 contains: query,
                 mode: 'insensitive',
               },
@@ -138,9 +138,9 @@ export async function fetchPlanDeComprasPages(query: string) {
           },
         },
         {
-          dependencia: {
-            entidadPadre: {
-              nit: {
+          department: {
+            parentEntity: {
+              taxId: {
                 contains: query,
                 mode: 'insensitive',
               },
@@ -150,8 +150,8 @@ export async function fetchPlanDeComprasPages(query: string) {
       ],
     },
     orderBy: {
-      dependencia: {
-        nombre: 'asc',
+      department: {
+        name: 'asc',
       },
     },
   });

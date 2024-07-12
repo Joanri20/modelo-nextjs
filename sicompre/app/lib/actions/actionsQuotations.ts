@@ -5,19 +5,19 @@ import prisma from '../db';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import {
-  Enum_EstadoGeneral,
-  Enum_TipoDocumento,
-  Enum_TipoUsuario,
+  Enum_GeneralStatus,
+  Enum_DocumentType,
+  Enum_UserType,
 } from '@prisma/client';
 import { getErrorMesssage } from './actionsCommon';
 
 const CreateQuotationSchema = z.object({
   id: z.bigint(),
-  fechaInicio: z.string().transform((str) => new Date(str)),
-  fechaFinal: z.string().transform((str) => new Date(str)),
-  usuarioId: z.string(),
-  entidadId: z.bigint(),
-  estado: z.enum(['Abierto', 'Cerrado', 'Pendiente']),
+  startDate: z.string().transform((str) => new Date(str)),
+  endDate: z.string().transform((str) => new Date(str)),
+  userId: z.string(),
+  entityId: z.bigint(),
+  status: z.enum(['Abierto', 'Cerrado', 'Pendiente']),
 });
 
 const CreateQuotationFormSchema = CreateQuotationSchema.omit({
@@ -28,22 +28,22 @@ const CreateQuotationFormSchema = CreateQuotationSchema.omit({
 
 export const createQuotation = async (formData: FormData) => {
   try {
-    const { fechaInicio, fechaFinal, usuarioId, entidadId, estado } =
+    const { startDate, endDate, userId, entityId, status } =
       CreateQuotationFormSchema.parse({
-        fechaInicio: formData.get('fechaInicio'),
-        fechaFinal: formData.get('fechaFinal'),
-        usuarioId: formData.get('usuarioId'),
-        entidadId: BigInt(formData.get('entidadId') as string),
-        estado: formData.get('estado'),
+        startDate: formData.get('startDate'),
+        endDate: formData.get('endDate'),
+        userId: formData.get('userId'),
+        entityId: BigInt(formData.get('entityId') as string),
+        status: formData.get('status'),
       });
 
-    const newCotizacion = await prisma.cotizacion.create({
+    const newQuotation = await prisma.quotation.create({
       data: {
-        fechaInicio,
-        fechaFinal,
-        usuarioId,
-        entidadId,
-        estado: estado as Enum_EstadoCotizacion,
+        startDate,
+        endDate,
+        userId,
+        entityId,
+        status: status as Enum_QuotationStatus,
       },
     });
 
@@ -57,7 +57,7 @@ export const createQuotation = async (formData: FormData) => {
 export async function fetchQuotationById(id: bigint | undefined) {
   let data = null;
   try {
-    data = await prisma.cotizacion.findUnique({
+    data = await prisma.quotation.findUnique({
       where: {
         id: id,
       },
@@ -66,31 +66,31 @@ export async function fetchQuotationById(id: bigint | undefined) {
     return getErrorMesssage(e);
   }
 
-  return data as Cotizacion;
+  return data as Quotation;
 }
 
 export async function updateQuotation(id: bigint, formData: FormData) {
   try {
-    const { fechaInicio, fechaFinal, usuarioId, entidadId, estado } =
+    const { startDate, endDate, userId, entityId, status } =
       CreateQuotationFormSchema.parse({
         id: id,
-        fechaInicio: formData.get('fechaInicio'),
-        fechaFinal: formData.get('fechaFinal'),
-        usuarioId: formData.get('usuarioId'),
-        entidadId: BigInt(formData.get('entidadId') as string),
-        estado: formData.get('estado'),
+        startDate: formData.get('startDate'),
+        endDate: formData.get('endDate'),
+        userId: formData.get('userId'),
+        entityId: BigInt(formData.get('entityId') as string),
+        status: formData.get('status'),
       });
 
-    const updatedCotizacion = await prisma.cotizacion.update({
+    const updatedQuotation = await prisma.quotation.update({
       where: {
         id: id,
       },
       data: {
-        fechaInicio,
-        fechaFinal,
-        usuarioId,
-        entidadId,
-        estado: estado as Enum_EstadoCotizacion,
+        startDate,
+        endDate,
+        userId,
+        entityId,
+        status: status as Enum_QuotationStatus,
       },
     });
 
@@ -103,7 +103,7 @@ export async function updateQuotation(id: bigint, formData: FormData) {
 
 export async function deleteQuotation(id: bigint | undefined) {
   try {
-    await prisma.cotizacion.delete({
+    await prisma.quotation.delete({
       where: {
         id: id,
       },

@@ -1,232 +1,285 @@
-// This file contains placeholder data that you'll be replacing with real data in the Data Fetching chapter:
-// https://nextjs.org/learn/dashboard-app/fetching-data
-// Placeholder data
-const gruposBienes = [
-  { id: 1, descripcion: 'Material Vivo Animal y Vegetal' },
-  { id: 2, descripcion: 'Materias Primas' },
+const assetGroups = [
+  { id: 1, description: 'Living Animal and Plant Material' },
+  { id: 2, description: 'Raw Materials' },
   {
     id: 3,
-    descripcion: 'Maquinaria, Herramientas, Equipo Industrial y Vehículos',
+    description: 'Machinery, Tools, Industrial Equipment, and Vehicles',
   },
-  { id: 4, descripcion: 'Componentes y Suministros' },
-  { id: 5, descripcion: 'Bienes de Uso Final' },
-  { id: 6, descripcion: 'Servicios' },
-  { id: 7, descripcion: 'Terrenos, Edificios, Estructuras y vías' },
+  { id: 4, description: 'Components and Supplies' },
+  { id: 5, description: 'Final Use Goods' },
+  { id: 6, description: 'Services' },
+  { id: 7, description: 'Land, Buildings, Structures, and Roads' },
 ];
-const bienes = [
+
+const assets = [
+  { id: 1, description: 'Laptop', assetGroupId: 5, currentValue: 1500 },
+  { id: 2, description: 'Office Chair', assetGroupId: 5, currentValue: 200 },
+  { id: 3, description: 'Projector', assetGroupId: 5, currentValue: 800 },
+];
+
+const assetQuantities = [
+  { id: 1, assetId: 1, quantity: 10, purchasePlanId: 1 },
+  { id: 2, assetId: 2, quantity: 20, purchasePlanId: 2 },
+  { id: 3, assetId: 3, quantity: 5, purchasePlanId: 3 },
+];
+
+const purchasePlans = [
   {
     id: 1,
-    descripcion: 'Vehículo utilitario',
-    grupoBienId: 3,
-    valorVigente: 25000,
+    date: new Date(),
+    status: 'Open',
+    departmentId: 1,
+    userId: 'user1',
+    totalValue: 10000,
   },
   {
     id: 2,
-    descripcion: 'Computadora portátil',
-    grupoBienId: 3,
-    valorVigente: 1000,
+    date: new Date(),
+    status: 'Closed',
+    departmentId: 2,
+    userId: 'user2',
+    totalValue: 5000,
   },
   {
     id: 3,
-    descripcion: 'Escritorio de oficina',
-    grupoBienId: 5,
-    valorVigente: 150,
+    date: new Date(),
+    status: 'InProcess',
+    departmentId: 3,
+    userId: 'user3',
+    totalValue: 2000,
   },
 ];
-const usuarios = [
+
+const assetSuppliers = [
+  { assetQuantityId: 1, supplierId: 1, value: 15000, quotationId: 1 },
+  { assetQuantityId: 2, supplierId: 2, value: 3000, quotationId: 2 },
+  { assetQuantityId: 3, supplierId: 3, value: 4000, quotationId: 3 },
+];
+
+const suppliers = [
   {
-    id: '1',
-    primerNombre: 'Juan',
-    segundoNombre: 'Carlos',
-    primerApellido: 'Gómez',
-    segundoApellido: 'López',
-    tipoDocumento: 'CC',
-    documento: '12345678',
-    telefono: '1234567890',
-    celular: '0987654321',
-    email: 'juan@example.com',
-    direccion: 'Calle 123',
-    estado: 'Activo',
-    tipo: 'Administrador',
+    id: 1,
+    name: 'Supplier One',
+    taxId: '123456789',
+    address: '123 Main St',
+    email: 'supplier1@example.com',
+    phone: '555-1234',
+    password: '$1234',
+    namePersonResponsible: 'Responsable',
+    website: 'www.',
+  },
+  {
+    id: 2,
+    name: 'Supplier Two',
+    taxId: '987654321',
+    address: '456 Elm St',
+    email: 'supplier2@example.com',
+    phone: '555-5678',
+    password: '$1234',
+    namePersonResponsible: 'Responsable',
+    website: 'www.',
+  },
+  {
+    id: 3,
+    name: 'Supplier Three',
+    taxId: '111222333',
+    address: '789 Oak St',
+    email: 'supplier3@example.com',
+    phone: '555-9101',
+    password: '$1234',
+    namePersonResponsible: 'Responsable',
+    website: 'www.',
+  },
+];
+
+const quotationSuppliers = [
+  { supplierId: 1, quotationId: 1, totalValue: 15000 },
+  { supplierId: 2, quotationId: 2, totalValue: 3000 },
+  { supplierId: 3, quotationId: 3, totalValue: 4000 },
+];
+
+const quotations = [
+  {
+    id: 1,
+    startDate: new Date(),
+    endDate: new Date(),
+    userId: 'user1',
+    entityId: 1,
+    status: 'Open',
+  },
+  {
+    id: 2,
+    startDate: new Date(),
+    endDate: new Date(),
+    userId: 'user2',
+    entityId: 2,
+    status: 'Closed',
+  },
+  {
+    id: 3,
+    startDate: new Date(),
+    endDate: new Date(),
+    userId: 'user3',
+    entityId: 3,
+    status: 'Open',
+  },
+];
+
+const hiringCycles = [
+  {
+    id: 1,
+    startDate: new Date(),
+    endDate: new Date(),
+    status: 'Open',
+    entityId: 1,
+    userId: 'user1',
+  },
+  {
+    id: 2,
+    startDate: new Date(),
+    endDate: new Date(),
+    status: 'Closed',
+    entityId: 2,
+    userId: 'user2',
+  },
+  {
+    id: 3,
+    startDate: new Date(),
+    endDate: new Date(),
+    status: 'InProcess',
+    entityId: 3,
+    userId: 'user3',
+  },
+];
+
+const entities = [
+  {
+    id: 1,
+    name: 'Entity One',
+    taxId: '123456789',
+    address: '123 Main St',
+    city: 'City A',
+    state: 'State A',
+    country: 'Country A',
+    status: 'Active',
+    availableBalance: 10000,
+  },
+  {
+    id: 2,
+    name: 'Entity Two',
+    taxId: '987654321',
+    address: '456 Elm St',
+    city: 'City B',
+    state: 'State B',
+    country: 'Country B',
+    status: 'Disabled',
+    availableBalance: 5000,
+  },
+  {
+    id: 3,
+    name: 'Entity Three',
+    taxId: '111222333',
+    address: '789 Oak St',
+    city: 'City C',
+    state: 'State C',
+    country: 'Country C',
+    status: 'Active',
+    availableBalance: 2000,
+  },
+];
+
+const departments = [
+  {
+    id: 1,
+    name: 'Department One',
+    taxId: '123456789',
+    city: 'City A',
+    state: 'State A',
+    country: 'Country A',
+    status: 'Active',
+    entityId: 1,
+    availableBalance: 10000,
+  },
+  {
+    id: 2,
+    name: 'Department Two',
+    taxId: '987654321',
+    city: 'City B',
+    state: 'State B',
+    country: 'Country B',
+    status: 'Disabled',
+    entityId: 2,
+    availableBalance: 5000,
+  },
+  {
+    id: 3,
+    name: 'Department Three',
+    taxId: '111222333',
+    city: 'City C',
+    state: 'State C',
+    country: 'Country C',
+    status: 'Active',
+    entityId: 3,
+    availableBalance: 2000,
+  },
+];
+
+const users = [
+  {
+    id: 'user1',
+    firstName: 'John',
+    middleName: 'A',
+    lastName: 'Doe',
+    secondLastName: 'Smith',
+    documentType: 'CC',
+    document: '123456789',
+    mobile: '555-1234',
+    email: 'john.doe@example.com',
+    status: 'Active',
+    type: 'Manager',
     password: 'password123',
   },
   {
-    id: '2',
-    primerNombre: 'María',
-    segundoNombre: 'Luisa',
-    primerApellido: 'Martínez',
-    segundoApellido: 'Pérez',
-    tipoDocumento: 'CC',
-    documento: '87654321',
-    telefono: '0987654321',
-    celular: '1234567890',
-    email: 'maria@example.com',
-    direccion: 'Carrera 456',
-    estado: 'Activo',
-    tipo: 'Encargado',
+    id: 'user2',
+    firstName: 'Jane',
+    middleName: 'B',
+    lastName: 'Doe',
+    secondLastName: 'Johnson',
+    documentType: 'CE',
+    document: '987654321',
+    mobile: '555-5678',
+    email: 'jane.doe@example.com',
+    status: 'Disabled',
+    type: 'Administrator',
     password: 'password123',
   },
-];
-
-const proveedores = [
   {
-    id: 1,
-    nombre: 'Proveedor 1',
-    nit: '123456789',
-    direccion: 'Calle 1',
-    email: 'proveedor1@example.com',
-    telefono: '1234567890',
-  },
-  {
-    id: 2,
-    nombre: 'Proveedor 2',
-    nit: '987654321',
-    direccion: 'Carrera 2',
-    email: 'proveedor2@example.com',
-    telefono: '0987654321',
-  },
-];
-
-const entidades = [
-  {
-    id: 1,
-    nombre: 'Entidad 1',
-    nit: '123456789',
-    municipio: 'Bogotá',
-    departamento: 'Cundinamarca',
-    pais: 'Colombia',
-    saldoDisponible: 1000000,
-  },
-  {
-    id: 2,
-    nombre: 'Entidad 2',
-    nit: '987654321',
-    municipio: 'Medellín',
-    departamento: 'Antioquia',
-    pais: 'Colombia',
-    saldoDisponible: 500000,
-  },
-];
-const dependencias = [
-  {
-    id: 1,
-    nombre: 'Dependencia 1',
-    nit: '123456789',
-    municipio: 'Bogotá',
-    departamento: 'Cundinamarca',
-    pais: 'Colombia',
-    saldoDisponible: 500000,
-    entidadId: 1,
-  },
-  {
-    id: 2,
-    nombre: 'Dependencia 2',
-    nit: '987654321',
-    municipio: 'Medellín',
-    departamento: 'Antioquia',
-    pais: 'Colombia',
-    saldoDisponible: 250000,
-    entidadId: 2,
-  },
-];
-const ciclosContratacion = [
-  {
-    id: 1,
-    fechaInicio: new Date('2023-01-01'),
-    fechaFinal: new Date('2023-12-31'),
-    estado: 'Abierto',
-    usuarioId: '1',
-    entidadId: 1,
-  },
-  {
-    id: 2,
-    fechaInicio: new Date('2024-01-01'),
-    fechaFinal: new Date('2024-12-31'),
-    estado: 'EnProceso',
-    usuarioId: '2',
-    entidadId: 2,
-  },
-];
-const cotizaciones = [
-  {
-    id: 1,
-    fechaInicio: new Date('2023-06-01'),
-    fechaFinal: new Date('2023-06-30'),
-    estado: 'Abierto',
-    usuarioId: '1',
-    entidadId: 1,
-  },
-  {
-    id: 2,
-    fechaInicio: new Date('2023-07-01'),
-    fechaFinal: new Date('2023-07-31'),
-    estado: 'Cerrado',
-    usuarioId: '2',
-    entidadId: 2,
-  },
-];
-
-const bienCantidades = [
-  { id: 1, bienId: 1, cantidad: 10 },
-  { id: 2, bienId: 2, cantidad: 20 },
-  { id: 3, bienId: 3, cantidad: 15 },
-];
-const planesDeCompras = [
-  {
-    id: 1,
-    fecha: new Date('2023-06-01'),
-    estado: 'Abierto',
-    dependenciaId: 1,
-    usuarioId: '1',
-    valorTotal: 3000,
-  },
-  {
-    id: 2,
-    fecha: new Date('2023-07-01'),
-    estado: 'EnProceso',
-    dependenciaId: 2,
-    usuarioId: '2',
-    valorTotal: 2000,
-  },
-];
-const bienProveedores = [
-  {
-    bienCantidadId: 1,
-    proveedorId: 1,
-    valor: 100,
-    cotizacionId: 1,
-  },
-  {
-    bienCantidadId: 2,
-    proveedorId: 2,
-    valor: 200,
-    cotizacionId: 2,
-  },
-];
-const cotizacionesProveedores = [
-  {
-    proveedorId: 1,
-    cotizacionId: 1,
-    valorTotal: 500,
-  },
-  {
-    proveedorId: 2,
-    cotizacionId: 2,
-    valorTotal: 1000,
+    id: 'user3',
+    firstName: 'Alice',
+    middleName: 'C',
+    lastName: 'Smith',
+    secondLastName: 'Brown',
+    documentType: 'TI',
+    document: '1122334455',
+    mobile: '555-9101',
+    email: 'alice.smith@example.com',
+    status: 'Active',
+    type: 'Manager',
+    password: 'password123',
   },
 ];
 
 module.exports = {
-  gruposBienes,
-  bienes,
-  usuarios,
-  proveedores,
-  entidades,
-  dependencias,
-  ciclosContratacion,
-  cotizaciones,
-  bienCantidades,
-  planesDeCompras,
-  bienProveedores,
-  cotizacionesProveedores,
+  assetGroups,
+  assets,
+  assetQuantities,
+  purchasePlans,
+  assetSuppliers,
+  suppliers,
+  quotationSuppliers,
+  quotations,
+  hiringCycles,
+  entities,
+  departments,
+  users,
 };

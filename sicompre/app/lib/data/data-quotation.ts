@@ -1,21 +1,21 @@
 import prisma from '@lib/db';
 const ITEMS_PER_PAGE = 6;
-export async function fetchCotizacion(query: string, currentPage: number) {
+export async function fetchQuotation(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  const data = await prisma.cotizacion.findMany({
+  const data = await prisma.quotation.findMany({
     skip: offset,
     take: ITEMS_PER_PAGE,
     where: {
       OR: [
         {
-          entidad: {
+          entity: {
             OR: [
               {
-                nit: {
+                taxId: {
                   contains: query,
                   mode: 'insensitive',
                 },
-                nombre: {
+                name: {
                   contains: query,
                   mode: 'insensitive',
                 },
@@ -27,22 +27,22 @@ export async function fetchCotizacion(query: string, currentPage: number) {
           id: Number(query),
         },
         {
-          usuario: {
+          user: {
             OR: [
               {
-                primerNombre: {
+                firstName: {
                   contains: query,
                   mode: 'insensitive',
                 },
-                segundoNombre: {
+                middleName: {
                   contains: query,
                   mode: 'insensitive',
                 },
-                primerApellido: {
+                lastName: {
                   contains: query,
                   mode: 'insensitive',
                 },
-                segundoApellido: {
+                secondLastName: {
                   contains: query,
                   mode: 'insensitive',
                 },
@@ -53,29 +53,29 @@ export async function fetchCotizacion(query: string, currentPage: number) {
       ],
     },
     include: {
-      entidad: true,
-      usuario: true,
+      entity: true,
+      user: true,
     },
     orderBy: {
       id: 'asc',
     },
   });
-  return data as unknown as Cotizacion[];
+  return data as unknown as Quotation[];
 }
 
-export async function fetchCotizacionPages(query: string) {
-  const data = await prisma.cotizacion.count({
+export async function fetchQuotationPages(query: string) {
+  const data = await prisma.quotation.count({
     where: {
       OR: [
         {
-          entidad: {
+          entity: {
             OR: [
               {
-                nit: {
+                taxId: {
                   contains: query,
                   mode: 'insensitive',
                 },
-                nombre: {
+                name: {
                   contains: query,
                   mode: 'insensitive',
                 },
@@ -87,22 +87,22 @@ export async function fetchCotizacionPages(query: string) {
           id: Number(query),
         },
         {
-          usuario: {
+          user: {
             OR: [
               {
-                primerNombre: {
+                firstName: {
                   contains: query,
                   mode: 'insensitive',
                 },
-                segundoNombre: {
+                middleName: {
                   contains: query,
                   mode: 'insensitive',
                 },
-                primerApellido: {
+                lastName: {
                   contains: query,
                   mode: 'insensitive',
                 },
-                segundoApellido: {
+                secondLastName: {
                   contains: query,
                   mode: 'insensitive',
                 },

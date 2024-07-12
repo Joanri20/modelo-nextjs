@@ -5,7 +5,7 @@ import { DeleteHiringCycle, UpdateHiringCycle } from './buttons';
 export default async function TableHiringCycles({
   hiringcycles,
 }: {
-  hiringcycles: CicloContratacion[];
+  hiringcycles: HiringCycle[];
 }) {
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -46,16 +46,16 @@ export default async function TableHiringCycles({
             >
               <td className="px-6 py-4">{ciclo.id.toString()}</td>
               <td className="px-6 py-4">
-                {new Date(ciclo.fechaInicio).toISOString().split('T')[0]}
+                {new Date(ciclo.startDate).toISOString().split('T')[0]}
               </td>
               <td className="px-6 py-4">
-                {new Date(ciclo.fechaFinal).toISOString().split('T')[0]}
+                {new Date(ciclo.endDate).toISOString().split('T')[0]}
               </td>
-              <td className="px-6 py-4">{ciclo.usuario.primerNombre}</td>
-              <td className="px-6 py-4">{ciclo.estado}</td>
-              <td className="px-6 py-4">{ciclo.entidad.nombre}</td>
+              <td className="px-6 py-4">{ciclo.user.firstName}</td>
+              <td className="px-6 py-4">{ciclo.status}</td>
+              <td className="px-6 py-4">{ciclo.entity.name}</td>
               <td className="px-6 py-4">
-                {ciclo.cotizacionId ? ciclo.cotizacionId.toString() : 'N/A'}
+                {ciclo.quotationId ? ciclo.quotationId.toString() : 'N/A'}
               </td>
               <td className="sticky right-0 flex gap-2 bg-slate-100 px-3 py-2 dark:bg-gray-800">
                 <UpdateHiringCycle id={ciclo.id} />

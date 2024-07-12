@@ -1,24 +1,24 @@
 import Form from '@/app/ui/invoices/create-form';
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
-import { fetchGrupoBien } from '@/app/lib/data';
+import { fetchAssetGroup } from '@/app/lib/data';
 
 export default async function Page() {
-  const gruposBienes = await fetchGrupoBien();
-  console.log(gruposBienes);
+  const gruposAssets = await fetchAssetGroup();
+  console.log(gruposAssets);
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Bienes', href: '/dashboard/invoices' },
+          { label: 'Assets', href: '/dashboard/invoices' },
           {
-            label: 'Crear Bienes',
+            label: 'Crear Assets',
             href: '/dashboard/invoices/create',
             active: true,
           },
         ]}
       />
 
-      <Form gruposBienes={gruposBienes} />
+      <Form gruposAssets={gruposAssets} />
     </main>
   );
 }

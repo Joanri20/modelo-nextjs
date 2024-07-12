@@ -4,25 +4,25 @@ import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
 import { MessageUpdate } from '@ui/common/toast-message';
 import { convertEnumToArray } from '@lib/conversEnums';
-import { Enum_EstadoGeneral } from '@prisma/client';
+import { Enum_GeneralStatus } from '@prisma/client';
 import { updateQuotation } from '@lib/actions/actionsQuotations';
 
 interface UpdateQuotationsDialogProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  cotizacion: Cotizacion;
+  quotation: Quotation;
 }
 
 export default function UpdateQuotationDialog({
   open,
   setOpen,
-  cotizacion,
+  quotation,
 }: UpdateQuotationsDialogProps) {
   const [error, setError] = useState('');
 
   const handleSubmit = async (formData: FormData) => {
     try {
-      const result = await updateQuotation(cotizacion.id, formData);
+      const result = await updateQuotation(quotation.id, formData);
       const err = MessageUpdate({ result });
       if (err) {
         setError(err);
@@ -51,32 +51,32 @@ export default function UpdateQuotationDialog({
             <div className="mb-2 flex w-full gap-3">
               <div>
                 <label
-                  htmlFor="fechaInicio"
+                  htmlFor="startDate"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Fecha de Inicio
                 </label>
                 <input
                   type="date"
-                  id="fechaInicio"
-                  name="fechaInicio"
-                  value={cotizacion.fechaInicio.toISOString().split('T')[0]}
+                  id="startDate"
+                  name="startDate"
+                  value={quotation.startDate.toISOString().split('T')[0]}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
                   required
                 />
               </div>
               <div className="col-span-1">
                 <label
-                  htmlFor="fechaFinal"
+                  htmlFor="endDate"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Fecha Final
                 </label>
                 <input
                   type="date"
-                  id="fechaFinal"
-                  name="fechaFinal"
-                  value={cotizacion.fechaFinal.toISOString().split('T')[0]}
+                  id="endDate"
+                  name="endDate"
+                  value={quotation.endDate.toISOString().split('T')[0]}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
                   required
                 />
@@ -85,32 +85,32 @@ export default function UpdateQuotationDialog({
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="col-span-1">
                 <label
-                  htmlFor="usuarioId"
+                  htmlFor="userId"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Usuario
                 </label>
                 <input
                   type="text"
-                  id="usuarioId"
-                  name="usuarioId"
-                  defaultValue={cotizacion.usuarioId}
+                  id="userId"
+                  name="userId"
+                  defaultValue={quotation.userId}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
                   required
                 />
               </div>
               <div className="col-span-1">
                 <label
-                  htmlFor="entidadId"
+                  htmlFor="entityId"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Entidad
                 </label>
                 <input
                   type="text"
-                  id="entidadId"
-                  name="entidadId"
-                  defaultValue={cotizacion.entidadId.toString()}
+                  id="entityId"
+                  name="entityId"
+                  defaultValue={quotation.entityId.toString()}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
                   required
                 />
@@ -119,15 +119,15 @@ export default function UpdateQuotationDialog({
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="col-span-1">
                 <label
-                  htmlFor="estado"
+                  htmlFor="status"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Estado
                 </label>
                 <select
-                  id="estado"
-                  name="estado"
-                  value={cotizacion.estado}
+                  id="status"
+                  name="status"
+                  value={quotation.status}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
                   required
                 >

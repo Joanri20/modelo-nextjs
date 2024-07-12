@@ -1,4 +1,4 @@
-import { fetchUsuario, fetchUsuarioPages } from '@lib/data';
+import { fetchUser, fetchUserPages } from '@lib/data';
 import { lusitana } from '@ui/fonts';
 import { Suspense } from 'react';
 import { RevenueChartSkeleton } from '@ui/skeletons';
@@ -23,8 +23,8 @@ export default async function Page({
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
 
-  const totalPages = await fetchUsuarioPages(query);
-  const users = await fetchUsuario(query, currentPage);
+  const totalPages = await fetchUserPages(query);
+  const users = await fetchUser(query, currentPage);
 
   return (
     <main>
@@ -32,7 +32,7 @@ export default async function Page({
         Usuarios
       </h1>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Buscar usuario" />
+        <Search placeholder="Buscar Usuario" />
         <CreateUsers />
       </div>
       <div className="p-6">

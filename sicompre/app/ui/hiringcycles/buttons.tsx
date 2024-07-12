@@ -25,7 +25,7 @@ export function CreateHiringCycles() {
 
 export function UpdateHiringCycle({ id }: { id: bigint | undefined }) {
   const hiringcycleWithId = fetchHiringCycleById.bind(null, id);
-  const [data, setData] = useState<CicloContratacion | string | null>(null);
+  const [data, setData] = useState<HiringCycle | string | null>(null);
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async () => {
@@ -35,7 +35,7 @@ export function UpdateHiringCycle({ id }: { id: bigint | undefined }) {
         if (result != null) {
           setData(result);
         } else {
-          console.warn('Unexpected data format from providerWithId()');
+          console.warn('Unexpected data format from supplierWithId()');
           setData(null); // Or set to a default value
         }
         setOpen(true);
@@ -61,7 +61,7 @@ export function UpdateHiringCycle({ id }: { id: bigint | undefined }) {
         <UpdateHiringCycleDialog
           open={open}
           setOpen={setOpen}
-          cicloContratacion={data as CicloContratacion}
+          hiringCycle={data as HiringCycle}
         />
       )}
       <button

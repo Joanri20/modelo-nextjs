@@ -5,7 +5,7 @@ import { DeleteQuotation, UpdateQuotation } from './buttons';
 export default async function TableQuotations({
   quotations,
 }: {
-  quotations: Cotizacion[];
+  quotations: Quotation[];
 }) {
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -33,23 +33,23 @@ export default async function TableQuotations({
           </tr>
         </thead>
         <tbody>
-          {quotations.map((cotizacion) => (
+          {quotations.map((quotation) => (
             <tr
-              key={cotizacion.id.toString()} // Convert bigint to string
+              key={quotation.id.toString()} // Convert bigint to string
               className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
             >
               <td className="px-6 py-4">
-                {cotizacion.fechaInicio.toLocaleDateString()}
+                {quotation.startDate.toLocaleDateString()}
               </td>
               <td className="px-6 py-4">
-                {cotizacion.fechaFinal.toLocaleDateString()}
+                {quotation.endDate.toLocaleDateString()}
               </td>
-              <td className="px-6 py-4">{cotizacion.usuario.primerNombre}</td>
-              <td className="px-6 py-4">{cotizacion.entidad.nombre}</td>
-              <td className="px-6 py-4">{cotizacion.estado}</td>
+              <td className="px-6 py-4">{quotation.user.firstName}</td>
+              <td className="px-6 py-4">{quotation.entity.name}</td>
+              <td className="px-6 py-4">{quotation.status}</td>
               <td className="sticky right-0 flex gap-2 bg-slate-100 px-3 py-2 dark:bg-gray-800">
-                <UpdateQuotation id={cotizacion.id} />
-                <DeleteQuotation id={cotizacion.id} />
+                <UpdateQuotation id={quotation.id} />
+                <DeleteQuotation id={quotation.id} />
               </td>
             </tr>
           ))}

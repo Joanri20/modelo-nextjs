@@ -5,8 +5,8 @@ import Search from '@ui/search';
 import Pagination from '@ui/assets/pagination';
 import { Metadata } from 'next';
 import {
-  fetchPlanDeCompras,
-  fetchPlanDeComprasPages,
+  fetchPurchasePlan,
+  fetchPurchasePlanPages,
 } from '@lib/data/data-purchaseplan';
 import { CreatePurchasePlans } from '@ui/purchaseplans/buttons';
 import TablePurchasePlans from '@ui/purchaseplans/table-purchaseplans';
@@ -26,8 +26,8 @@ export default async function Page({
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
 
-  const totalPages = await fetchPlanDeComprasPages(query);
-  const purchaseplans = await fetchPlanDeCompras(query, currentPage);
+  const totalPages = await fetchPurchasePlanPages(query);
+  const purchaseplans = await fetchPurchasePlan(query, currentPage);
 
   return (
     <main>

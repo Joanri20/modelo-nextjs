@@ -1,8 +1,8 @@
 import prisma from '@lib/db';
 
-export async function fetchUsuario(query: string, currentPage: number) {
+export async function fetchUser(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  const data = await prisma.usuario.findMany({
+  const data = await prisma.user.findMany({
     skip: offset,
     take: ITEMS_PER_PAGE,
     where: {
@@ -14,47 +14,47 @@ export async function fetchUsuario(query: string, currentPage: number) {
           },
         },
         {
-          primerNombre: {
+          firstName: {
             contains: query,
             mode: 'insensitive',
           },
         },
         {
-          segundoNombre: {
+          middleName: {
             contains: query,
             mode: 'insensitive',
           },
         },
         {
-          primerApellido: {
+          lastName: {
             contains: query,
             mode: 'insensitive',
           },
         },
         {
-          segundoApellido: {
+          secondLastName: {
             contains: query,
             mode: 'insensitive',
           },
         },
         {
-          direccion: {
+          address: {
             contains: query,
             mode: 'insensitive',
           },
         },
-        { documento: query },
+        { document: query },
       ],
     },
     orderBy: {
-      primerNombre: 'asc',
+      firstName: 'asc',
     },
   });
-  return data as Usuario[];
+  return data as User[];
 }
 
-export async function fetchUsuarioPages(query: string) {
-  const data = await prisma.usuario.count({
+export async function fetchUserPages(query: string) {
+  const data = await prisma.user.count({
     where: {
       id: {
         contains: query,
@@ -69,32 +69,32 @@ export async function fetchUsuarioPages(query: string) {
   return totalPages;
 }
 
-export async function fetchGrupoBien() {
-  const data = await prisma.grupoBien.findMany({
-    distinct: ['descripcion'],
+export async function fetchAssetGroup() {
+  const data = await prisma.assetGroup.findMany({
+    distinct: ['description'],
   });
   return data;
 }
 
-export async function fetchProveedorById(id: bigint | undefined) {
-  const data = await prisma.proveedor.findMany({
+export async function fetchSupplierById(id: bigint | undefined) {
+  const data = await prisma.supplier.findMany({
     where: {
       id: id,
     },
   });
 
-  return data;
+  return data as unknown as Supplier;
 }
 
-export async function fetchProveedor(query: string, currentPage: number) {
+export async function fetchSupplier(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  const data = await prisma.proveedor.findMany({
+  const data = await prisma.supplier.findMany({
     skip: offset,
     take: ITEMS_PER_PAGE,
     where: {
       OR: [
         {
-          nombre: {
+          name: {
             contains: query,
             mode: 'insensitive',
           },
@@ -105,25 +105,25 @@ export async function fetchProveedor(query: string, currentPage: number) {
             mode: 'insensitive',
           },
         },
-        { nit: query },
+        { taxId: query },
       ],
     },
     orderBy: {
-      nombre: 'asc',
+      name: 'asc',
     },
     include: {
-      cotizaciones: true,
+      quotationSuppliers: true,
     },
   });
-  return data as unknown as Proveedor[];
+  return data as unknown as Supplier[];
 }
 
-export async function fetchProveedorPages(query: string) {
-  const data = await prisma.proveedor.count({
+export async function fetchSupplierPages(query: string) {
+  const data = await prisma.supplier.count({
     where: {
       OR: [
         {
-          nombre: {
+          name: {
             contains: query,
             mode: 'insensitive',
           },
@@ -134,47 +134,47 @@ export async function fetchProveedorPages(query: string) {
             mode: 'insensitive',
           },
         },
-        { nit: query },
+        { taxId: query },
       ],
     },
     orderBy: {
-      nombre: 'asc',
+      name: 'asc',
     },
   });
   const totalPages = Math.ceil(data / ITEMS_PER_PAGE);
   return totalPages;
 }
 
-export async function fetchBienProveedor() {
-  const data = await prisma.bienProveedor.findMany({
+export async function fetchAssetSupplier() {
+  const data = await prisma.assetSupplier.findMany({
     select: {
-      valor: true,
-      bienCantidadId: true,
-      proveedorId: true,
+      value: true,
+      assetQuantityId: true,
+      supplierId: true,
     },
   });
   return data;
 }
 
-export async function fetchBienCotizacion() {
-  const data = await prisma.bienCantidad.findMany({
+export async function fetchAssetQuotation() {
+  const data = await prisma.assetQuantity.findMany({
     select: {
       id: true,
-      bienId: true,
-      cantidad: true,
-      cotizacionId: true,
+      assetId: true,
+      quantity: true,
+      quotationId: true,
     },
   });
   return data;
 }
 
-export async function fetchBienById(id: bigint) {
-  const data = await prisma.bien.findUnique({
+export async function fetchAssetById(id: bigint) {
+  const data = await prisma.asset.findUnique({
     where: {
       id: id,
     },
     include: {
-      grupoBien: true,
+      assetGroup: true,
     },
   });
   return data;
@@ -182,39 +182,39 @@ export async function fetchBienById(id: bigint) {
 
 const ITEMS_PER_PAGE = 6;
 
-export async function fetchBienPages(query: string) {
-  const data = await prisma.bien.count({
+export async function fetchAssetPages(query: string) {
+  const data = await prisma.asset.count({
     where: {
-      descripcion: {
+      description: {
         contains: query,
         mode: 'insensitive',
       },
     },
     orderBy: {
-      descripcion: 'asc',
+      description: 'asc',
     },
   });
   const totalPages = Math.ceil(data / ITEMS_PER_PAGE);
   return totalPages;
 }
 
-export async function fetchEntidad() {
-  const data = await prisma.entidad.findMany({
+export async function fetchEntity() {
+  const data = await prisma.entity.findMany({
     select: {
       id: true,
-      nombre: true,
-      nit: true,
-      direccion: true,
-      telefono: true,
-      municipio: true,
-      departamento: true,
-      pais: true,
-      web: true,
+      name: true,
+      taxId: true,
+      address: true,
+      phone: true,
+      city: true,
+      state: true,
+      country: true,
+      website: true,
       email: true,
-      resolucionPosesion: true,
-      fechaPosesion: true,
-      estado: true,
-      saldoDisponible: true,
+      possessionResolution: true,
+      possessionDate: true,
+      status: true,
+      availableBalance: true,
       createdAt: true,
       updatedAt: true,
     },
@@ -222,20 +222,20 @@ export async function fetchEntidad() {
   return data;
 }
 
-export async function fetchCotizacion() {
-  const data = await prisma.cotizacion.findMany({
+export async function fetchQuotation() {
+  const data = await prisma.quotation.findMany({
     select: {
       id: true,
-      estado: true,
+      status: true,
       createdAt: true,
       updatedAt: true,
-      usuarioId: true,
+      userId: true,
     },
   });
   return data;
 }
 
-export async function fetchCicloContratacion() {
-  const data = await prisma.cicloContratacion.findMany();
+export async function fetchHiringCycle() {
+  const data = await prisma.hiringCycle.findMany();
   return data;
 }

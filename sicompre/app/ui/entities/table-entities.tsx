@@ -5,7 +5,7 @@ import { DeleteEntity, UpdateEntity } from './buttons';
 export default async function TableEntities({
   entities,
 }: {
-  entities: Entidad[];
+  entities: Entity[];
 }) {
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -62,23 +62,23 @@ export default async function TableEntities({
               key={entity.id.toString()}
               className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
             >
-              <td className="px-6 py-4">{entity.nombre}</td>
-              <td className="px-6 py-4">{entity.nit}</td>
-              <td className="px-6 py-4">{entity.direccion}</td>
-              <td className="px-6 py-4">{entity.telefono}</td>
-              <td className="px-6 py-4">{entity.municipio}</td>
-              <td className="px-6 py-4">{entity.departamento}</td>
-              <td className="px-6 py-4">{entity.pais}</td>
-              <td className="px-6 py-4">{entity.web}</td>
+              <td className="px-6 py-4">{entity.name}</td>
+              <td className="px-6 py-4">{entity.taxId}</td>
+              <td className="px-6 py-4">{entity.address}</td>
+              <td className="px-6 py-4">{entity.phone}</td>
+              <td className="px-6 py-4">{entity.city}</td>
+              <td className="px-6 py-4">{entity.state}</td>
+              <td className="px-6 py-4">{entity.country}</td>
+              <td className="px-6 py-4">{entity.website}</td>
               <td className="px-6 py-4">{entity.email}</td>
-              <td className="px-6 py-4">{entity.resolucionPosesion}</td>
+              <td className="px-6 py-4">{entity.possessionResolution}</td>
               <td className="px-6 py-4">
-                {entity.fechaPosesion
-                  ? entity.fechaPosesion.toISOString()
+                {entity.possessionDate
+                  ? entity.possessionDate.toISOString()
                   : 'No disponible'}
               </td>
-              <td className="px-6 py-4">{entity.estado}</td>
-              <td className="px-6 py-4">{entity.saldoDisponible}</td>
+              <td className="px-6 py-4">{entity.status}</td>
+              <td className="px-6 py-4">{entity.availableBalance}</td>
               <td className="sticky right-0 flex gap-2 bg-slate-100 px-3 py-2 dark:bg-gray-800">
                 <UpdateEntity id={entity.id} />
                 <DeleteEntity id={entity.id} />

@@ -14,10 +14,10 @@ export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
 
   return (
-    <form action={dispatch} className="space-y-3">
-      <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-        <h1 className={`${lusitana.className} mb-3 text-2xl`}>
-          Por favor autentifíquese para continuar
+    <form action={dispatch} className="p-2 pr-20">
+      <div className="rounded-2xl bg-gray-200 sm:p-64 sm:pb-44">
+        <h1 className={`${lusitana.className} text-2xl`}>
+          Inicie sesión para continuar
         </h1>
         <div className="w-full">
           <div>
@@ -25,11 +25,11 @@ export default function LoginForm() {
               className="mb-3 mt-5 block text-xs font-medium text-gray-900"
               htmlFor="email"
             >
-              Email
+              Correo
             </label>
             <div className="relative">
               <input
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="w-full rounded-xl border-cyan-700 bg-slate-50 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 sm:text-lg"
                 id="email"
                 type="email"
                 name="email"
@@ -48,7 +48,7 @@ export default function LoginForm() {
             </label>
             <div className="relative">
               <input
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="w-full rounded-xl border-cyan-700 bg-slate-50 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 sm:text-lg"
                 id="password"
                 type="password"
                 name="password"

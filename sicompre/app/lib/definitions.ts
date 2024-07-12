@@ -1,215 +1,218 @@
-// This file contains type definitions for your data.
+// This file contains type defitaxIdions for your data.
 // It describes the shape of the data, and what data type each property should accept.
 // For simplicity of teaching, we're manually defining these types.
 // However, these types are generated automatically if you're using an ORM such as Prisma.
 
-enum Enum_TipoDocumento {
+enum Enum_DocumentType {
   CC = 'CC',
   CE = 'CE',
   TI = 'TI',
-  PASAPORTE = 'PASAPORTE',
+  PASSPORT = 'PASSPORT',
 }
 
-enum Enum_EstadoProceso {
-  Abierto = 'Abierto',
-  Cerrado = 'Cerrado',
-  EnProceso = 'EnProceso',
+enum Enum_ProcessStatus {
+  Open = 'Open',
+  Closed = 'Closed',
+  InProcess = 'InProceso',
 }
 
-enum Enum_TipoUsuario {
-  Administrador = 'Administrador',
-  Encargado = 'Encargado',
+enum Enum_UserType {
+  Administrator = 'Administrator',
+  Manager = 'Manager',
 }
 
-enum Enum_EstadoGeneral {
-  Activo = 'Activo',
-  Deshabilitado = 'Deshabilitado',
+enum Enum_GeneralStatus {
+  Active = 'Active',
+  Disabled = 'Disabled',
 }
 
-enum Enum_EstadoCotizacion {
-  Abierto = 'Abierto',
-  Cerrado = 'Cerrado',
+enum Enum_QuotationStatus {
+  Open = 'Open',
+  Closed = 'Closed',
 }
 
-type GrupoBien = {
+type AssetGroup = {
   id: bigint;
-  descripcion: string;
+  description: string;
   createdAt: Date | null;
   updatedAt?: Date | null;
 };
 
-type Bien = {
+type Asset = {
   id: bigint;
-  descripcion: string;
-  grupoBien: GrupoBien;
-  grupoBienId: bigint;
-  valorVigente?: number | null;
-  bienCantidad: BienCantidad[];
+  description: string;
+  assetGroup: AssetGroup;
+  assetGroupId: bigint;
+  currentValue?: number | null;
+  assetQuantities: AssetQuantity[];
   createdAt: Date;
   updatedAt?: Date;
 };
 
-type BienCantidad = {
+type AssetQuantity = {
   id: bigint;
-  bien: Bien;
-  bienId: bigint;
-  cantidad: number;
-  planDeCompras?: PlanDeCompras | null;
-  planDeComprasId?: bigint | null;
+  asset: Asset;
+  assetId: bigint;
+  quantity: number;
+  purchasePlan?: PurchasePlan | null;
+  purchasePlanId?: bigint | null;
   createdAt: Date;
   updatedAt?: Date | null;
-  BienProveedor: BienProveedor[];
+  assetSuppliers: AssetSupplier[];
 };
 
-type PlanDeCompras = {
+type PurchasePlan = {
   id: bigint;
-  bienes: BienCantidad[];
-  fecha: Date;
-  estado: Enum_EstadoProceso;
-  dependencia: Dependencia;
-  usuario: Usuario;
-  valorTotal?: number;
-  dependenciaId: bigint;
-  usuarioId: string;
-  cicloContratacion?: CicloContratacion;
-  cicloContratacionId?: bigint;
+  assetQuantities: AssetQuantity[];
+  date: Date;
+  status: Enum_ProcessStatus;
+  department: Department;
+  user: User;
+  totalValue?: number;
+  departmentId: bigint;
+  userId: string;
+  hiringCycle?: HiringCycle;
+  hiringCycleId?: bigint;
   createdAt: Date;
   updatedAt: Date;
 };
 
-type BienProveedor = {
-  bien: BienCantidad;
-  proveedor: Proveedor;
-  valor: number;
-  cotizacion: Cotizacion;
-  bienCantidadId: bigint;
-  proveedorId: bigint;
+type AssetSupplier = {
+  asset: AssetQuantity;
+  supplier: Supplier;
+  value: number;
+  quotation: Quotation;
+  assetQuantityId: bigint;
+  supplierId: bigint;
   createdAt: Date;
   updatedAt?: Date;
-  cotizacionId: bigint;
+  quotationId: bigint;
 };
 
-type Proveedor = {
+type Supplier = {
   id: bigint;
-  nombre: string;
-  nit: string;
-  direccion: string;
+  name: string;
+  taxId: string;
+  address: string;
   email: string;
-  telefono: string;
-  cotizaciones: CotizacionProveedor[];
-  createdAt: Date;
-  updatedAt: Date;
-  BienProveedor: BienProveedor[];
-};
-
-type CotizacionProveedor = {
-  proveedor: Proveedor;
-  cotizacion: Cotizacion;
-  valorTotal: number;
-  proveedorId: bigint;
-  cotizacionId: bigint;
-  createdAt: Date;
-  updatedAt?: Date;
-};
-
-type Cotizacion = {
-  id: bigint;
-  fechaInicio: Date;
-  fechaFinal: Date;
-  usuario: Usuario;
-  entidad: Entidad;
-  estado: Enum_EstadoCotizacion;
-  createdAt: Date;
-  updatedAt: Date;
-  usuarioId: string;
-  entidadId: bigint;
-  BienProveedor: BienProveedor[];
-  CotizacionProveedor: CotizacionProveedor[];
-};
-
-type CicloContratacion = {
-  id: bigint;
-  fechaInicio: Date;
-  fechaFinal: Date;
-  planDeCompras: PlanDeCompras[];
-  usuario: Usuario;
-  estado: Enum_EstadoProceso;
-  entidad: Entidad;
-  createdAt: Date;
-  updatedAt: Date;
-  usuarioId: string;
-  entidadId: bigint;
-  cotizacion?: Cotizacion;
-  cotizacionId?: bigint;
-};
-
-type Entidad = {
-  id: bigint;
-  nombre: string;
-  nit: string;
-  direccion?: string;
-  telefono?: string;
-  municipio: string;
-  departamento: string;
-  pais: string;
-  web?: string;
-  email?: string;
-  resolucionPosesion?: string;
-  fechaPosesion?: Date;
-  estado: Enum_EstadoGeneral;
-  saldoDisponible: number;
-  createdAt: Date;
-  updatedAt: Date;
-  dependencias: Dependencia[];
-  cicloContratacion: CicloContratacion[];
-  integrantes: Usuario[];
-  Cotizacion: Cotizacion[];
-};
-
-type Dependencia = {
-  id: bigint;
-  nombre: string;
-  nit: string;
-  direccion?: string;
-  telefono?: string;
-  municipio: string;
-  departamento: string;
-  pais: string;
-  web?: string;
-  email?: string;
-  resolucionPosesion?: string;
-  fechaPosesion?: Date;
-  estado: Enum_EstadoGeneral;
-  entidadPadre: Entidad;
-  saldoDisponible: number;
-  createdAt: Date;
-  updatedAt: Date;
-  entidadId: bigint;
-  Cotizacion: PlanDeCompras[];
-  Usuario: Usuario;
-  usuarioId: string;
-};
-
-type Usuario = {
-  id: string;
-  primerNombre: string;
-  segundoNombre?: string;
-  primerApellido: string;
-  segundoApellido?: string;
-  tipoDocumento: Enum_TipoDocumento;
-  documento: string;
-  telefono?: string;
-  celular: string;
-  email: string;
-  direccion?: string;
-  estado: Enum_EstadoGeneral;
-  tipo: Enum_TipoUsuario;
-  createdAt: Date;
-  updatedAt: Date;
-  entidad: Entidad[];
-  dependencia: Dependencia[];
-  cotizacion: PlanDeCompras[];
-  cicloContratacion: CicloContratacion[];
+  phone: string;
   password: string;
-  Cotizacion: Cotizacion[];
+  namePersonResponsible: string;
+  webside: string;
+  quotationSuppliers: QuotationSupplier[];
+  createdAt: Date;
+  updatedAt: Date;
+  assetSuppliers: AssetSupplier[];
+};
+
+type QuotationSupplier = {
+  supplier: Supplier;
+  quotation: Quotation;
+  totalValue: number;
+  supplierId: bigint;
+  quotationId: bigint;
+  createdAt: Date;
+  updatedAt?: Date;
+};
+
+type Quotation = {
+  id: bigint;
+  startDate: Date;
+  endDate: Date;
+  user: User;
+  entity: Entity;
+  status: Enum_QuotationStatus;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: string;
+  entityId: bigint;
+  assetSuppliers: AssetSupplier[];
+  quotationSuppliers: QuotationSupplier[];
+};
+
+type HiringCycle = {
+  id: bigint;
+  startDate: Date;
+  endDate: Date;
+  purchasePlans: PurchasePlan[];
+  user: User;
+  status: Enum_ProcessStatus;
+  entity: Entity;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: string;
+  entityId: bigint;
+  quotation?: Quotation;
+  quotationId?: bigint;
+};
+
+type Entity = {
+  id: bigint;
+  name: string;
+  taxId: string;
+  address?: string;
+  phone?: string;
+  city: string;
+  state: string;
+  country: string;
+  website?: string;
+  email?: string;
+  possessionResolution?: string;
+  possessionDate?: Date;
+  status: Enum_GeneralStatus;
+  availableBalance: number;
+  createdAt: Date;
+  updatedAt: Date;
+  departments: Department[];
+  hiringCycles: HiringCycle[];
+  members: User[];
+  quotations: Quotation[];
+};
+
+type Department = {
+  id: bigint;
+  name: string;
+  taxId: string;
+  address?: string;
+  phone?: string;
+  city: string;
+  state: string;
+  country: string;
+  website?: string;
+  email?: string;
+  possessionResolution?: string;
+  possessionDate?: Date;
+  status: Enum_GeneralStatus;
+  parentEntity: Entity;
+  availableBalance: number;
+  createdAt: Date;
+  updatedAt: Date;
+  entityId: bigint;
+  purchasePlans: PurchasePlan[];
+  user: User;
+  userId: string;
+};
+
+type User = {
+  id: string;
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+  secondLastName?: string;
+  documentType: Enum_DocumentType;
+  document: string;
+  phone?: string;
+  mobile: string;
+  email: string;
+  address?: string;
+  status: Enum_GeneralStatus;
+  type: Enum_UserType;
+  createdAt: Date;
+  updatedAt: Date;
+  entities: Entity[];
+  departments: Department[];
+  purchasePlans: PurchasePlan[];
+  hiringCycles: HiringCycle[];
+  password: string;
+  quotations: Quotation[];
 };

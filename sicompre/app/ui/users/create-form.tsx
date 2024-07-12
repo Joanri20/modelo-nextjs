@@ -10,9 +10,9 @@ import { createAsset } from '@lib/actions/actionsAssets';
 import { useState } from 'react';
 import MessageCreate from '@ui/common/toast-message';
 import {
-  Enum_EstadoGeneral,
-  Enum_TipoDocumento,
-  Enum_TipoUsuario,
+  Enum_GeneralStatus,
+  Enum_DocumentType,
+  Enum_UserType,
 } from '@prisma/client';
 import { convertEnumToArray } from '@lib/conversEnums';
 import { createUser } from '@lib/actions/actionsUsers';
@@ -49,15 +49,15 @@ export default function Form() {
         <div className="mb-4 flex gap-5">
           <div className="w-full">
             <label
-              htmlFor="primerNombre"
+              htmlFor="firstName"
               className="mb-2 block text-sm font-medium"
             >
               Primer Nombre *
             </label>
             <div className="relative">
               <input
-                id="primerNombre"
-                name="primerNombre"
+                id="firstName"
+                name="firstName"
                 required
                 className="input-app"
                 placeholder="Ingrese el primer nombre"
@@ -67,15 +67,15 @@ export default function Form() {
           </div>
           <div className="w-full">
             <label
-              htmlFor="segundoNombre"
+              htmlFor="middleName"
               className="mb-2 block text-sm font-medium"
             >
               Segundo Nombre
             </label>
             <div className="relative">
               <input
-                id="segundoNombre"
-                name="segundoNombre"
+                id="middleName"
+                name="middleName"
                 className="input-app"
                 placeholder="Ingrese el segundo nombre"
               />
@@ -86,15 +86,15 @@ export default function Form() {
         <div className="mb-4 flex gap-5">
           <div className="w-full">
             <label
-              htmlFor="primerApellido"
+              htmlFor="lastName"
               className="mb-2 block text-sm font-medium"
             >
               Primer Apellido *
             </label>
             <div className="relative">
               <input
-                id="primerApellido"
-                name="primerApellido"
+                id="lastName"
+                name="lastName"
                 required
                 className="input-app"
                 placeholder="Ingrese el primer apellido"
@@ -104,15 +104,15 @@ export default function Form() {
           </div>
           <div className="w-full">
             <label
-              htmlFor="segundoApellido"
+              htmlFor="secondLastName"
               className="mb-2 block text-sm font-medium"
             >
               Segundo Apellido
             </label>
             <div className="relative">
               <input
-                id="segundoApellido"
-                name="segundoApellido"
+                id="secondLastName"
+                name="secondLastName"
                 className="input-app"
                 placeholder="Ingrese el segundo apellido"
               />
@@ -123,25 +123,25 @@ export default function Form() {
         <div className="mb-4 flex gap-5">
           <div className="mb-4 w-full">
             <label
-              htmlFor="tipoDocumento"
+              htmlFor="documentType"
               className="mb-2 block text-sm font-medium"
             >
               Tipo de Documento *
             </label>
             <div className="relative">
               <select
-                id="tipoDocumento"
-                name="tipoDocumento"
+                id="documentType"
+                name="documentType"
                 required
                 className="input-app"
                 defaultValue="CC"
               >
                 <option value="" disabled>
-                  Selecciona un tipo de documento
+                  Selecciona un type de document
                 </option>
-                {convertEnumToArray(Enum_TipoDocumento).map((tipo) => (
-                  <option key={tipo.id} value={tipo.id}>
-                    {tipo.descripcion}
+                {convertEnumToArray(Enum_DocumentType).map((type) => (
+                  <option key={type.id} value={type.id}>
+                    {type.description}
                   </option>
                 ))}
               </select>
@@ -150,48 +150,45 @@ export default function Form() {
           </div>
           <div className="mb-4 w-full">
             <label
-              htmlFor="documento"
+              htmlFor="document"
               className="mb-2 block text-sm font-medium"
             >
               Documento *
             </label>
             <div className="relative">
               <input
-                id="documento"
-                name="documento"
+                id="document"
+                name="document"
                 required
                 className="input-app"
-                placeholder="Ingrese el número de documento"
+                placeholder="Ingrese el número de document"
               />
               <PencilIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
           <div className="mb-4 w-full">
-            <label htmlFor="celular" className="mb-2 block text-sm font-medium">
+            <label htmlFor="mobile" className="mb-2 block text-sm font-medium">
               Celular *
             </label>
             <div className="relative">
               <input
-                id="celular"
-                name="celular"
+                id="mobile"
+                name="mobile"
                 required
                 className="input-app"
-                placeholder="Ingrese el celular"
+                placeholder="Ingrese el mobile"
               />
               <PencilIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
           <div className="mb-4 w-full">
-            <label
-              htmlFor="telefono"
-              className="mb-2 block text-sm font-medium"
-            >
+            <label htmlFor="phone" className="mb-2 block text-sm font-medium">
               Teléfono
             </label>
             <div className="relative">
               <input
-                id="telefono"
-                name="telefono"
+                id="phone"
+                name="phone"
                 className="input-app"
                 placeholder="Ingrese el teléfono"
               />
@@ -217,16 +214,13 @@ export default function Form() {
             </div>
           </div>
           <div className="mb-4 w-full">
-            <label
-              htmlFor="direccion"
-              className="mb-2 block text-sm font-medium"
-            >
+            <label htmlFor="address" className="mb-2 block text-sm font-medium">
               Dirección de Residencia *
             </label>
             <div className="relative">
               <input
-                id="direccion"
-                name="direccion"
+                id="address"
+                name="address"
                 required
                 className="input-app"
                 placeholder="Ingrese la dirección"
@@ -238,13 +232,13 @@ export default function Form() {
 
         <div className="mb-4 flex gap-5">
           <div className="mb-4 w-full">
-            <label htmlFor="tipo" className="mb-2 block text-sm font-medium">
+            <label htmlFor="type" className="mb-2 block text-sm font-medium">
               Tipo de usuario *
             </label>
             <div className="relative">
               <select
-                id="tipo"
-                name="tipo"
+                id="type"
+                name="type"
                 required
                 className="input-app"
                 defaultValue=""
@@ -252,9 +246,9 @@ export default function Form() {
                 <option value="" disabled>
                   Selecciona un tipo de usuario
                 </option>
-                {convertEnumToArray(Enum_TipoUsuario).map((tipo) => (
-                  <option key={tipo.id} value={tipo.id}>
-                    {tipo.descripcion}
+                {convertEnumToArray(Enum_UserType).map((type) => (
+                  <option key={type.id} value={type.id}>
+                    {type.description}
                   </option>
                 ))}
               </select>
@@ -262,13 +256,13 @@ export default function Form() {
             </div>
           </div>
           <div className="mb-4 w-full">
-            <label htmlFor="estado" className="mb-2 block text-sm font-medium">
+            <label htmlFor="status" className="mb-2 block text-sm font-medium">
               Estado del usuario *
             </label>
             <div className="relative">
               <select
-                id="estado"
-                name="estado"
+                id="status"
+                name="status"
                 required
                 className="input-app"
                 defaultValue=""
@@ -276,9 +270,9 @@ export default function Form() {
                 <option value="" disabled>
                   Selecciona un estado
                 </option>
-                {convertEnumToArray(Enum_EstadoGeneral).map((estado) => (
-                  <option key={estado.id} value={estado.id}>
-                    {estado.descripcion}
+                {convertEnumToArray(Enum_GeneralStatus).map((status) => (
+                  <option key={status.id} value={status.id}>
+                    {status.description}
                   </option>
                 ))}
               </select>

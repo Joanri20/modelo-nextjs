@@ -22,12 +22,12 @@ export default function Form() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Campo Fecha */}
           <div className="mb-4">
-            <label htmlFor="fecha" className="block text-sm font-medium">
+            <label htmlFor="date" className="block text-sm font-medium">
               Fecha *
             </label>
             <input
-              id="fecha"
-              name="fecha"
+              id="date"
+              name="date"
               type="date"
               required
               className="input-app"
@@ -36,40 +36,37 @@ export default function Form() {
 
           {/* Campo Estado */}
           <div className="mb-4">
-            <label htmlFor="estado" className="block text-sm font-medium">
+            <label htmlFor="status" className="block text-sm font-medium">
               Estado *
             </label>
-            <select id="estado" name="estado" required className="input-app">
+            <select id="status" name="status" required className="input-app">
               <option value="Abierto">Abierto</option>
               <option value="Cerrado">Cerrado</option>
               {/* Agregar más opciones según sea necesario */}
             </select>
           </div>
 
-          {/* Campo Dependencia */}
+          {/* Campo Department */}
           <div className="mb-4">
-            <label
-              htmlFor="dependenciaId"
-              className="block text-sm font-medium"
-            >
+            <label htmlFor="departmentId" className="block text-sm font-medium">
               Dependencia *
             </label>
             <input
-              id="dependenciaId"
-              name="dependenciaId"
+              id="departmentId"
+              name="departmentId"
               required
               className="input-app"
             ></input>
           </div>
 
-          {/* Campo Usuario */}
+          {/* Campo User */}
           <div className="mb-4">
-            <label htmlFor="usuarioId" className="block text-sm font-medium">
+            <label htmlFor="userId" className="block text-sm font-medium">
               Usuario *
             </label>
             <input
-              id="usuarioId"
-              name="usuarioId"
+              id="userId"
+              name="userId"
               required
               className="input-app"
             ></input>
@@ -78,26 +75,26 @@ export default function Form() {
           {/* Campo Ciclo de Contratación */}
           <div className="mb-4">
             <label
-              htmlFor="cicloContratacionId"
+              htmlFor="hiringCycleId"
               className="block text-sm font-medium"
             >
               Ciclo de Contratación (opcional)
             </label>
             <input
-              id="cicloContratacionId"
-              name="cicloContratacionId"
+              id="hiringCycleId"
+              name="hiringCycleId"
               className="input-app"
             ></input>
           </div>
 
           {/* Campo Valor Total */}
           <div className="mb-4">
-            <label htmlFor="valorTotal" className="block text-sm font-medium">
+            <label htmlFor="totalValue" className="block text-sm font-medium">
               Valor Total (opcional)
             </label>
             <input
-              id="valorTotal"
-              name="valorTotal"
+              id="totalValue"
+              name="totalValue"
               type="number"
               step="0.01"
               className="input-app"

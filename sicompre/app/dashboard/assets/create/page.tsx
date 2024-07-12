@@ -1,6 +1,6 @@
 import Form from '@ui/assets/create-form';
 import Breadcrumbs from '@ui/common/breadcrumbs';
-import { fetchGrupoBien } from '@lib/data';
+import { fetchAssetGroup } from '@lib/data';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const gruposBienes = await fetchGrupoBien();
+  const gruposAssets = await fetchAssetGroup();
   return (
     <main>
       <Breadcrumbs
@@ -22,7 +22,7 @@ export default async function Page() {
         ]}
       />
 
-      <Form gruposBienes={gruposBienes} />
+      <Form gruposAssets={gruposAssets} />
     </main>
   );
 }

@@ -1,6 +1,6 @@
 import Form from '@ui/quotations/create-form';
 import Breadcrumbs from '@ui/common/breadcrumbs';
-import { fetchGrupoBien } from '@lib/data';
+import { fetchAssetGroup } from '@lib/data';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export default async function Page() {
         breadcrumbs={[
           { label: 'Cotizaciones', href: '/dashboard/quotations' },
           {
-            label: 'Crear Cotizacion',
+            label: 'Crear Cotización',
             href: '/dashboard/quotations/create',
             active: true,
           },

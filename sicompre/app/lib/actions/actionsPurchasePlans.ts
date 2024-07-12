@@ -3,17 +3,17 @@ import { z } from 'zod';
 import prisma from '../db';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { Enum_EstadoProceso } from '@prisma/client';
+import { Enum_ProcessStatus } from '@prisma/client';
 import { getErrorMesssage } from './actionsCommon';
 
 const CreatePurchasePlanSchema = z.object({
   id: z.string(),
-  fecha: z.string(),
-  estado: z.string(),
-  dependenciaId: z.bigint(),
-  usuarioId: z.string(),
-  cicloContratacionId: z.bigint().optional(),
-  valorTotal: z.number(),
+  date: z.string(),
+  status: z.string(),
+  departmentId: z.bigint(),
+  userId: z.string(),
+  hiringCycleId: z.bigint().optional(),
+  totalValue: z.number(),
 });
 
 const CreatePurchasePlanFormSchema = CreatePurchasePlanSchema.omit({
@@ -21,39 +21,33 @@ const CreatePurchasePlanFormSchema = CreatePurchasePlanSchema.omit({
 });
 
 export async function createPurchasePlan(formData: FormData) {
-  const dependenciaIdValue = formData.get('dependenciaId');
-  const cicloContratacionIdValue = formData.get('cicloContratacionId');
+  const departmentIdValue = formData.get('departmentId');
+  const hiringCycleIdValue = formData.get('hiringCycleId');
   try {
-    const {
-      fecha,
-      estado,
-      dependenciaId,
-      usuarioId,
-      cicloContratacionId,
-      valorTotal,
-    } = CreatePurchasePlanFormSchema.parse({
-      fecha: formData.get('fecha'),
-      estado: formData.get('estado'),
-      dependenciaId: dependenciaIdValue
-        ? BigInt(dependenciaIdValue.toString())
-        : null,
-      usuarioId: formData.get('usuarioId'),
-      cicloContratacionId: cicloContratacionIdValue
-        ? BigInt(cicloContratacionIdValue.toString())
-        : undefined,
-      valorTotal: Number(formData.get('valorTotal')),
-    });
+    const { date, status, departmentId, userId, hiringCycleId, totalValue } =
+      CreatePurchasePlanFormSchema.parse({
+        date: formData.get('date'),
+        status: formData.get('status'),
+        departmentId: departmentIdValue
+          ? BigInt(departmentIdValue.toString())
+          : null,
+        userId: formData.get('userId'),
+        hiringCycleId: hiringCycleIdValue
+          ? BigInt(hiringCycleIdValue.toString())
+          : undefined,
+        totalValue: Number(formData.get('totalValue')),
+      });
 
-    const estadoEnum = estado as Enum_EstadoProceso;
+    const statusEnum = status as Enum_ProcessStatus;
 
-    const newPlanDeCompras = await prisma.planDeCompras.create({
+    const newPurchasePlan = await prisma.purchasePlan.create({
       data: {
-        fecha: new Date(fecha),
-        estado: estadoEnum,
-        dependenciaId: dependenciaId,
-        usuarioId: usuarioId,
-        cicloContratacionId: cicloContratacionId,
-        valorTotal: valorTotal,
+        date: new Date(date),
+        status: statusEnum,
+        departmentId: departmentId,
+        userId: userId,
+        hiringCycleId: hiringCycleId,
+        totalValue: totalValue,
       },
     });
   } catch (e) {
@@ -67,60 +61,54 @@ export async function createPurchasePlan(formData: FormData) {
 export async function fetchPurchasePlanById(id: bigint | undefined) {
   let data = null;
   try {
-    data = await prisma.planDeCompras.findUnique({
+    data = await prisma.purchasePlan.findUnique({
       where: {
         id: id,
       },
       include: {
-        dependencia: true,
-        usuario: true,
-        cicloContratacion: true,
+        department: true,
+        user: true,
+        hiringCycle: true,
       },
     });
   } catch (e) {
     return getErrorMesssage(e);
   }
-  return data as unknown as PlanDeCompras;
+  return data as unknown as PurchasePlan;
 }
 
 export async function updatePurchasePlan(id: bigint, formData: FormData) {
   try {
-    const dependenciaIdValue = formData.get('dependenciaId');
-    const cicloContratacionIdValue = formData.get('cicloContratacionId');
+    const departmentIdValue = formData.get('departmentId');
+    const hiringCycleIdValue = formData.get('hiringCycleId');
 
-    const {
-      fecha,
-      estado,
-      dependenciaId,
-      usuarioId,
-      cicloContratacionId,
-      valorTotal,
-    } = CreatePurchasePlanFormSchema.parse({
-      fecha: formData.get('fecha'),
-      estado: formData.get('estado'),
-      dependenciaId: dependenciaIdValue
-        ? BigInt(dependenciaIdValue.toString())
-        : null,
-      usuarioId: formData.get('usuarioId'),
-      cicloContratacionId: cicloContratacionIdValue
-        ? BigInt(cicloContratacionIdValue.toString())
-        : undefined,
-      valorTotal: Number(formData.get('valorTotal')),
-    });
+    const { date, status, departmentId, userId, hiringCycleId, totalValue } =
+      CreatePurchasePlanFormSchema.parse({
+        date: formData.get('date'),
+        status: formData.get('status'),
+        departmentId: departmentIdValue
+          ? BigInt(departmentIdValue.toString())
+          : null,
+        userId: formData.get('userId'),
+        hiringCycleId: hiringCycleIdValue
+          ? BigInt(hiringCycleIdValue.toString())
+          : undefined,
+        totalValue: Number(formData.get('totalValue')),
+      });
 
-    const estadoEnum = estado as Enum_EstadoProceso;
+    const statusEnum = status as Enum_ProcessStatus;
 
-    const updatedPlanDeCompras = await prisma.planDeCompras.update({
+    const updatedPurchasePlan = await prisma.purchasePlan.update({
       where: {
         id: BigInt(id),
       },
       data: {
-        fecha: new Date(fecha),
-        estado: estadoEnum,
-        dependenciaId: dependenciaId!,
-        usuarioId: usuarioId!,
-        cicloContratacionId: cicloContratacionId,
-        valorTotal: valorTotal,
+        date: new Date(date),
+        status: statusEnum,
+        departmentId: departmentId!,
+        userId: userId!,
+        hiringCycleId: hiringCycleId,
+        totalValue: totalValue,
       },
     });
   } catch (e) {
@@ -133,7 +121,7 @@ export async function updatePurchasePlan(id: bigint, formData: FormData) {
 
 export async function deletePurchasePlan(id: bigint | undefined) {
   try {
-    await prisma.planDeCompras.delete({
+    await prisma.purchasePlan.delete({
       where: {
         id: id,
       },

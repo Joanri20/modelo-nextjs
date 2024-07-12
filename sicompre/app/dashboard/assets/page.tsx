@@ -1,4 +1,4 @@
-import { fetchBien, fetchBienPages } from '@lib/data/data-asset';
+import { fetchAsset, fetchAssetPages } from '@lib/data/data-asset';
 import TableAssets from '@ui/assets/table-assets';
 import { lusitana } from '@ui/fonts';
 import { Suspense } from 'react';
@@ -23,8 +23,8 @@ export default async function Page({
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
 
-  const totalPages = await fetchBienPages(query);
-  const assets = await fetchBien(query, currentPage);
+  const totalPages = await fetchAssetPages(query);
+  const assets = await fetchAsset(query, currentPage);
 
   return (
     <main>

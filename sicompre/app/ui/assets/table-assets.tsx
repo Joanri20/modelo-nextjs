@@ -1,7 +1,7 @@
 'use client';
 import { DeleteAsset, UpdateAssetT } from '@ui/assets/buttons';
 
-export default async function TableAssets({ assets }: { assets: Bien[] }) {
+export default async function TableAssets({ assets }: { assets: Asset[] }) {
   return (
     <div className="relative flex-col shadow-md sm:rounded-lg">
       <table className="w-full text-center text-sm text-gray-500 rtl:text-right dark:text-gray-400">
@@ -22,15 +22,15 @@ export default async function TableAssets({ assets }: { assets: Bien[] }) {
           </tr>
         </thead>
         <tbody>
-          {assets.map((asset: Bien) => {
+          {assets.map((asset: Asset) => {
             return (
               <tr
                 key={Number(asset?.id)}
                 className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
               >
-                <td className="px-6 py-4">{asset?.descripcion}</td>
-                <td className="px-6 py-4">{asset?.grupoBien?.descripcion}</td>
-                <td className="px-6 py-4">$ {asset?.valorVigente}</td>
+                <td className="px-6 py-4">{asset?.description}</td>
+                <td className="px-6 py-4">{asset?.assetGroup?.description}</td>
+                <td className="px-6 py-4">$ {asset?.currentValue}</td>
                 <td className="flex w-full gap-3 px-6 py-4">
                   <UpdateAssetT id={asset?.id!} />
                   <DeleteAsset id={asset?.id!} />

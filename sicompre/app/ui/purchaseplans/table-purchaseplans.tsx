@@ -4,7 +4,7 @@ import { DeletePurchasePlan, UpdatePurchasePlan } from './buttons';
 export default async function TablePurchasePlans({
   purchaseplans,
 }: {
-  purchaseplans: PlanDeCompras[];
+  purchaseplans: PurchasePlan[];
 }) {
   return (
     <div className="relative flex-col overflow-x-auto shadow-md sm:rounded-lg">
@@ -41,17 +41,15 @@ export default async function TablePurchasePlans({
               className="border-b bg-white hover:bg-gray-50"
             >
               <td className="px-6 py-4">
-                {plan.fecha.toISOString().substring(0, 10)}
+                {plan.date.toISOString().substring(0, 10)}
               </td>
-              <td className="px-6 py-4">{plan.estado}</td>
-              <td className="px-6 py-4">{plan.dependencia.nombre}</td>
-              <td className="px-6 py-4">{plan.usuario.primerNombre}</td>
+              <td className="px-6 py-4">{plan.status}</td>
+              <td className="px-6 py-4">{plan.department.name}</td>
+              <td className="px-6 py-4">{plan.user.firstName}</td>
               <td className="px-6 py-4">
-                {plan.cicloContratacion
-                  ? plan.cicloContratacion.id.toString()
-                  : 'N/A'}
+                {plan.hiringCycle ? plan.hiringCycle.id.toString() : 'N/A'}
               </td>
-              <td className="px-6 py-4">{plan?.valorTotal?.toFixed(2)}</td>
+              <td className="px-6 py-4">{plan?.totalValue?.toFixed(2)}</td>
               <td className="flex items-center gap-3 px-6 py-4">
                 <UpdatePurchasePlan id={plan.id} />
                 <DeletePurchasePlan id={plan.id} />

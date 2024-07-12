@@ -22,7 +22,7 @@ export function CreateUsers() {
 
 export function UpdateUser({ id }: { id: string | undefined }) {
   const userWithId = fetchUserById.bind(null, id);
-  const [data, setData] = useState<Usuario | string | null>(null);
+  const [data, setData] = useState<User | string | null>(null);
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async () => {
@@ -32,7 +32,7 @@ export function UpdateUser({ id }: { id: string | undefined }) {
         if (result != null) {
           setData(result);
         } else {
-          console.warn('Unexpected data format from providerWithId()');
+          console.warn('Unexpected data format from supplierWithId()');
           setData(null); // Or set to a default value
         }
         setOpen(true);
@@ -55,11 +55,7 @@ export function UpdateUser({ id }: { id: string | undefined }) {
       }}
     >
       {data && open && (
-        <UpdateUserDialog
-          open={open}
-          setOpen={setOpen}
-          usuario={data as Usuario}
-        />
+        <UpdateUserDialog open={open} setOpen={setOpen} user={data as User} />
       )}
       <button
         onClick={handleSubmit}

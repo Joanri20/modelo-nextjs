@@ -1,6 +1,5 @@
 import Form from '@ui/hiringcycles/create-form';
 import Breadcrumbs from '@ui/common/breadcrumbs';
-import { fetchGrupoBien } from '@lib/data';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
